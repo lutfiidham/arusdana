@@ -1,6 +1,6 @@
-# samakta
+# ArusDana
 
-Tugas Kuliah Risky Yulianti
+Proyek KP/PA Lutfi Idham
 
-developed by:
+Init by:
 Adhe Rama F.
