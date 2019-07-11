@@ -1,8 +1,14 @@
 <div class="nav-lavel">DATA MASTER</div>
 <div class="nav-item has-sub">
-	<a href="#"><i class="ik ik-users"></i><span>Customer</span></a>
+	<a href="#"><i class="ik ik-users"></i><span>Master</span></a>
 	<div class="submenu-content">
-		<a href="<?= base_url('site/data_customer') ?>" class="menu-item">Data Customer</a>
+		<a href="<?= base_url('site/unit_kerja') ?>" class="menu-item">Unit Kerja</a>
+	</div>
+	<div class="submenu-content">
+		<a href="<?= base_url('site/kategori') ?>" class="menu-item">Kategori</a>
+	</div>
+	<div class="submenu-content">
+		<a href="<?= base_url('site/tandatangan') ?>" class="menu-item">Tandatangan Dokumen</a>
 	</div>
 </div>
 
