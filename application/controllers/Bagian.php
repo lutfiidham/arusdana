@@ -26,6 +26,7 @@ class Bagian extends CI_Controller {
 				$data['data'][$key][] = $value['kode_bagian'];
 				$data['data'][$key][] = $value['nama_bagian'];
 				$data['data'][$key][] = $value['status_bagian'];
+				$data['data'][$key][] = $value['id_bagian'];
 				$data['total'] = $key + 1;
 			}
 

@@ -183,14 +183,14 @@
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            ubah_data(data[0]);
+            ubah_data(data[4]);
         });
 
         $('#tabel tbody').on( 'click', '.hapus', function () {
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[3]);
+            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[4]);
         });
 
         $('#input_pencarian').on('keyup', function(event) {
