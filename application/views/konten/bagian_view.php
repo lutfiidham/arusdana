@@ -143,7 +143,7 @@
             {"sWidth": "2%" },
             {"sWidth": "5%" },
             {"sWidth": "45%"},
-            {"sWidth": "38%"},
+            {"sWidth": "28%"},
             {"sWidth": "15%", "bSortable" : false}
             ],
             "order" : [
