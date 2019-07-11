@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 11 Jul 2019 pada 11.00
+-- Generation Time: 11 Jul 2019 pada 11.35
 -- Versi Server: 5.6.37
 -- PHP Version: 5.6.31
 
@@ -140,6 +140,15 @@ CREATE TABLE IF NOT EXISTS `kategori` (
   `id_bagian` int(11) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `kategori`
+--
+
+INSERT INTO `kategori` (`id_kategori`, `kode_kategori`, `nama_kategori`, `id_bagian`, `status`) VALUES
+(1, 'UMUM', 'UMUM', 1, 'A'),
+(2, 'SINLUI', 'SINLUI', 1, 'A'),
+(3, 'PEMKOT', 'PEMKOT', NULL, 'A');
 
 -- --------------------------------------------------------
 
