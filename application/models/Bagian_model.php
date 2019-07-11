@@ -8,6 +8,7 @@ class Bagian_model extends CI_Model {
 
 	function get_data()
 	{
+		$this->db->where('id_bagian', $this->session->userdata('id_bagian'), FALSE);
 		$this->db->order_by('nama_bagian', 'asc');
 		return $this->db->get($this->table);
 	}

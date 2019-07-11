@@ -8,6 +8,7 @@ class Unit_kerja_model extends CI_Model {
 
 	function get_data()
 	{
+		$this->db->where('id_bagian', $this->session->userdata('id_bagian'), FALSE);
 		$this->db->order_by('nama_unit_kerja', 'asc');
 		return $this->db->get($this->table);
 	}
