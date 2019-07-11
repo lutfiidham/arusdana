@@ -28,10 +28,11 @@ class Login extends CI_Controller {
 			if ($dt->status_admin == 'A') {
 				if (password_verify($password, $dt->password_admin)) {
 					$array = array(
-						'id' => $dt->id_admin,
+						'id' => $dt->user_id,
 						'username' => $dt->username,
 						'nama' => $dt->nama_admin,
 						'level' => $dt->level_admin,
+						'id_bagian' => $dt->id_bagian,
 					);
 									
 					$this->session->set_userdata( $array );				
