@@ -27,7 +27,7 @@ public function __construct()
 				$data['data'][$key][] = $value['nama_admin'];
 				$data['data'][$key][] = $value['level_admin'];
 				$data['data'][$key][] = $value['status_admin'];
-				$data['data'][$key][] = $value['id_admin'];
+				$data['data'][$key][] = $value['user_id'];
 				$data['total'] = $key + 1;
 			}
 
@@ -53,17 +53,19 @@ public function __construct()
 		$exec = false;
 		
 		$data_array = array(
-			'id_admin' => $this->input->post('id_admin') ? $this->input->post('id_admin') : null,
+			'user_id' => $this->input->post('user_id') ? $this->input->post('user_id') : null,
 			'nama_admin' => $this->input->post('nama_admin'),
+			'id_bagian' => $this->input->post('id_bagian'),
 			'level_admin' => $this->input->post('level_admin'),
 			'status_admin' => $this->input->post('status_admin'),
 		);
 
-		if ($data_array['id_admin']) {
+		if ($data_array['user_id']) {
 			if($this->input->post('ubah_password')) 
 				$data_array['password_admin'] = password_hash($this->input->post('password_admin'),PASSWORD_DEFAULT);
-			$exec = $this->model->update(['id_admin' => $data_array['id_admin']],$data_array);
+			$exec = $this->model->update(['user_id' => $data_array['user_id']],$data_array);
 		} else{
+			$data_array['user_id'] = $this->model->generate_id()+1;
 			$data_array['username'] = $this->input->post('username');
 			$data_array['password_admin'] = password_hash($this->input->post('password_admin'),PASSWORD_DEFAULT);
 			$exec = $this->model->save($data_array);
@@ -79,12 +81,30 @@ public function __construct()
 	{
 		if(!$this->input->is_ajax_request()) redirect();
 
-		$exec = $this->model->delete(['id_admin' => $this->input->post('id')]);
+		$exec = $this->model->delete(['user_id' => $this->input->post('id')]);
 
 		echo json_encode(
 			['status' => $exec]
 		);
 		
+	}
+
+	function get_bagian()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+		
+		$list = $this->model->get_bagian();
+
+		$data = [];
+
+		if ($list->num_rows() > 0) {
+			foreach ($list->result_array() as $key => $value) {
+				$data[$key]['id']   = $value['id_bagian'];
+				$data[$key]['name'] = $value['kode_bagian'].' - '.$value['nama_bagian'];
+			}
+		}
+
+		echo json_encode($data);
 	}
 
 }

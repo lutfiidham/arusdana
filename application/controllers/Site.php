@@ -149,6 +149,13 @@ class Site extends CI_Controller {
 					'delete' => true,
 					'view' 	=> true,
 				];
+				$ha['data_admin'] = [
+					'open' => true,
+					'insert' => true,
+					'update' => true,
+					'delete' => true,
+					'view' 	=> true,
+				];
 				return $ha[$page];
 				break;
 

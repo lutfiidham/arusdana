@@ -68,7 +68,7 @@
             <div class="card-header"><h3>Form</h3></div>
             <div class="card-body">
                 <form class="forms-sample" id="form" method="POST" action="javascript:;">
-                    <input type="hidden" name="id_admin" id="id_admin">
+                    <input type="hidden" name="user_id" id="user_id">
                     <div class="form-group">
                         <label for="nama_admin">Nama Admin</label>
                         <input type="text" class="form-control" name="nama_admin" id="nama_admin" required>
@@ -79,8 +79,14 @@
                         <select name="level_admin" id="level_admin" class="form-control cmb_select2" required="required">
                             <option ></option>
                             <option value="ADR">Administrator</option>
-                            <option value="ADM">Admin</option>
-                            <option value="MNG">Manager</option>
+                            <option value="ADM">Admin Bagian</option>
+                            <option value="MNG">Kepala</option>
+                        </select>
+                        <span class="help-block"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_bagian">Bagian</label>
+                        <select name="id_bagian" id="id_bagian" class="form-control cmb_select2" required="required">
                         </select>
                         <span class="help-block"></span>
                     </div>
@@ -124,6 +130,7 @@
     $(document).ready(function() {
         mys = Object.create(myscript_js);
         mys.init('<?= base_url() ?>');
+        load_bagian();
 
         $('#tabel').dataTable({
             "scrollCollapse": true,
@@ -143,11 +150,11 @@
             {
                 "render": function ( data, type, row ) {
                     if (data=='ADR') {
-                        return '<span class="badge badge-pill badge-info">Administrator</span>';
+                        return '<span class="badge badge-pill badge-danger">Administrator</span>';
                     } else if(data=='ADM'){
-                        return '<span class="badge badge-pill badge-info">Admin</span>';
+                        return '<span class="badge badge-pill badge-success">Admin Bagian</span>';
                     } else if (data=='MNG'){
-                        return '<span class="badge badge-pill badge-info">Manager</span>';
+                        return '<span class="badge badge-pill badge-info">Kepala</span>';
                     } else{
                         return '<span class="badge badge-pill badge-info">Level Tidak Ditemukan</span>';
                     }
@@ -273,10 +280,11 @@
                 <?= !$ha['update'] ? '$("#form").find("select,input,textarea").prop("disabled",true);' : '' ?>
                 $('#check_ubah_password').show();
                 $('#password_admin').attr('disabled', true);
-                $('#id_admin').val(data.id_admin);
+                $('#user_id').val(data.user_id);
                 $('#username').val(data.username).attr('readonly', true);
                 $('#nama_admin').val(data.nama_admin);
                 $('#level_admin').val(data.level_admin).trigger('change');
+                $('#id_bagian').val(data.id_bagian).trigger('change');
                 $('#status_admin').val(data.status_admin).trigger('change');
             },
             error:function(data){
@@ -361,6 +369,25 @@
     function reload() {
         var t = $('#tabel').DataTable();
         t.ajax.reload();
+    }
+
+    function load_bagian(){
+        $.ajax({
+            url: mys.base_url+'Admin/get_bagian',
+            type: 'POST',
+            dataType: 'JSON',
+            data: null,
+            success: function(data){
+                $('#id_bagian').empty();
+                $('#id_bagian').append('<option></option>');
+                $.each(data, function(index, val) {
+                    $('#id_bagian').append('<option value="'+val.id+'">'+ val.name+'</option>');
+                });
+            },
+            error:function(data){
+                mys.notifikasi("Gagal Ambil Data.","error");
+            }
+        })
     }
 
 

@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin_model extends CI_Model {
 
-	private $table= 'admin';
+	private $table= 'user';
+	private $primary_key= 'user_id';
 
 	function get_data()
 	{
@@ -13,7 +14,7 @@ class Admin_model extends CI_Model {
 
 	function get_by_id($id)
 	{
-		$this->db->where('id_admin', $id);
+		$this->db->where('user_id', $id);
 		return $this->db->get($this->table);
 	}
 
@@ -33,6 +34,19 @@ class Admin_model extends CI_Model {
 		$this->db->where($where);
 		$delete = $this->db->delete($this->table);
 		return $delete;
+	}
+
+	function get_bagian()
+	{
+		$this->db->order_by('nama_bagian', 'asc');
+		return $this->db->get('bagian');
+	}
+
+	function generate_id()
+	{
+		$this->db->select_max($this->primary_key);
+	    $result= $this->db->get($this->table)->row_array();
+	    return $result[$this->primary_key];
 	}
 
 }
