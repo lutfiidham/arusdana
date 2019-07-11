@@ -5,7 +5,7 @@
 <div class="nav-item has-sub">
 	<a href="#"><i class="ik ik-hard-drive"></i><span>Umum</span></a>
 	<div class="submenu-content">
-		<a href="<?= base_url('site/jenis_lampiran') ?>" class="menu-item">Jenis Lampiran</a>
+		<a href="<?= base_url('site/bagian') ?>" class="menu-item">Bagian</a>
 	</div>
 </div>
 <div class="nav-item has-sub">
