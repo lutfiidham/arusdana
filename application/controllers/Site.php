@@ -55,6 +55,7 @@ class Site extends CI_Controller {
 	function unit_kerja($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/unit_kerja_view"); }
 	function kategori($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/kategori_view"); }
 	function anggaran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/anggaran_view"); }
+	function permintaan_anggaran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/permintaan_anggaran_view"); }
 	function tandatangan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/tandatangan_view"); }
 	
 	function data_customer($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/data_customer_view"); }
@@ -195,6 +196,13 @@ class Site extends CI_Controller {
 					'view' 	=> true,
 				];
 				$ha['anggaran'] = [
+					'open' => true,
+					'insert' => true,
+					'update' => true,
+					'delete' => true,
+					'view' 	=> true,
+				];
+				$ha['permintaan_anggaran'] = [
 					'open' => true,
 					'insert' => true,
 					'update' => true,
