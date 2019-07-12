@@ -98,25 +98,64 @@ var myscript_js = {
         j = (j = i.length) > 3 ? j % 3 : 0;
         return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
     },
+    reverse_format_ribuan : function(teks){
+        var hasil = teks.replace(/\D/g, '');
+        return hasil;
+    },
     tgl_picker: function(){
     	$('.tgl').attr('data-toggle', 'datetimepicker');
         $('.tgl').datetimepicker({
             format: 'DD-MM-YYYY',
+            autoclose: true,
         });
     },
     jam_picker: function(){
     	$('.jam').attr('data-toggle', 'datetimepicker');
         $('.jam').datetimepicker({
         	locale:'id',
-            format: 'LT'
+            format: 'LT',
+            autoclose: true,
+        });
+    },
+    year_picker: function(){
+    	$('.tahun').attr('data-toggle', 'datetimepicker');
+        $('.tahun').datetimepicker({
+        	locale:'id',
+            format: 'YYYY',
+            viewMode: 'years',
+            autoclose: true,
+
+        });
+    },
+    daterange_picker: function(){
+    	$('.tgl_range').daterangepicker({
+            "showDropdowns": true,
+            "linkedCalendars": false,
+            "locale" :{
+                "separator": " s.d. ",
+                "applyLabel": "Pilih",
+                "cancelLabel": "Batal",
+                "fromLabel": "Dari",
+                "toLabel": "Sampai",
+                "format" : "DD-MM-YYYY"
+            },
+            "cancelClass": "btn-danger"
         });
     },
     combobox: function(){
     	$(".cmb_select2").css('width', '100%');
     	$(".cmb_select2").select2({
-    		placeholder:"Pilih salah satu"
+            placeholder:"Pilih salah satu",
     	}
     	);
+    },
+    combobox_clr: function(){
+        $(".cmb_select2_clr").css('width', '100%');
+        $(".cmb_select2_clr").select2({
+            placeholder:"Pilih salah satu",
+            allowClear:true,
+        }
+        );
     },
    	editor: function(){
 	    $('.editor').summernote({
@@ -134,6 +173,13 @@ var myscript_js = {
 	        mDec: 0,
 	    });
    	},
+    switcher:function(){
+        var elemprimary = document.querySelector('.switcher');
+        var switchery = new Switchery(elemprimary, {
+            color: '#4099ff',
+            jackColor: '#fff'
+        });
+    },
    	blok: function(){
    		$.blockUI({ message: '<h4> <img src="'+myscript_js.base_url+'assets/img/progress.svg" />  Silahkan tunggu . . . </h4>',
               css: {  border: 'none', 
@@ -193,10 +239,13 @@ var myscript_js = {
     	myscript_js.hanyaAngka();
     	myscript_js.tgl_picker();
     	myscript_js.jam_picker();
+    	myscript_js.year_picker();
     	myscript_js.file_upload_custom();
-    	myscript_js.combobox();
+        myscript_js.combobox();
+    	myscript_js.combobox_clr();
     	myscript_js.editor();
-    	myscript_js.autonumber();
+        myscript_js.autonumber();
+    	// myscript_js.switcher();
     }
 
 };
