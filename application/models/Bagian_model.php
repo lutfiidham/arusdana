@@ -20,6 +20,10 @@ class Bagian_model extends CI_Model {
 
 	function save($data){
 		$insert = $this->db->insert($this->table, $data);
+		$id = $this->db->insert_id();
+		$this->db->insert('tanda_tangan', ['id_bagian' => $id,'dokumen' => 'permintaan']);
+		$this->db->insert('tanda_tangan', ['id_bagian' => $id,'dokumen' => 'realisasi']);
+		$this->db->insert('tanda_tangan', ['id_bagian' => $id,'dokumen' => 'reimburse']);
 		return $insert;
 	}
 
