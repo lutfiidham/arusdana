@@ -58,14 +58,6 @@ class Site extends CI_Controller {
 	function permintaan_anggaran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/permintaan_anggaran_view"); }
 	function tandatangan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/tandatangan_view"); }
 	
-	function data_customer($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/data_customer_view"); }
-	function data_sales($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/data_sales_view"); }
-	function data_vendor($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/data_vendor_view"); }
-	function data_project($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/data_project_view"); }
-	function jabatan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/jabatan_view"); }
-	function jenis_lampiran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/jenis_lampiran_view"); }
-	function tipe_customer($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/tipe_customer_view"); }
-
 	private function hak_akses($site_url)
 	{
 		$url_arr = explode('/', $site_url);
@@ -100,55 +92,6 @@ class Site extends CI_Controller {
 					'view' 	=> true,
 				];				
 				$ha['bagian'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_customer'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_sales'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_vendor'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_project'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['jabatan'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['jenis_lampiran'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['tipe_customer'] = [
 					'open' => true,
 					'insert' => true,
 					'update' => true,
@@ -210,56 +153,6 @@ class Site extends CI_Controller {
 					'view' 	=> true,
 				];
 				$ha['tandatangan'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-
-				$ha['data_customer'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_sales'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_vendor'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_project'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['jabatan'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['jenis_lampiran'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['tipe_customer'] = [
 					'open' => true,
 					'insert' => true,
 					'update' => true,
