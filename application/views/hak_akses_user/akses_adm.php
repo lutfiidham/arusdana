@@ -11,7 +11,7 @@
 		<a href="<?= base_url('site/anggaran') ?>" class="menu-item">Anggaran</a>
 	</div>
 	<div class="submenu-content">
-		<a href="<?= base_url('site/tandatangan') ?>" class="menu-item">Setting Tandatangan</a>
+		<a href="<?= base_url('site/tandatangan') ?>" class="menu-item">Setting Tanda Tangan</a>
 	</div>
 </div>
 

@@ -3,7 +3,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Bagian</h5>
+                    <h5>Setting Tanda Tangan</h5>
                 </div>
             </div>
         </div>
@@ -14,8 +14,7 @@
                         <a href="<?= base_url() ?>"><i class="ik ik-home"></i></a>
                     </li>
                     <li class="breadcrumb-item" aria-current="page">Data Master</li>
-                    <li class="breadcrumb-item" aria-current="page">Sales</li>
-                    <li class="breadcrumb-item active" aria-current="page">Bagian</li>
+                    <li class="breadcrumb-item active" aria-current="page">Setting Tanda Tangan</li>
                 </ol>
             </nav>
         </div>

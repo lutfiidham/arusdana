@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 11 Jul 2019 pada 11.35
+-- Generation Time: 13 Jul 2019 pada 13.51
 -- Versi Server: 5.6.37
 -- PHP Version: 5.6.31
 
@@ -88,15 +88,15 @@ CREATE TABLE IF NOT EXISTS `bagian` (
   `kode_bagian` varchar(20) DEFAULT NULL,
   `nama_bagian` varchar(255) DEFAULT NULL,
   `status_bagian` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `bagian`
 --
 
 INSERT INTO `bagian` (`id_bagian`, `kode_bagian`, `nama_bagian`, `status_bagian`) VALUES
-(1, 'PKS', 'Pusat Kerja Samaas', 'A'),
-(2, 'DSI', 'D3 Sistem Informasii', 'A');
+(1, 'PKS', 'Pusat Kerja Sama', 'A'),
+(2, 'PUS', 'Perpustakaan', 'A');
 
 -- --------------------------------------------------------
 
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `kategori` (
   `nama_kategori` varchar(255) DEFAULT NULL,
   `id_bagian` int(11) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `kategori`
@@ -147,8 +147,7 @@ CREATE TABLE IF NOT EXISTS `kategori` (
 
 INSERT INTO `kategori` (`id_kategori`, `kode_kategori`, `nama_kategori`, `id_bagian`, `status`) VALUES
 (1, 'UMUM', 'UMUM', 1, 'A'),
-(2, 'SINLUI', 'SINLUI', 1, 'A'),
-(3, 'PEMKOT', 'PEMKOT', NULL, 'A');
+(2, 'SINLUI', 'SINLUI', 1, 'A');
 
 -- --------------------------------------------------------
 
@@ -200,7 +199,14 @@ CREATE TABLE IF NOT EXISTS `tanda_tangan` (
   `jabatan_yg_mengetahui` varchar(255) DEFAULT NULL,
   `disetujui` varchar(255) DEFAULT NULL,
   `jabatan_penyetuju` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `tanda_tangan`
+--
+
+INSERT INTO `tanda_tangan` (`id_ttd`, `id_bagian`, `dokumen`, `dibuat`, `jabatan_pembuat`, `diperiksa`, `jabatan_pemeriksa`, `diketahui`, `jabatan_yg_mengetahui`, `disetujui`, `jabatan_penyetuju`) VALUES
+(1, 1, 'permintaan', 'Lulut Fitriyaningrum, S,Kom', 'Admin', 'Tan Amelia, S.Kom., M.MT., MCP', 'Kepala Pusat', 'Lilis Binawati, S.E., M.Ak', 'Wakil Rektor Bidang Sumber Daya', 'Prof. Dr. Budi Jatmiko, M.Pd', 'Rektor');
 
 -- --------------------------------------------------------
 
@@ -214,15 +220,14 @@ CREATE TABLE IF NOT EXISTS `unit_kerja` (
   `nama_unit_kerja` varchar(255) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
   `kode_unit_kerja` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `unit_kerja`
 --
 
 INSERT INTO `unit_kerja` (`id_unit_kerja`, `id_bagian`, `nama_unit_kerja`, `status`, `kode_unit_kerja`) VALUES
-(1, 1, 'Solusi Sistem Informasidd', 'A', 'SSI'),
-(2, 1, 'Pelatihan dan Sertifikasi', 'A', 'PS');
+(1, 1, 'Solusi Sistem Informasi', 'A', 'SSI');
 
 -- --------------------------------------------------------
 
@@ -238,7 +243,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id_bagian` int(11) DEFAULT NULL,
   `level_admin` varchar(100) NOT NULL,
   `status_admin` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `user`
@@ -246,7 +251,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 INSERT INTO `user` (`user_id`, `username`, `nama_admin`, `password_admin`, `id_bagian`, `level_admin`, `status_admin`) VALUES
 (1, 'superadmin', 'Super Administrator', '$2y$10$K5KdI2pCnak7ZrHPHC62COqSgujp22tkXiBaCwQ5uSG.kX9.pjSB6', NULL, 'ADR', 'A'),
-(2, 'lulut', 'Lulut Fitr', '$2y$10$XfZDYKf9aHOZSrwdXGsxd.3S3B1n9BcyofkHw9L0C8YxrEufyAR3C', 1, 'ADM', 'A');
+(2, 'lulut', 'Lulut Fitr', '$2y$10$XfZDYKf9aHOZSrwdXGsxd.3S3B1n9BcyofkHw9L0C8YxrEufyAR3C', 1, 'ADM', 'A'),
+(4, 'meli', 'Tan Amelia', '$2y$10$cUE1lu7QY8HXCyw.9g1JqOdpK12I/wOWFawrqpPhuch9uG.4p8kt.', 1, 'MNG', 'A');
 
 --
 -- Indexes for dumped tables
@@ -351,6 +357,61 @@ ALTER TABLE `user`
 ALTER TABLE `admin`
   MODIFY `id_admin` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT for table `anggaran`
+--
+ALTER TABLE `anggaran`
+  MODIFY `id_anggaran` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `arus_dana`
+--
+ALTER TABLE `arus_dana`
+  MODIFY `id_arus_dana` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `bagian`
+--
+ALTER TABLE `bagian`
+  MODIFY `id_bagian` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `detail_arus_dana`
+--
+ALTER TABLE `detail_arus_dana`
+  MODIFY `id_detail_arus` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `detail_permintaan_anggaran`
+--
+ALTER TABLE `detail_permintaan_anggaran`
+  MODIFY `id_detail_permintaan` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `pemegang_jabatan`
+--
+ALTER TABLE `pemegang_jabatan`
+  MODIFY `id_pj` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `permintaan_anggaran`
+--
+ALTER TABLE `permintaan_anggaran`
+  MODIFY `id_permintaan` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tanda_tangan`
+--
+ALTER TABLE `tanda_tangan`
+  MODIFY `id_ttd` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `unit_kerja`
+--
+ALTER TABLE `unit_kerja`
+  MODIFY `id_unit_kerja` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
@@ -358,67 +419,67 @@ ALTER TABLE `admin`
 -- Ketidakleluasaan untuk tabel `anggaran`
 --
 ALTER TABLE `anggaran`
-  ADD CONSTRAINT `fk_reference_4` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
+  ADD CONSTRAINT `anggaran_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
 
 --
 -- Ketidakleluasaan untuk tabel `arus_dana`
 --
 ALTER TABLE `arus_dana`
-  ADD CONSTRAINT `fk_reference_11` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
-  ADD CONSTRAINT `fk_reference_12` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
-  ADD CONSTRAINT `fk_reference_13` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
-  ADD CONSTRAINT `fk_reference_14` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`);
+  ADD CONSTRAINT `arus_dana_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
+  ADD CONSTRAINT `arus_dana_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
+  ADD CONSTRAINT `arus_dana_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
+  ADD CONSTRAINT `arus_dana_ibfk_4` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`);
 
 --
 -- Ketidakleluasaan untuk tabel `detail_arus_dana`
 --
 ALTER TABLE `detail_arus_dana`
-  ADD CONSTRAINT `fk_reference_15` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`);
+  ADD CONSTRAINT `detail_arus_dana_ibfk_1` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`);
 
 --
 -- Ketidakleluasaan untuk tabel `detail_permintaan_anggaran`
 --
 ALTER TABLE `detail_permintaan_anggaran`
-  ADD CONSTRAINT `fk_reference_10` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`);
+  ADD CONSTRAINT `detail_permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`);
 
 --
 -- Ketidakleluasaan untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
-  ADD CONSTRAINT `fk_reference_3` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
+  ADD CONSTRAINT `kategori_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
 
 --
 -- Ketidakleluasaan untuk tabel `pemegang_jabatan`
 --
 ALTER TABLE `pemegang_jabatan`
-  ADD CONSTRAINT `fk_reference_17` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
+  ADD CONSTRAINT `pemegang_jabatan_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
 
 --
 -- Ketidakleluasaan untuk tabel `permintaan_anggaran`
 --
 ALTER TABLE `permintaan_anggaran`
-  ADD CONSTRAINT `fk_reference_6` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`),
-  ADD CONSTRAINT `fk_reference_7` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
-  ADD CONSTRAINT `fk_reference_8` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
-  ADD CONSTRAINT `fk_reference_9` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`);
+  ADD CONSTRAINT `permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`),
+  ADD CONSTRAINT `permintaan_anggaran_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
+  ADD CONSTRAINT `permintaan_anggaran_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
+  ADD CONSTRAINT `permintaan_anggaran_ibfk_4` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`);
 
 --
 -- Ketidakleluasaan untuk tabel `tanda_tangan`
 --
 ALTER TABLE `tanda_tangan`
-  ADD CONSTRAINT `fk_reference_16` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
+  ADD CONSTRAINT `tanda_tangan_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
 
 --
 -- Ketidakleluasaan untuk tabel `unit_kerja`
 --
 ALTER TABLE `unit_kerja`
-  ADD CONSTRAINT `fk_reference_2` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
+  ADD CONSTRAINT `unit_kerja_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
 
 --
 -- Ketidakleluasaan untuk tabel `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `fk_reference_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -14,7 +14,6 @@
                         <a href="<?= base_url() ?>"><i class="ik ik-home"></i></a>
                     </li>
                     <li class="breadcrumb-item" aria-current="page">Data Master</li>
-                    <li class="breadcrumb-item" aria-current="page">Sales</li>
                     <li class="breadcrumb-item active" aria-current="page">Bagian</li>
                 </ol>
             </nav>
