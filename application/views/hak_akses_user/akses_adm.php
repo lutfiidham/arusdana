@@ -11,6 +11,9 @@
 		<a href="<?= base_url('site/anggaran') ?>" class="menu-item">Anggaran</a>
 	</div>
 	<div class="submenu-content">
+		<a href="<?= base_url('site/pemegang_jabatan') ?>" class="menu-item">Pemegang Jabatan</a>
+	</div>
+	<div class="submenu-content">
 		<a href="<?= base_url('site/tandatangan') ?>" class="menu-item">Setting Tanda Tangan</a>
 	</div>
 </div>
@@ -23,4 +26,8 @@
 	<div class="submenu-content">
 		<a href="<?= base_url('site/laporan_arus_dana') ?>" class="menu-item">Laporan Arus Dana</a>
 	</div>
+</div>
+
+<div class="nav-item has-sub">
+	<a href="<?= base_url('site/laporan') ?>"><i class="ik ik-archive"></i><span>Laporan</span></a>
 </div>
