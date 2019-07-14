@@ -64,7 +64,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="font-weight: bold;text-align: center;" colspan="10">Total:</th>
+                                <th style="font-weight: bold;text-align: right;" colspan="10">Total:</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -99,7 +99,7 @@
             "iDisplayLength": 10,
             "scrollX":true,
             "ajax":{
-                url : mys.base_url+'permintaan_anggaran/get_data_laporan',
+                url : mys.base_url+'permintaan_anggaran/get_data_laporan?tanggal='+$('#fl_tanggal').val(),
                 type : 'GET',
             },
             "language": {
@@ -108,6 +108,16 @@
             "rowsGroup":[0,1,2,3,4,5,6,7,8],
             "columnDefs": [
             {"visible" : false, "targets" : []},
+            {
+                "render": function ( data, type, row ) {
+                   if (type=='sort') {
+                        return data;
+                    } else{
+                        return mys.toDate(data);
+                    }
+                },
+                "targets": [1,6]
+            },
             {
                 "render": function ( data, type, row ) {
                    if (type=='sort') {
@@ -159,6 +169,20 @@
 
                 $( api.column( 10 ).footer() ).html(mys.formatMoney(total,0,',','.'));
             }
+        });
+
+        $('#fl_tanggal').on('change', function(event) {
+            mys.blok();
+            $('#tabel').DataTable().ajax.url(mys.base_url + 'permintaan_anggaran/get_data_laporan?tanggal=' + $(this).val()).load();
+            mys.unblok();
+        });
+
+        $('#exportPDF').on('click', function(event) {
+            var tanggal = $('#fl_tanggal').val();
+            var jendela = window.open( "", "Print", 'width=800,height=700,status=yes,toolbar=no,menubar=no, titlebar=yes,re sizable=yes,location=no,scrollbars=yes' );
+            var form = "<input type='hidden' name='tanggal' value='"+tanggal+"'>";
+            $(jendela.document.body).html('<form id="form_redirect" action="'+mys.base_url+'permintaan_anggaran/export_pdf" method="POST">'+form+'</form>');
+            $(jendela.document).find('#form_redirect').submit();
         });
     });
 

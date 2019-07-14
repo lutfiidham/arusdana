@@ -47,7 +47,9 @@ class Permintaan_anggaran extends CI_Controller {
 	{
 		if(!$this->input->is_ajax_request()) redirect();
 
-		$list = $this->model->get_data_laporan();
+		$tanggal = $this->input->get('tanggal');
+
+		$list = $this->model->get_data_laporan($tanggal);
 
 		$data['data']    = [];
 		$data['total']   = 0;
@@ -357,6 +359,89 @@ class Permintaan_anggaran extends CI_Controller {
 		$data['no_header'] = true;
 		$data['no_footer'] = true;
         $this->pdfgenerator->setPaper('A4', 'portrait');
+        $this->pdfgenerator->filename = "Permintaan Anggaran.pdf";
+        $this->pdfgenerator->load_view('format_laporan', $data);
+	}
+
+	function export_pdf()
+	{
+		$tanggal = $this->input->post('tanggal');
+		$this->load->library('Pdfgenerator');
+		$this->load->helper('my_helper');
+
+		$list_permintaan = $this->model->get_data($tanggal);
+
+		$html = '';
+
+		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN PERMINTAAN ANGGARAN</span><p>';
+		$html .= '<p>PERIODE: '.$tanggal.'</p>';
+
+		if ($list_permintaan->num_rows()>0) {
+			$html .= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="data-center" style="width:15%">No Anggaran</th>
+                                <th class="data-center" style="width:10%">Tanggal</th>
+                                <th class="data-center" style="width:15%">Unit Kerja</th>
+                                <th class="data-center" style="width:15%">Kategori</th>
+                                <th class="data-center" style="width:15%">Anggaran</th>
+                                <th class="data-center" style="width:15%">Kegiatan</th>
+                                <th class="data-center" style="width:15%">Tgl Butuh</th>
+                                <th class="data-center" style="width:15%">Catatan</th>
+                                <th class="data-center" style="width:15%">Realisasi</th>
+                                <th class="data-center" style="width:15%">Uraian</th>
+                                <th class="data-center" style="width:15%">Nominal</th>
+                                <th class="data-center" style="width:15%">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+			';
+			$sum = 0;
+			foreach ($list_permintaan->result_array() as $key => $val) {
+				$detil_permintaan = $this->model->get_detail_permintaan($val['id_permintaan']);
+				$rowspan = $detil_permintaan->num_rows();
+				$kiri = '
+					<td rowspan="'.$rowspan.'">'.$val['no_anggaran'].'</td>
+					<td rowspan="'.$rowspan.'">'.to_date_format_mysql($val['tanggal']).'</td>
+					<td rowspan="'.$rowspan.'">'.$val['nama_unit_kerja'].'</td>
+					<td rowspan="'.$rowspan.'">'.$val['nama_kategori'].'</td>
+					<td rowspan="'.$rowspan.'">'.$val['kode_anggaran'].'</td>
+					<td rowspan="'.$rowspan.'">'.$val['nama_anggaran'].'</td>
+					<td rowspan="'.$rowspan.'">'.to_date_format_mysql($val['tanggal_kebutuhan']).'</td>
+					<td rowspan="'.$rowspan.'">'.$val['catatan'].'</td>
+					<td rowspan="'.$rowspan.'">'.($val['status_realisasi']=='D' ? 0:1).'</td>
+				';
+				foreach ($detil_permintaan->result_array() as $key2 => $val_det) {
+					$html.= '<tr>';
+					if ($key2==0) {
+						$html .= $kiri;
+					}
+					$html.= '
+					<td>'.$val_det['uraian'].'</td>
+					<td class="data-right">'.format_ribuan_indo($val_det['nominal'],0).'</td>
+					<td>'.$val_det['keterangan'].'</td>
+					';
+					$html.= '</tr>';
+					$sum += $val_det['nominal'];
+				}
+			}
+
+
+		}
+		$html .= '
+				<tfoot>
+				<tr>
+					<th class="data-center" colspan="10">Total:</th>
+					<th class="data-right">'.format_ribuan_indo($sum,0).'</th>
+					<th></th>
+				</tr>
+				</tfoot>
+		</tbody></table>';
+
+		$data['html'] = $html;
+		$data['no_header'] = true;
+		$data['no_footer'] = true;
+        $this->pdfgenerator->setPaper('A4', 'landscape');
         $this->pdfgenerator->filename = "Permintaan Anggaran.pdf";
         $this->pdfgenerator->load_view('format_laporan', $data);
 	}

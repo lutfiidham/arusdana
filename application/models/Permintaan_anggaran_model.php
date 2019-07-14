@@ -5,25 +5,36 @@ class Permintaan_anggaran_model extends CI_Model {
 
 	private $table= 'permintaan_anggaran';
 
-	function get_data()
+	function get_data($tanggal = "")
 	{
-		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,kt.nama_kategori');
+		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori');
 		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
 		$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
 		$this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
 		$this->db->where('pa.id_bagian', $this->session->userdata('id_bagian'));
+		if ($tanggal!="") {
+			$date_arr = $this->pecah_daterange($tanggal);
+			$this->db->where('tanggal >=', $date_arr[0]);
+			$this->db->where('tanggal <=', $date_arr[1]);
+		}
+		$this->db->order_by('id_permintaan', 'asc');
 		return $this->db->get($this->table.' pa');
 	}
 
-	function get_data_laporan()
+	function get_data_laporan($tanggal = "")
 	{
 		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori,dpa.uraian,dpa.nominal,dpa.keterangan');
 		$this->db->from('detail_permintaan_anggaran dpa');
-		$this->db->join('permintaan_anggaran pa', 'dpa.id_permintaan = dpa.id_permintaan');
+		$this->db->join('permintaan_anggaran pa', 'dpa.id_permintaan = pa.id_permintaan');
 		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
 		$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
 		$this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
 		$this->db->where('pa.id_bagian', $this->session->userdata('id_bagian'));
+		if ($tanggal!="") {
+			$date_arr = $this->pecah_daterange($tanggal);
+			$this->db->where('tanggal >=', $date_arr[0]);
+			$this->db->where('tanggal <=', $date_arr[1]);
+		}
 		$this->db->order_by('id_permintaan', 'asc');
 		return $this->db->get();
 	}
@@ -120,6 +131,18 @@ class Permintaan_anggaran_model extends CI_Model {
 		$result = $this->db->query($q,[$tanggal,$id_unit_kerja,$id_kategori]);
 
 		return $result->row()->res;
+	}
+
+	function pecah_daterange($date)
+	{	
+		if ($date=="") {
+			return null;
+		}
+		$this->load->helper('my_helper');
+		$date_arr = explode(" s.d. ", $date);
+		$date_arr[0] = to_date_format_mysql($date_arr[0]);		
+		$date_arr[1] = to_date_format_mysql($date_arr[1]);
+		return $date_arr;		
 	}
 
 
