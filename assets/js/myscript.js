@@ -240,6 +240,7 @@ var myscript_js = {
     	myscript_js.tgl_picker();
     	myscript_js.jam_picker();
     	myscript_js.year_picker();
+    	myscript_js.daterange_picker();
     	myscript_js.file_upload_custom();
         myscript_js.combobox();
     	myscript_js.combobox_clr();

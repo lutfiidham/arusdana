@@ -43,6 +43,38 @@ class Permintaan_anggaran extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	function get_data_laporan()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+		$list = $this->model->get_data_laporan();
+
+		$data['data']    = [];
+		$data['total']   = 0;
+		$data['success'] = false;
+
+		if ($list->num_rows() > 0) {
+			foreach ($list->result_array() as $key => $value) {
+				$data['data'][$key][] = $value['no_anggaran'];
+				$data['data'][$key][] = $value['tanggal'];
+				$data['data'][$key][] = $value['nama_unit_kerja'];
+				$data['data'][$key][] = $value['nama_kategori'];
+				$data['data'][$key][] = $value['kode_anggaran'];
+				$data['data'][$key][] = '('.$value['nama_anggaran'].')';
+				$data['data'][$key][] = $value['tanggal_kebutuhan'];
+				$data['data'][$key][] = $value['catatan'];
+				$data['data'][$key][] = $value['status_realisasi'] == 'D' ? 0:1;
+				$data['data'][$key][] = $value['uraian'];
+				$data['data'][$key][] = $value['nominal'];
+				$data['data'][$key][] = $value['keterangan'];
+				$data['total'] = $key + 1;
+			}
+
+			$data['success'] = true;
+		}
+		echo json_encode($data);
+	}
+
 	function get_data_by_id()
 	{
 		if(!$this->input->is_ajax_request()) redirect();

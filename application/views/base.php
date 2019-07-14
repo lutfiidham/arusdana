@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/summernote/dist/summernote-bs4.css">
         <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
         <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/mohithg-switchery/dist/switchery.min.css">
+        <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/daterangepicker/daterangepicker.css">
         <link rel="stylesheet" href="<?= base_url() ?>assets/dist/css/theme.min.css">
         <script src="<?= base_url() ?>assets/src/js/vendor/modernizr-2.8.3.min.js"></script>
         <script src="<?= base_url() ?>assets/src/js/vendor/jquery-3.3.1.min.js"></script>
@@ -103,11 +104,7 @@
         <script src="<?= base_url() ?>assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
         <script src="<?= base_url() ?>assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="<?= base_url() ?>assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script> 
-        <script src="<?= base_url() ?>assets/plugins/datatables.net/js/dataTables.buttons.min.js"></script>
-        <script src="<?= base_url() ?>assets/plugins/datatables.net/js/jszip.min.js"></script>
-        <script src="<?= base_url() ?>assets/plugins/datatables.net/js/pdfmake.min.js"></script>
-        <script src="<?= base_url() ?>assets/plugins/datatables.net/js/vfs_fonts.js"></script>
-        <script src="<?= base_url() ?>assets/plugins/datatables.net/js/buttons.html5.min.js"></script>
+        <script src="<?= base_url() ?>assets/plugins/datatables.net/js/dataTables.rowsGroup.js"></script>
         <script src="<?= base_url() ?>assets/plugins/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js"></script>
         <script src="<?= base_url() ?>assets/plugins/jquery-validation/jquery.validate.min.js" type="text/javascript"></script>
         <script src="<?= base_url() ?>assets/plugins/jquery-validation/localization/messages_id.js" type="text/javascript"></script>
@@ -123,6 +120,7 @@
         <script src="<?= base_url() ?>assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
         <script src="<?= base_url() ?>assets/plugins/jquery.repeater/jquery.repeater.min.js"></script>
         <script src="<?= base_url() ?>assets/plugins/mohithg-switchery/dist/switchery.min.js"></script>
+        <script src="<?= base_url() ?>assets/plugins/daterangepicker/daterangepicker.js"></script>
         <script src="<?= base_url() ?>assets/plugins/sweetalert/sweetalert.min.js"></script>
         <script src="<?= base_url() ?>assets/dist/js/theme.js"></script>
         <script src="<?= base_url() ?>assets/js/myscript.js"></script>

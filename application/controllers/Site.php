@@ -58,6 +58,8 @@ class Site extends CI_Controller {
 	function permintaan_anggaran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/permintaan_anggaran_view"); }
 	function tandatangan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/tandatangan_view"); }
 	function pemegang_jabatan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/pemegang_jabatan_view"); }
+	function laporan_permintaan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/laporan_permintaan_view"); }
+	function laporan_anggaran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/laporan_anggaran_view"); }
 	
 	private function hak_akses($site_url)
 	{
@@ -161,6 +163,20 @@ class Site extends CI_Controller {
 					'view' 	=> true,
 				];
 				$ha['pemegang_jabatan'] = [
+					'open' => true,
+					'insert' => true,
+					'update' => true,
+					'delete' => true,
+					'view' 	=> true,
+				];
+				$ha['laporan_permintaan'] = [
+					'open' => true,
+					'insert' => true,
+					'update' => true,
+					'delete' => true,
+					'view' 	=> true,
+				];
+				$ha['laporan_anggaran'] = [
 					'open' => true,
 					'insert' => true,
 					'update' => true,

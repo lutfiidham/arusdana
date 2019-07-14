@@ -15,6 +15,19 @@ class Permintaan_anggaran_model extends CI_Model {
 		return $this->db->get($this->table.' pa');
 	}
 
+	function get_data_laporan()
+	{
+		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori,dpa.uraian,dpa.nominal,dpa.keterangan');
+		$this->db->from('detail_permintaan_anggaran dpa');
+		$this->db->join('permintaan_anggaran pa', 'dpa.id_permintaan = dpa.id_permintaan');
+		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
+		$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
+		$this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
+		$this->db->where('pa.id_bagian', $this->session->userdata('id_bagian'));
+		$this->db->order_by('id_permintaan', 'asc');
+		return $this->db->get();
+	}
+
 	function get_detail_permintaan($id_permintaan)
 	{
 		$this->db->select('id_detail_permintaan,uraian,nominal,keterangan');

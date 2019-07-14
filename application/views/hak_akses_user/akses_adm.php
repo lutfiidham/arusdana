@@ -1,4 +1,3 @@
-<div class="nav-lavel">DATA MASTER</div>
 <div class="nav-item has-sub">
 	<a href="#"><i class="ik ik-users"></i><span>Master</span></a>
 	<div class="submenu-content">
@@ -29,5 +28,11 @@
 </div>
 
 <div class="nav-item has-sub">
-	<a href="<?= base_url('site/laporan') ?>"><i class="ik ik-archive"></i><span>Laporan</span></a>
+	<a href="#"><i class="ik ik-file-text"></i><span>Laporan</span></a>
+	<div class="submenu-content">
+		<a href="<?= base_url('site/laporan_permintaan') ?>" class="menu-item">Permintaan Anggaran</a>
+	</div>
+	<div class="submenu-content">
+		<a href="<?= base_url('site/laporan_anggaran') ?>" class="menu-item">Anggaran</a>
+	</div>
 </div>
