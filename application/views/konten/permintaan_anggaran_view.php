@@ -228,20 +228,20 @@
             },
             {
                 "render": function ( data, type, row ) {
-                   return '<button type="button" title="View Data" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button> <button type="button" title="Hapus Data" data-toggle="tooltip" class="btn btn-danger hapus"><span class="fa fa-trash"></span></button>';
+                   return '<button type="button" title="View Data" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button> <button type="button" title="Cetak Form Permintaan" data-toggle="tooltip" class="btn btn-danger cetak"><span class="fa fa-print"></span></button>';
                 },
                 "targets": [8]
             },
             ],
             "columns": [
-            {"width": "5%" },
+            {"width": "2%" },
             {"width": "15%"},
             {"width": "15%"},
             {"width": "15%"},
             {"width": "10%"},
             {"width": "15%"},
-            {"width": "15%"},
-            {"width": "10%", "orderable": false}
+            {"width": "13%"},
+            {"width": "15%", "orderable": false}
             ],
             "order" : [
             [0, "asc"],
@@ -399,11 +399,13 @@
             ubah_data(data[8]);
         });
 
-        $('#tabel tbody').on( 'click', '.hapus', function () {
+        $('#tabel tbody').on( 'click', '.cetak', function () {
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[8]);
+            // mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[8]);
+            var id_permintaan = data[8];
+            cetak(id_permintaan);
         });
 
         $('#tabel_detail_permintaan tbody').on( 'click', '.ubah_detail', function () {
@@ -561,6 +563,8 @@
                 if (data.status) {
                     mys.notifikasi("Data Berhasil Disimpan","success");
                     data_detil_permintaan = [];
+                    if(!permintaan_anggaran.id_permintaan)
+                        cetak(data.id_permintaan);
                     tutup_form();
                 } else{
                     mys.notifikasi("Terdapat Kesalahan dalam menyimpan data.","error");
@@ -755,6 +759,13 @@
         tabel_detail_permintaan.clear();
         tabel_detail_permintaan.rows.add(data_detil_permintaan);
         tabel_detail_permintaan.draw();
+    }
+
+    function cetak(id_permintaan) {
+        var jendela = window.open( "", "Print", 'width=800,height=700,status=yes,toolbar=no,menubar=no, titlebar=yes,re sizable=yes,location=no,scrollbars=yes' );
+            var form = "<input type='hidden' name='id_permintaan' value='"+id_permintaan+"'>";
+            $(jendela.document.body).html('<form id="form_redirect" action="'+mys.base_url+'permintaan_anggaran/cetak_laporan" method="POST">'+form+'</form>');
+            $(jendela.document).find('#form_redirect').submit();
     }
 
 

@@ -68,6 +68,7 @@ class Permintaan_anggaran extends CI_Controller {
 		$permintaan_anggaran = (array) json_decode($this->input->post('permintaan_anggaran'));
 		$detail_permintaan = json_decode($this->input->post('detail_permintaan'));
 		$permintaan_anggaran['id_bagian'] = $this->session->userdata('id_bagian');
+		$id_for_cetak = null;
 
 		if ($permintaan_anggaran['id_permintaan']) {
 			//update
@@ -86,6 +87,7 @@ class Permintaan_anggaran extends CI_Controller {
 				];
 				$insert_detil = $this->model->insert_detil($data_detil);
 			}
+			$id_for_cetak = $permintaan_anggaran['id_permintaan'];
 		} else{
 			//insert
 			$insert_permintaan = $this->model->save($permintaan_anggaran);
@@ -99,6 +101,7 @@ class Permintaan_anggaran extends CI_Controller {
 				];
 				$insert_detil = $this->model->insert_detil($data_detil);
 			}
+			$id_for_cetak = $id_permintaan;
 		}
 
 		$exec = $this->db->trans_status();
@@ -116,6 +119,7 @@ class Permintaan_anggaran extends CI_Controller {
 		echo json_encode(
 			[
 				'status' => $exec,
+				'id_permintaan'=>$id_for_cetak,
 			]
 		);
 	}
@@ -215,6 +219,114 @@ class Permintaan_anggaran extends CI_Controller {
 		];
 
 		echo json_encode($data);
+	}
+
+
+	function cetak_laporan()
+	{
+		$id_permintaan = $this->input->post('id_permintaan');
+	
+	    $permintaan = $this->model->get_by_id($id_permintaan)->row();
+	    $detail_permintaan  = $this->model->get_detail_permintaan($id_permintaan)->result_array();
+		$this->load->library('Pdfgenerator');
+		$this->load->helper('my_helper');
+
+		$html = '';
+
+		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">FORM PERMINTAAN ANGGARAN</span>
+		<br>
+		<span>NOMOR: '.$permintaan->no_anggaran.'</span></p><br>';
+
+		$detil_anggaran = $this->model->get_detil_anggaran($permintaan->id_anggaran);
+		$html.= '<p>Kegiatan: ('.$detil_anggaran->kode_anggaran.') '.$detil_anggaran->nama_anggaran.' </p><br>';
+		$html .= '<p style="text-align:center;text-decoration:underline">Tanggal Kebutuhan: '.tanggal_full($permintaan->tanggal_kebutuhan).'</p><br>';
+
+		$html.= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">';
+		$html.=		'<thead>
+						<tr">
+							<th class="data-center" style="width:5%">No.</th>
+							<th class="data-center" style="width:35%">Uraian</th>
+							<th class="data-center" style="width:25%">Nominal (Rp)</th>
+							<th class="data-center" style="width:35%">Keterangan</th>
+						</tr>
+					</thead>';
+		$html.= 	'<tbody>';
+		$sum = 0;
+		foreach ($detail_permintaan as $key => $value) {
+			$html .= '<tr>
+				<td class="data-center">'.($key+1).'</td>
+				<td class="data-left">'.$value['uraian'].'</td>
+				<td class="data-right">'.format_ribuan_indo($value['nominal'],0).'</td>
+				<td class="data-left">'.$value['keterangan'].'</td>
+			</tr>';
+			$sum += $value['nominal'];
+		}
+		$html .= '<tfoot>
+				<tr>
+					<th colspan="2" class="data-center">TOTAL:</th>
+					<th class="data-right">'.format_ribuan_indo($sum,0).'</th>
+					<th></th>
+				</tr>
+		</tfoot>';
+		$html.='</tbody></table>';
+		$html.= '<p>Catatan: '.$permintaan->catatan.' </p><br>';
+		$ttd = $this->model->get_list_ttd();
+		$html.= '<table style="table-layout:fixed;" width="100%">
+			<tr>
+				<td style="width:33%" class="data-center">&nbsp;</td>
+				<td style="width:33%" class="data-center">&nbsp;</td>
+				<td style="width:33%" class="data-center">Surabaya, '.tanggal_full($permintaan->tanggal).'</td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center">Diketahui Oleh:</td>
+				<td style="width:33%" class="data-center">Diperiksa Oleh:</td>
+				<td style="width:33%" class="data-center">Dibuat Oleh:</td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center">
+					<br><br><br><br>
+					<span style="font-weight:bold;text-decoration:underline">'.$ttd->diketahui.'</span><br>
+					<span>'.$ttd->jabatan_yg_mengetahui.'</span>
+				</td>
+				<td style="width:33%" class="data-center">
+					<br><br><br><br>
+					<span style="font-weight:bold;text-decoration:underline">'.$ttd->diperiksa.'</span><br>
+					<span>'.$ttd->jabatan_pemeriksa.'</span>
+				</td>
+				<td style="width:33%" class="data-center">
+					<br><br><br><br>
+					<span style="font-weight:bold;text-decoration:underline">'.$ttd->dibuat.'</span><br>
+					<span>'.$ttd->jabatan_pembuat.'</span>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center"><br></td>
+				<td style="width:33%" class="data-center"><br></td>
+				<td style="width:33%" class="data-center"><br></td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center">&nbsp;</td>
+				<td style="width:33%" class="data-center">Disetujui Oleh:</td>
+				<td style="width:33%" class="data-center">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center"></td>
+				<td style="width:33%" class="data-center">
+					<br><br><br><br>
+					<span style="font-weight:bold;text-decoration:underline">'.$ttd->disetujui.'</span><br>
+					<span>'.$ttd->jabatan_penyetuju.'</span>
+				</td>
+				<td style="width:33%" class="data-center"></td>
+			</tr>
+
+		</table>';
+
+		$data['html'] = $html;
+		$data['no_header'] = true;
+		$data['no_footer'] = true;
+        $this->pdfgenerator->setPaper('A4', 'portrait');
+        $this->pdfgenerator->filename = "Permintaan Anggaran.pdf";
+        $this->pdfgenerator->load_view('format_laporan', $data);
 	}
 
 	

@@ -22,6 +22,20 @@ class Permintaan_anggaran_model extends CI_Model {
 		return $this->db->get('detail_permintaan_anggaran');
 	}
 
+	function get_detil_anggaran($id_anggaran)
+	{
+		$this->db->select('*');
+		$this->db->from('anggaran');
+		$this->db->where('id_anggaran', $id_anggaran);
+		return $this->db->get()->row();
+	}
+
+	function get_list_ttd()
+	{
+		$this->db->where('dokumen', 'permintaan');
+		return $this->db->get('tanda_tangan')->row();
+	}
+
 
 	function get_by_id($id)
 	{
