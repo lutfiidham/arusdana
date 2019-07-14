@@ -27,14 +27,14 @@ class Permintaan_anggaran extends CI_Controller {
 		if ($list->num_rows() > 0) {
 			foreach ($list->result_array() as $key => $value) {
 				$data['data'][$key][] = ($key + 1) . '.';
-				$data['data'][$key][] = $value['kode_project'];
-				$data['data'][$key][] = $value['nama_project'];
-				$data['data'][$key][] = $value['nama_customer'];
-				$data['data'][$key][] = $value['project_start_date'];
-				$data['data'][$key][] = $value['project_end_date'];
-				$data['data'][$key][] = $value['status_project'];
-				$data['data'][$key][] = $value['jumlah_vendor'];
-				$data['data'][$key][] = $value['id_project'];
+				$data['data'][$key][] = $value['no_anggaran'];
+				$data['data'][$key][] = $value['nama_unit_kerja'];
+				$data['data'][$key][] = $value['nama_kategori'];
+				$data['data'][$key][] = $value['nama_anggaran'];
+				$data['data'][$key][] = $value['tanggal'];
+				$data['data'][$key][] = $value['tanggal_kebutuhan'];
+				$data['data'][$key][] = $value['total'];
+				$data['data'][$key][] = $value['id_permintaan'];
 				$data['total'] = $key + 1;
 			}
 
@@ -50,8 +50,8 @@ class Permintaan_anggaran extends CI_Controller {
 		$id = $this->input->post('id');
 		
 		$data = [
-		    'project' => $this->model->get_by_id($id)->row(),
-		    'vendor'  => $this->model->get_data_project_vendor($id)->result_array(),
+		    'permintaan' => $this->model->get_by_id($id)->row(),
+		    'detail_permintaan'  => $this->model->get_detail_permintaan($id)->result_array(),
 		];
 
 		echo json_encode($data);
@@ -67,15 +67,16 @@ class Permintaan_anggaran extends CI_Controller {
 
 		$permintaan_anggaran = (array) json_decode($this->input->post('permintaan_anggaran'));
 		$detail_permintaan = json_decode($this->input->post('detail_permintaan'));
-
-		var_dump($detail_permintaan);
+		$permintaan_anggaran['id_bagian'] = $this->session->userdata('id_bagian');
 
 		if ($permintaan_anggaran['id_permintaan']) {
 			//update
-			$update_permintaan = $this->model->update(['id_permintaan'=>$permintaan_anggaran['id_permintaan']],$permintaan_anggaran);
-
+			// $permintaan_update
+			$update_permintaan = $this->model->update(['id_permintaan'=>$permintaan_anggaran['id_permintaan']],
+				['total' => $permintaan_anggaran['total']]
+			);
 			$delete_detil = $this->model->delete_detil(['id_permintaan'=>$permintaan_anggaran['id_permintaan']]);
-			
+
 			foreach ($detail_permintaan as $key => $value) {
 				$data_detil = [
 					'id_permintaan' => $permintaan_anggaran['id_permintaan'],

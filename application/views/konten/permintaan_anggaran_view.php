@@ -49,12 +49,13 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>No Anggaran</th>
                                 <th>Unit Kerja</th>
                                 <th>Kategori</th>
                                 <th>Anggaran</th>
-                                <th>No Anggaran</th>
                                 <th>Tanggal</th>
                                 <th>Tanggal Kebutuhan</th>
+                                <th>Total</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -191,6 +192,64 @@
         load_anggaran();
         load_kategori();
 
+        $('#tabel').DataTable({
+            "scrollCollapse": true,
+            "sDom": "t<'row'<'col-md-4'i><'col-md-8'p>>",
+            "processing": true,
+            "iDisplayLength": 10,
+            "scrollX":true,
+            "ajax":{
+                url : mys.base_url+'permintaan_anggaran/get_data',
+                type : 'GET',
+            },
+            "language": {
+                "url": mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
+            },
+            "columnDefs": [
+            {"visible" : false, "targets" : []},
+            {
+                render: function ( data, type, row ) {
+                    if (type == 'sort') {
+                        return data;
+                    }
+                    return moment(data).format('DD MMM YYYY');
+                },
+                targets: [5,6]
+            },
+            {
+                render: function ( data, type, row ) {
+                    if (type=='sort') {
+                        return data;
+                    } else{
+                        return mys.formatMoney(data,0,',','.');
+                    }
+                },
+                targets: [7]
+            },
+            {
+                "render": function ( data, type, row ) {
+                   return '<button type="button" title="View Data" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button> <button type="button" title="Hapus Data" data-toggle="tooltip" class="btn btn-danger hapus"><span class="fa fa-trash"></span></button>';
+                },
+                "targets": [8]
+            },
+            ],
+            "columns": [
+            {"width": "5%" },
+            {"width": "15%"},
+            {"width": "15%"},
+            {"width": "15%"},
+            {"width": "10%"},
+            {"width": "15%"},
+            {"width": "15%"},
+            {"width": "10%", "orderable": false}
+            ],
+            "order" : [
+            [0, "asc"],
+            ],
+            "fnDrawCallback" : function(oSettings){
+                $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
+            },
+        });
 
         tabel_detail_permintaan= $('#tabel_detail_permintaan').DataTable({
             scrollCollapse: true,
@@ -379,8 +438,10 @@
                 data_send.tanggal = mys.toDate($('#tanggal').val());
                 data_send.id_unit_kerja = $('#id_unit_kerja').val();
                 data_send.id_kategori = $('#id_kategori').val();
+            var id_permintaan = $('#id_permintaan').val();
 
-            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori) {
+
+            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori || id_permintaan) {
                $('#no_anggaran').val(null);
                $('#no_anggaran_view').html('-');
                 return false;
@@ -449,8 +510,17 @@
             },
             success: function(data){
                 buka_form();
-                <?= !$ha['update'] ? '$("#btnSimpan").prop("disabled",true);' : '' ?>
-                <?= !$ha['update'] ? '$("#form").find("select,input,textarea").prop("disabled",true);' : '' ?>
+                var permintaan = data.permintaan;
+                    $('#id_permintaan').val(permintaan.id_permintaan);
+                    $('#id_unit_kerja').val(permintaan.id_unit_kerja).trigger('change').prop('disabled',true);
+                    $('#id_kategori').val(permintaan.id_kategori).trigger('change').prop('disabled',true);
+                    $('#id_anggaran').val(permintaan.id_anggaran).trigger('change').prop('disabled',true);
+                    $('#tanggal').val(permintaan.tanggal).prop('disabled',true);
+                    $('#tanggal_kebutuhan').val(permintaan.tanggal_kebutuhan).prop('disabled',true);
+                    $('#catatan').val(permintaan.catatan).prop('disabled',true);
+                    $('#no_anggaran').val(permintaan.no_anggaran);
+                    $('#no_anggaran_view').html(permintaan.no_anggaran);
+
                 var detail_permintaan = data.detail_permintaan;
                     data_detil_permintaan = detail_permintaan;
                 reload_tabel_detail_permintaan();
@@ -549,7 +619,12 @@
         $('#form').find('input[type="hidden"]').val('');
         $('#form').find('label,select,input,textarea').removeClass('is-invalid text-red');
         $('#form').find('.cmb_select2').val('').trigger('change');
-        $('#kode_permintaan_anggaran').parents('.form-group').hide();
+        $('#id_unit_kerja').prop('disabled',false);
+        $('#id_kategori').prop('disabled',false);
+        $('#id_anggaran').prop('disabled',false);
+        $('#tanggal').prop('disabled',false);
+        $('#tanggal_kebutuhan').prop('disabled',false);
+        $('#catatan').prop('disabled',false);
         <?= !$ha['update'] ? '$("#btnSimpan").prop("disabled",false);' : '' ?>
         <?= !$ha['update'] ? '$("#form").find("select,input,textarea").prop("disabled",false);' : '' ?>
     }

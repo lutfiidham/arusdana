@@ -7,10 +7,12 @@ class Permintaan_anggaran_model extends CI_Model {
 
 	function get_data()
 	{
-		$this->db->select('format_kode_project(id_project) as kode_project,nama_project,nama_customer, project_start_date,project_end_date,status_project, (select count(id_detil) from project_detil where id_project = project.id_project) as jumlah_detil, id_project,tgl_pengisian_tender');
-		$this->db->join('customer', 'customer.id_customer = project.id_customer');
-		$this->db->where('project_deleted', 0);
-		return $this->db->get('project');
+		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,kt.nama_kategori');
+		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
+		$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
+		$this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
+		$this->db->where('pa.id_bagian', $this->session->userdata('id_bagian'));
+		return $this->db->get($this->table.' pa');
 	}
 
 	function get_detail_permintaan($id_permintaan)
