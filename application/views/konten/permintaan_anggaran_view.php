@@ -71,14 +71,9 @@
             <div class="card-body">
                 <form class="forms-sample" id="form" method="POST" action="javascript:;">
                     <input type="hidden" name="id_permintaan" id="id_permintaan">
+                    <input type="hidden" name="no_anggaran" id="no_anggaran">
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            <div class="form-group" style="display: none">
-                                <label for="kode_project">Kode Project</label>
-                                <input type="text" class="form-control" name="kode_project" id="kode_project" readonly>
-                                <span class="help-block"></span>
-                            </div>
-
                             <div class="form-group">
                                 <label for="id_unit_kerja">Unit Kerja</label>
                                 <select name="id_unit_kerja" id="id_unit_kerja" class="form-control cmb_select2" required="required">
@@ -156,8 +151,8 @@
                                 <tr>
                                     <th data-width="2%">No.</th>
                                     <th data-width="16%">Uraian</th>
-                                    <th data-width="15%">Keterangan</th>
                                     <th data-width="8%">Nominal Anggaran</th>
+                                    <th data-width="15%">Keterangan</th>
                                     <th data-width="10%">Aksi</th>
                                 </tr>
                             </thead>
@@ -165,8 +160,9 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th colspan="3" style="text-align:right;">Total:</th>
-                                    <th>0</th>
+                                    <th colspan="2" style="text-align:right;">Total:</th>
+                                    <th></th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -201,6 +197,7 @@
             sDom: "t<'row'<'col-md-4'i><'col-md-8'p>>",
             processing: true,
             iDisplayLength: 10,
+            paging:false,
             scrollX:true,
             language: {
                 url: mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
@@ -215,7 +212,7 @@
                         return mys.formatMoney(data,0,',','.');
                     }
                 },
-                targets: [3]
+                targets: [2]
             },
             {
                 render: function ( data, type, row ) {
@@ -232,8 +229,8 @@
             columns : [
                 { data : null},
                 { data : "uraian"},
-                { data : "keterangan"},
                 { data : "nominal"},
+                { data : "keterangan"},
                 { data : "id_detail_permintaan", "orderable": false},
             ],
 
@@ -247,6 +244,26 @@
             fnDrawCallback : function(oSettings){
                 $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
             },
+            footerCallback: function(row, data, start, end, display){
+                var api = this.api(), data;
+
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                total = api
+                .column( 2 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+
+
+                $( api.column( 2 ).footer() ).html(mys.formatMoney(total,0,',','.'));
+            }
         });
 
 
@@ -267,12 +284,6 @@
             submitHandler: function(form) {
                 form.submit();
             },
-            rules: {
-                no_hp_pic_project: {
-                    required: true,
-                    digits: true
-                },
-            }
         });
 
         form_validator_detil = $('#form_det_permintaan').validate({
@@ -298,10 +309,10 @@
         $("#form").submit(function(event) {
             if (form_validator.form()) {
                 if (data_detil_permintaan.length == 0) {
-                    mys.swconfirm('Simpan','Data Vendor Masih Kosong. Apakah anda ingin melanjutkan simpan data project?',simpan);                    
-                } else{
-                    simpan();
-                }
+                    mys.swalert('Simpan','Detil Permintaan Masih Kosong!','error');                    
+                    return false;
+                } 
+                simpan();
             }
         });
 
@@ -363,6 +374,37 @@
             });
         });
 
+        $('#id_unit_kerja,#id_kategori,#tanggal').on('change', function(event) {
+            var data_send = {};
+                data_send.tanggal = mys.toDate($('#tanggal').val());
+                data_send.id_unit_kerja = $('#id_unit_kerja').val();
+                data_send.id_kategori = $('#id_kategori').val();
+
+            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori) {
+               $('#no_anggaran').val(null);
+               $('#no_anggaran_view').html('-');
+                return false;
+            }
+
+            mys.blok()
+                $.ajax({
+                    url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: data_send,
+                    success: function(data){
+                       $('#no_anggaran').val(data.no_anggaran);
+                       $('#no_anggaran_view').html(data.no_anggaran);
+                    },
+                    error:function(data){
+                        mys.notifikasi("Gagal Mengambil data dari server","error");
+                    }
+                })
+                .always(function() {
+                    mys.unblok();
+                });
+        });
+
         $('#input_pencarian').on('keyup', function(event) {
             var tabel = $('#tabel');
             tabel.dataTable().fnFilter($(this).val());
@@ -390,7 +432,7 @@
         $('#form_tender_vendor_card').hide();
         $('#form_card').show();
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
-        // $('#status_project').val('P').trigger('change');
+        // $('#status_permintaan_anggaran').val('P').trigger('change');
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
     }
@@ -399,7 +441,7 @@
     function ubah_data(id){
         mys.blok()
         $.ajax({
-            url: mys.base_url+'project/get_data_by_id',
+            url: mys.base_url+'permintaan_anggaran/get_data_by_id',
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -422,127 +464,36 @@
         });
     }
 
-    function kelola_tender(id){
-        mys.blok()
-        $.ajax({
-            url: mys.base_url+'project/get_data_tender',
-            type: 'POST',
-            dataType: 'JSON',
-            data: {
-                id: id
-            },
-            success: function(data){
-                buka_form_tender();
-                $('#id_project_tender').val(data.id_permintaan);
-                $('#kode_project_tender').val(data.kode_project);
-                $('#kode_project_tender').parents('.form-group').show();
-                $('#nama_project_tender').val(data.nama_project);
-                $('#nama_customer_tender').val(data.nama_customer);
-                $('#nilai_project_tender').val(data.nilai_project);
-                $('#tipe_pembelian_tender').val(data.tipe_pembelian == 'B'? 'Barang' : data.tipe_pembelian == 'J'? 'Jasa' : 'Barang & Jasa');
-                $('#status_project_tender').val(data.status_project).trigger('change');
-                if (data.no_fs_barang) {
-                    $('#fs_barang_tender').show();
-                    $('#spk_fs_barang_tender').val(data.spk_fs_barang);
-                    $('#tgl_fs_barang_tender').val(data.tgl_fs_barang != null? mys.toDate(data.tgl_fs_barang) : null);
-
-                }
-                if (data.no_fs_jasa) {
-                    $('#fs_jasa_tender').show();
-                    $('#spk_fs_jasa_tender').val(data.spk_fs_jasa);
-                    $('#tgl_fs_jasa_tender').val(data.tgl_fs_jasa != null? mys.toDate(data.tgl_fs_jasa) : null);
-                }
-
-                if (data.path_foto_customer){
-                    $('#foto_preview_tender').prop('src', mys.base_url+'assets/upload/customer/foto/'+id_customer+'/'+data.path_foto_customer);
-                } else{
-                    $('#foto_preview_tender').prop('src', mys.base_url+'assets/img/avatar.png');
-                }
-
-            },
-            error:function(data){
-                mys.notifikasi("Gagal Mengambil data dari server","error");
-            }
-        })
-        .always(function() {
-            mys.unblok();
-        });
-    }
-
-    function kelola_tender_vendor(id){
-        mys.blok()
-        $.ajax({
-            url: mys.base_url+'project/get_data_tender_vendor',
-            type: 'POST',
-            dataType: 'JSON',
-            data: {
-                id: id
-            },
-            success: function(data){
-                buka_form_tender_vendor();
-                var project = data.project;
-                $('#id_project_tv').val(project.id_permintaan);
-                $('#kode_project_tv').val(project.kode_project);
-                $('#kode_project_tv').parents('.form-group').show();
-                $('#nama_project_tv').val(project.nama_project);
-                $('#nama_customer_tv').val(project.nama_customer);
-                $('#tgl_fs_approved_tv').val(project.tgl_fs_approved);
-                $('#tgl_project_final_tv').val(project.tgl_project_final);
-                $('#nilai_project_tv').val(mys.formatMoney(project.nilai_project,0,',','.'));
-                $('#tipe_pembelian_tv').val(project.tipe_pembelian == 'B'? 'Barang' : project.tipe_pembelian == 'J'? 'Jasa' : 'Barang & Jasa');
-                $('#status_project_tv').val(project.status_project == 'P' ? 'Waiting' : project.status_project == 'W' ? 'Win' : 'Lose');
-
-                data_detil_permintaan = data.vendor;
-                reload_tabel_list_vendor();
-
-            },
-            error:function(data){
-                mys.notifikasi("Gagal Mengambil data dari server","error");
-            }
-        })
-        .always(function() {
-            mys.unblok();
-        });
-    }
-
 
     function simpan(){
-        var data_post = new FormData();
-
+        var permintaan_anggaran = {};
+            permintaan_anggaran.id_permintaan = $('#id_permintaan').val()? $('#id_permintaan').val() : null;
+            permintaan_anggaran.no_anggaran = $('#no_anggaran').val();
+            permintaan_anggaran.id_unit_kerja = $('#id_unit_kerja').val();
+            permintaan_anggaran.id_kategori = $('#id_kategori').val();
+            permintaan_anggaran.id_anggaran = $('#id_anggaran').val();
+            permintaan_anggaran.tanggal = mys.toDate($('#tanggal').val());
+            permintaan_anggaran.tanggal_kebutuhan = mys.toDate($('#tanggal_kebutuhan').val());
+            permintaan_anggaran.catatan = $('#catatan').val();
+            permintaan_anggaran.total = data_detil_permintaan.reduce(function(prev, cur) {
+                                          return parseInt(prev) + parseInt(cur.nominal);
+                                        }, 0);
         mys.blok()
         $.ajax({
-            url: mys.base_url+'project/save',
+            url: mys.base_url+'permintaan_anggaran/save',
             type: 'POST',
             dataType: 'JSON',
-            data: data_post,
-            contentType: false,
-            processData: false,
+            data: {
+                permintaan_anggaran: JSON.stringify(permintaan_anggaran),
+                detail_permintaan: JSON.stringify(data_detil_permintaan)
+            },
             success: function(data){
-                if (data.status && data.error.length == 0) {
+                if (data.status) {
                     mys.notifikasi("Data Berhasil Disimpan","success");
                     data_detil_permintaan = [];
                     tutup_form();
                 } else{
                     mys.notifikasi("Terdapat Kesalahan dalam menyimpan data.","error");
-                    if (data.error.length > 0) {
-                        $('#alert_project_form').empty();
-
-                        var html_error = '<ol>';
-                        $.each(data.error, function(index, val) {
-                            html_error +=  '<li>'+val+'</li>';
-                        });
-                        html_error += '<ol>';
-
-                        $('#alert_project_form').html('<div class="alert alert-warning" role="alert">\
-                            <strong>Error!</strong> <p>'+html_error+'</p>\
-                        </div>');
-
-                        $('#alert_project_form').fadeIn('slow');
-                        setTimeout(function(){
-                            $('#alert_project_form').fadeOut('slow');
-                            $('#alert_project_form').empty();
-                        }, 5000)
-                    }
                 }
             },
             error:function(data){
@@ -559,7 +510,7 @@
     function hapus(id){
         mys.blok()
         $.ajax({
-            url: mys.base_url+'project/delete',
+            url: mys.base_url+'permintaan_anggaran/delete',
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -598,7 +549,7 @@
         $('#form').find('input[type="hidden"]').val('');
         $('#form').find('label,select,input,textarea').removeClass('is-invalid text-red');
         $('#form').find('.cmb_select2').val('').trigger('change');
-        $('#kode_project').parents('.form-group').hide();
+        $('#kode_permintaan_anggaran').parents('.form-group').hide();
         <?= !$ha['update'] ? '$("#btnSimpan").prop("disabled",false);' : '' ?>
         <?= !$ha['update'] ? '$("#form").find("select,input,textarea").prop("disabled",false);' : '' ?>
     }
