@@ -34,7 +34,7 @@
                 <div class="row clearfix">
                     <div class="col-lg-2">
                     <?php if ($ha['insert']): ?>
-                        <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button>
+                        <!-- <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button> -->
                     <?php endif ?>
                     </div>
                     <div class="col-lg-1" style="text-align:right;padding-top:7px">
@@ -54,7 +54,7 @@
                                 <th>Anggaran</th>
                                 <th>No Anggaran</th>
                                 <th>Tanggal</th>
-                                <th>Tanggal Kebutuhan</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -151,23 +151,50 @@
                                 <tr>
                                     <th data-width="2%">No.</th>
                                     <th data-width="16%">Uraian</th>
-                                    <th data-width="8%">Nominal Anggaran</th>
+                                    <th data-width="8%">Penerimaan</th>
+                                    <th data-width="8%">Pengeluaran</th>
                                     <th data-width="15%">Keterangan</th>
-                                    <th data-width="10%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="2" style="text-align:right;">Total:</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                            <h6 class="font-weight-bold" >Catatan</h6>
+                            <textarea class="form-control" name="catatan_realisasi" id="catatan_realisasi" cols="30" rows="6" required=""></textarea>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <h6 class="font-weight-bold" style="text-align: right;">Total Penerimaan :</h6>
+                        </div>
+                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                            <h6 class="font-weight-bold" id="total_penerimaan">Rp 0</h6>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <h6 class="font-weight-bold" style="text-align: right;">Total Pengeluaran :</h6>
+                        </div>
+                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                            <h6 class="font-weight-bold" id="total_pengeluaran">Rp 0</h6>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <h6 class="font-weight-bold" style="text-align: right;">Grand Total Retur :</h6>
+                        </div>
+                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                            <h6 class="font-weight-bold" id="total_retur">Rp 0</h6>
+                        </div>
+                    </div>
+                    <hr>
                     <button id="btnSimpan" type="submit" class="btn btn-primary mr-2">Simpan</button>
                     <button class="btn btn-danger" type="button" id="btnBack">Batal</button>
                 </form>
@@ -181,6 +208,7 @@
     var form_validator;
     var form_validator_detil;
     var tabel_detail_permintaan;
+    var tabel;
     var data_detil_permintaan = [];
 
     $(document).ready(function() {
@@ -190,6 +218,49 @@
         load_unit_kerja();
         load_anggaran();
         load_kategori();
+
+        tabel = $('#tabel').DataTable({
+            scrollCollapse: true,
+            sDom: "t<'row'<'col-md-4'i><'col-md-8'p>>",
+            processing: true,
+            iDisplayLength: 10,
+            paging:false,
+            scrollX:true,
+            language: {
+                url: mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
+            },
+            ajax: mys.base_url + "arusdana",
+            columnDefs: [
+            {visible : false, targets : []},
+                {
+                    render: function ( data, type, row ) {
+                        if (type == 'sort') {
+                            return data;
+                        }
+                        return moment(data).format('DD MMM YYYY');
+                    },
+                    targets: [5]
+                },
+                {
+                    "render": function ( data, type, row ) {
+                       return '<button type="button" title="View Data" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-search"></span></button>';
+                    },
+                    "targets": [-1]
+                },
+            ],
+            order : [
+            [1, "asc"],
+            ],
+            fnRowCallback : function(nRow, aData, iDisplayIndex){
+                $("td:first", nRow).html((iDisplayIndex +1)+'.');
+                return nRow;
+            },
+            fnDrawCallback : function(oSettings){
+                $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
+            },
+            footerCallback: function(row, data, start, end, display){
+            }
+        });
 
 
         tabel_detail_permintaan= $('#tabel_detail_permintaan').DataTable({
@@ -204,26 +275,24 @@
             },
             columnDefs: [
             {visible : false, targets : []},
-            {
-                render: function ( data, type, row ) {
-                    if (type=='sort') {
-                        return data;
-                    } else{
-                        return mys.formatMoney(data,0,',','.');
-                    }
+                {
+                    render: function ( data, type, row ) {
+                        return '<input type="text" value="'+data+'" class="form-control penerimaan autonumeric" required>';
+                    },
+                    targets: [2]
                 },
-                targets: [2]
-            },
-            {
-                render: function ( data, type, row ) {
-                    var ubah  = '';
-                    var hapus = '';
-                        ubah= '<button type="button" title="Ubah Data" data-toggle="tooltip" class="btn btn-primary ubah_detail"><span class="fa fa-edit"></span></button>&nbsp;';
-                        hapus = '<button type="button" title="Hapus Data" data-toggle="tooltip" class="btn btn-danger hapus_detail"><span class="fa fa-trash"></span></button>';
-                    return ubah+hapus;
+                {
+                    render: function ( data, type, row ) {
+                        return '<input type="text" class="form-control pengeluaran autonumeric" required>';
+                    },
+                    targets: [3]
                 },
-                targets: [4]
-            },
+                {
+                    render: function ( data, type, row ) {
+                        return '<input type="text" class="form-control keterangan" required>';
+                    },
+                    targets: [4]
+                },
             ],
             data: data_detil_permintaan,
             columns : [
@@ -243,77 +312,60 @@
             },
             fnDrawCallback : function(oSettings){
                 $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
+                mys.autonumber();
             },
             footerCallback: function(row, data, start, end, display){
-                var api = this.api(), data;
-
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[\$,]/g, '')*1 :
-                        typeof i === 'number' ?
-                            i : 0;
-                };
-
-                total = api
-                .column( 2 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 );
-
-
-                $( api.column( 2 ).footer() ).html(mys.formatMoney(total,0,',','.'));
             }
         });
 
 
-        form_validator = $('#form').validate({
-            highlight: function(element, errorClass, validClass) {
-                $(element).addClass(errorClass).removeClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).removeClass(errorClass).addClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-            },
-            errorClass: "is-invalid text-red",
-            errorElement: "em",
-            errorPlacement: function(error, element) {
-                error.appendTo(element.parent("div").find(".help-block"));
-            },
-            submitHandler: function(form) {
-                form.submit();
-            },
-        });
+        // form_validator = $('#form').validate({
+        //     highlight: function(element, errorClass, validClass) {
+        //         $(element).addClass(errorClass).removeClass(validClass);
+        //         $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+        //     },
+        //     unhighlight: function(element, errorClass, validClass) {
+        //         $(element).removeClass(errorClass).addClass(validClass);
+        //         $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+        //     },
+        //     errorClass: "is-invalid text-red",
+        //     errorElement: "em",
+        //     errorPlacement: function(error, element) {
+        //         error.appendTo(element.parent("div").find(".help-block"));
+        //     },
+        //     submitHandler: function(form) {
+        //         form.submit();
+        //     },
+        // });
 
-        form_validator_detil = $('#form_det_permintaan').validate({
-            highlight: function(element, errorClass, validClass) {
-                $(element).addClass(errorClass).removeClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).removeClass(errorClass).addClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-            },
-            errorClass: "is-invalid text-red",
-            errorElement: "em",
-            errorPlacement: function(error, element) {
-                error.appendTo(element.parent("div").find(".help-block"));
-            },
-            submitHandler: function(form) {
-                form.submit();
-            }
-        });
+        // form_validator_detil = $('#form_det_permintaan').validate({
+        //     highlight: function(element, errorClass, validClass) {
+        //         $(element).addClass(errorClass).removeClass(validClass);
+        //         $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+        //     },
+        //     unhighlight: function(element, errorClass, validClass) {
+        //         $(element).removeClass(errorClass).addClass(validClass);
+        //         $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+        //     },
+        //     errorClass: "is-invalid text-red",
+        //     errorElement: "em",
+        //     errorPlacement: function(error, element) {
+        //         error.appendTo(element.parent("div").find(".help-block"));
+        //     },
+        //     submitHandler: function(form) {
+        //         form.submit();
+        //     }
+        // });
 
         
         $("#form").submit(function(event) {
-            if (form_validator.form()) {
-                if (data_detil_permintaan.length == 0) {
-                    mys.swalert('Simpan','Detil Permintaan Masih Kosong!','error');                    
-                    return false;
-                } 
-                simpan();
-            }
+            if (data_detil_permintaan.length == 0) {
+                mys.swalert('Simpan','Detil Permintaan Masih Kosong!','error');                    
+                return false;
+            } 
+            simpan();
+            // if (form_validator.form()) {
+            // }
         });
 
         $("#form_det_permintaan").submit(function(event) {
@@ -337,7 +389,11 @@
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            ubah_data(data[8]);
+            ubah_data(data[7]);
+        });
+
+        $('#tabel_detail_permintaan tbody').on('keyup', '.autonumeric', function(event) {
+            calculateAmount();
         });
 
         $('#tabel tbody').on( 'click', '.hapus', function () {
@@ -386,23 +442,23 @@
                 return false;
             }
 
-            mys.blok()
-                $.ajax({
-                    url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
-                    type: 'POST',
-                    dataType: 'JSON',
-                    data: data_send,
-                    success: function(data){
-                       $('#no_anggaran').val(data.no_anggaran);
-                       $('#no_anggaran_view').html(data.no_anggaran);
-                    },
-                    error:function(data){
-                        mys.notifikasi("Gagal Mengambil data dari server","error");
-                    }
-                })
-                .always(function() {
-                    mys.unblok();
-                });
+            // mys.blok()
+            //     $.ajax({
+            //         url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
+            //         type: 'POST',
+            //         dataType: 'JSON',
+            //         data: data_send,
+            //         success: function(data){
+            //            $('#no_anggaran').val(data.no_anggaran);
+            //            $('#no_anggaran_view').html(data.no_anggaran);
+            //         },
+            //         error:function(data){
+            //             mys.notifikasi("Gagal Mengambil data dari server","error");
+            //         }
+            //     })
+            //     .always(function() {
+            //         mys.unblok();
+            //     });
         });
 
         $('#input_pencarian').on('keyup', function(event) {
@@ -424,6 +480,24 @@
      
     });
 
+    function calculateAmount() {
+        var table = $('#tabel_detail_permintaan tbody tr');
+
+        var total_penerimaan = 0;
+        var total_pengeluaran = 0;
+
+        table.each(function(index, el) {
+            var tr_penerimaan = $(el).find('input.penerimaan').val() ? parseInt($(el).find('input.penerimaan').val().replace(/\D/g, '')) : 0;
+            var tr_pengeluaran = $(el).find('input.pengeluaran').val() ? parseInt($(el).find('input.pengeluaran').val().replace(/\D/g, '')) : 0;
+
+            total_penerimaan += tr_penerimaan;
+            total_pengeluaran += tr_pengeluaran;
+        });
+
+        $('#total_penerimaan').text('Rp ' + mys.formatMoney(total_penerimaan, 0, ',', '.'));
+        $('#total_pengeluaran').text('Rp ' + mys.formatMoney(total_pengeluaran, 0, ',', '.'));
+        $('#total_retur').text('Rp ' + mys.formatMoney(total_penerimaan - total_pengeluaran, 0, ',', '.'));
+    }
 
     function buka_form() {
         reset_form();
@@ -441,7 +515,7 @@
     function ubah_data(id){
         mys.blok()
         $.ajax({
-            url: mys.base_url+'permintaan_anggaran/get_data_by_id',
+            url: mys.base_url+'arusdana/get_data_by_id',
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -449,11 +523,21 @@
             },
             success: function(data){
                 buka_form();
-                <?= !$ha['update'] ? '$("#btnSimpan").prop("disabled",true);' : '' ?>
-                <?= !$ha['update'] ? '$("#form").find("select,input,textarea").prop("disabled",true);' : '' ?>
+                var permintaan = data.permintaan;
+                    $('#id_permintaan').val(permintaan.id_permintaan);
+                    $('#id_unit_kerja').val(permintaan.id_unit_kerja).trigger('change').prop('disabled',true);
+                    $('#id_kategori').val(permintaan.id_kategori).trigger('change').prop('disabled',true);
+                    $('#id_anggaran').val(permintaan.id_anggaran).trigger('change').prop('disabled',true);
+                    $('#tanggal').val(permintaan.tanggal).prop('disabled',true);
+                    $('#tanggal_kebutuhan').val(permintaan.tanggal_kebutuhan).prop('disabled',true);
+                    $('#catatan').val(permintaan.catatan).prop('disabled',true);
+                    $('#no_anggaran').val(permintaan.no_anggaran);
+                    $('#no_anggaran_view').html(permintaan.no_anggaran);
+
                 var detail_permintaan = data.detail_permintaan;
                     data_detil_permintaan = detail_permintaan;
                 reload_tabel_detail_permintaan();
+                calculateAmount();
             },
             error:function(data){
                 mys.notifikasi("Gagal Mengambil data dari server","error");
@@ -466,32 +550,37 @@
 
 
     function simpan(){
-        var permintaan_anggaran = {};
-            permintaan_anggaran.id_permintaan = $('#id_permintaan').val()? $('#id_permintaan').val() : null;
-            permintaan_anggaran.no_anggaran = $('#no_anggaran').val();
-            permintaan_anggaran.id_unit_kerja = $('#id_unit_kerja').val();
-            permintaan_anggaran.id_kategori = $('#id_kategori').val();
-            permintaan_anggaran.id_anggaran = $('#id_anggaran').val();
-            permintaan_anggaran.tanggal = mys.toDate($('#tanggal').val());
-            permintaan_anggaran.tanggal_kebutuhan = mys.toDate($('#tanggal_kebutuhan').val());
-            permintaan_anggaran.catatan = $('#catatan').val();
-            permintaan_anggaran.total = data_detil_permintaan.reduce(function(prev, cur) {
-                                          return parseInt(prev) + parseInt(cur.nominal);
-                                        }, 0);
+        var realisasi = {};
+            realisasi["id_permintaan"] = $('#id_permintaan').val()? $('#id_permintaan').val() : null;
+            realisasi["catatan"] = $('#catatan_realisasi').val();
+            realisasi["total"] = parseInt($('#total_retur').text().replace(/\D/g, ''));
+
+        var table = $('#tabel_detail_permintaan tbody tr');
+        var detail = [];
+        table.each(function(index, el) {
+            var items = {};
+            items['uraian'] = $(el).find('td').eq(1).text();
+            items['penerimaan'] = $(el).find('input.penerimaan').val() ? parseInt($(el).find('input.penerimaan').val().replace(/\D/g, '')) : 0;
+            items['pengeluaran'] = $(el).find('input.pengeluaran').val() ? parseInt($(el).find('input.pengeluaran').val().replace(/\D/g, '')) : 0;
+            items['keterangan'] = $(el).find('input.keterangan').val();
+
+            detail.push(items);
+        });
+
         mys.blok()
         $.ajax({
-            url: mys.base_url+'permintaan_anggaran/save',
+            url: mys.base_url+'arusdana/save',
             type: 'POST',
             dataType: 'JSON',
             data: {
-                permintaan_anggaran: JSON.stringify(permintaan_anggaran),
-                detail_permintaan: JSON.stringify(data_detil_permintaan)
+                realisasi: JSON.stringify(realisasi),
+                detail: JSON.stringify(detail)
             },
             success: function(data){
                 if (data.status) {
                     mys.notifikasi("Data Berhasil Disimpan","success");
                     data_detil_permintaan = [];
-                    tutup_form();
+                    // tutup_form();
                 } else{
                     mys.notifikasi("Terdapat Kesalahan dalam menyimpan data.","error");
                 }
@@ -503,33 +592,8 @@
         })
         .always(function() {
             mys.unblok();
-            reload();
-        });
-    }
-
-    function hapus(id){
-        mys.blok()
-        $.ajax({
-            url: mys.base_url+'permintaan_anggaran/delete',
-            type: 'POST',
-            dataType: 'JSON',
-            data: {
-                id: id
-            },
-            success: function(data){
-                if (data.status) {
-                    mys.notifikasi("Data Berhasil Dihapus","success");
-                } else{
-                    mys.notifikasi("Data Gagal Dihapus, Coba Beberapa Saat Lagi.","error");
-                }
-            },
-            error:function(data){
-                mys.notifikasi("Data Gagal Dihapus, Coba Beberapa Saat Lagi.","error");
-            }
-        })
-        .always(function() {
-            mys.unblok();
-            reload();
+            // reload();
+            window.location.reload();
         });
     }
 
@@ -544,7 +608,7 @@
 
     function reset_form() {
         data_detil_permintaan = [];
-        form_validator.resetForm();
+        // form_validator.resetForm();
         $('#form')[0].reset();
         $('#form').find('input[type="hidden"]').val('');
         $('#form').find('label,select,input,textarea').removeClass('is-invalid text-red');
@@ -555,7 +619,7 @@
     }
 
     function reset_form_det_permintaan(){
-        form_validator_detil.resetForm();
+        // form_validator_detil.resetForm();
         $('#form_det_permintaan')[0].reset();
         $('#form_det_permintaan').find('input[type="hidden"]').val('');
         $('#form_det_permintaan').find('label,select,input,textarea').removeClass('is-invalid text-red');
