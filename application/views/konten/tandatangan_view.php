@@ -43,6 +43,11 @@
                         <input type="text" class="form-control" name="permintaan-diperiksa" id="permintaan-diperiksa" required>
                         <span class="help-block"></span>
                     </div>
+                    <div class="form-group">
+                        <label for="nama_bagian">Jabatan Pemeriksa</label>
+                        <input type="text" class="form-control" name="permintaan-jabatan_pemeriksa" id="permintaan-jabatan_pemeriksa" required>
+                        <span class="help-block"></span>
+                    </div>
 
                     <div class="form-group">
                         <label for="kode_bagian">Diketahui Oleh</label>
@@ -51,8 +56,20 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="kode_bagian">Jabatan yang Mengetahui</label>
+                        <input type="text" class="form-control" name="permintaan-jabatan_yg_mengetahui" id="permintaan-jabatan_yg_mengetahui" required="">
+                        <span class="help-block"></span>
+                    </div>
+
+                    <div class="form-group">
                         <label for="nama_bagian">Disetujui Oleh</label>
                         <input type="text" class="form-control" name="permintaan-disetujui" id="permintaan-disetujui" required>
+                        <span class="help-block"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nama_bagian">Jabatan yang Menyetujui</label>
+                        <input type="text" class="form-control" name="permintaan-jabatan_penyetuju" id="permintaan-jabatan_penyetuju" required>
                         <span class="help-block"></span>
                     </div>
                 </form>
@@ -70,6 +87,7 @@
                         <span class="help-block"></span>
                     </div>
 
+                    
                     <div class="form-group">
                         <label for="kode_bagian">Jabatan Yang Membuat</label>
                         <input type="text" class="form-control" name="realisasi-jabatan_pembuat" id="realisasi-jabatan_pembuat" required="">
@@ -81,6 +99,11 @@
                         <input type="text" class="form-control" name="realisasi-diperiksa" id="realisasi-diperiksa" required>
                         <span class="help-block"></span>
                     </div>
+                    <div class="form-group">
+                        <label for="nama_bagian">Jabatan Pemeriksa</label>
+                        <input type="text" class="form-control" name="realisasi-jabatan_pemeriksa" id="realisasi-jabatan_pemeriksa" required>
+                        <span class="help-block"></span>
+                    </div>
 
                     <div class="form-group">
                         <label for="kode_bagian">Diketahui Oleh</label>
@@ -89,10 +112,23 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="kode_bagian">Jabatan yang Mengetahui</label>
+                        <input type="text" class="form-control" name="realisasi-jabatan_yg_mengetahui" id="realisasi-jabatan_yg_mengetahui" required="">
+                        <span class="help-block"></span>
+                    </div>
+
+                    <div class="form-group">
                         <label for="nama_bagian">Disetujui Oleh</label>
                         <input type="text" class="form-control" name="realisasi-disetujui" id="realisasi-disetujui" required>
                         <span class="help-block"></span>
                     </div>
+
+                    <div class="form-group">
+                        <label for="nama_bagian">Jabatan yang Menyetujui</label>
+                        <input type="text" class="form-control" name="realisasi-jabatan_penyetuju" id="realisasi-jabatan_penyetuju" required>
+                        <span class="help-block"></span>
+                    </div>
+
                 </form>
             </div>
         </div>
