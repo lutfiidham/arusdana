@@ -49,9 +49,9 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
+                                <th>No. Permintaan</th>
                                 <th>Unit Kerja</th>
                                 <th>Kategori</th>
-                                <th>Anggaran</th>
                                 <th>No Anggaran</th>
                                 <th>Tanggal</th>
                                 <th>Status</th>
@@ -135,9 +135,9 @@
                     <h6 class="font-weight-bold">Detail Permintaan</h6>
                     <hr>
                     <div class="row">
-                        <div class="col-lg-2">
+                        <!-- <div class="col-lg-2">
                             <button type="button" id="btn_add_det_anggaran" class="btn btn-primary btn-block">(+) Detail</button>
-                        </div>
+                        </div> -->
                         <div class="col-lg-1" style="text-align:right;padding-top:7px">
                             Cari :
                         </div>
@@ -242,8 +242,22 @@
                     targets: [5]
                 },
                 {
+                    render: function ( data, type, row ) {
+                        // var status = data == 'W' ? "" : "";
+                        // var status = data == 'W' ? "" : "";
+                        // return '<span class="badge badge-pill badge-success">'+status+'</span>';
+
+                        if (data == 'W') {
+                            return '<span class="badge badge-pill badge-success">Sudah direalisasi</span>';
+                        }else if (data == 'D') {
+                            return '<span class="badge badge-pill badge-danger">Belum direalisasi</span>';
+                        };
+                    },
+                    targets: [6]
+                },
+                {
                     "render": function ( data, type, row ) {
-                       return '<button type="button" title="View Data" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-search"></span></button>';
+                       return '<button type="button" title="Realisasi" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-search"></span></button> <button type="button" title="Cetak" data-toggle="tooltip" class="btn btn-success cetak"><span class="fa fa-print"></span></button>';
                     },
                     "targets": [-1]
                 },
@@ -461,6 +475,15 @@
             //     });
         });
 
+        $('#tabel tbody').on( 'click', '.cetak', function () {
+            var row = $(this);
+            var table = $('#tabel').DataTable();
+            var data = table.row( row.parents('tr') ).data();
+            // mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[8]);
+            var id_permintaan = data[7];
+            cetak(id_permintaan);
+        });
+
         $('#input_pencarian').on('keyup', function(event) {
             var tabel = $('#tabel');
             tabel.dataTable().fnFilter($(this).val());
@@ -479,6 +502,13 @@
         });
      
     });
+
+    function cetak(id_permintaan) {
+        var jendela = window.open( "", "Print", 'width=800,height=700,status=yes,toolbar=no,menubar=no, titlebar=yes,re sizable=yes,location=no,scrollbars=yes' );
+            var form = "<input type='hidden' name='id_permintaan' value='"+id_permintaan+"'>";
+            $(jendela.document.body).html('<form id="form_redirect" action="'+mys.base_url+'arusdana/cetak_laporan" method="POST">'+form+'</form>');
+            $(jendela.document).find('#form_redirect').submit();
+    }
 
     function calculateAmount() {
         var table = $('#tabel_detail_permintaan tbody tr');
