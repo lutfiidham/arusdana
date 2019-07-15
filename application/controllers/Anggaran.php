@@ -25,6 +25,7 @@ class Anggaran extends CI_Controller {
 				$data['data'][$key][] = ($key + 1) . '.';
 				$data['data'][$key][] = $value['kode_anggaran'];
 				$data['data'][$key][] = $value['nama_anggaran'];
+				$data['data'][$key][] = $value['tahun'];
 				$data['data'][$key][] = $value['status'];
 				$data['data'][$key][] = $value['id_anggaran'];
 				$data['total'] = $key + 1;

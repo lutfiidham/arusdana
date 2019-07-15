@@ -51,6 +51,7 @@
                                 <th>No.</th>
                                 <th>Kode Anggaran</th>
                                 <th>Nama Anggaran</th>
+                                <th>Tahun</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -79,6 +80,12 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="tahun">Tahun Anggaran</label>
+                        <input type="text" class="form-control tahun" name="tahun" id="tahun" required>
+                        <span class="help-block"></span>
+                    </div>
+
+                    <div class="form-group">
                         <label for="status">Status Anggaran</label>
                         <select name="status" id="status" class="form-control cmb_select2" required="required">
                             <option ></option>
@@ -102,6 +109,7 @@
     $(document).ready(function() {
         mys = Object.create(myscript_js);
         mys.init('<?= base_url() ?>');
+
 
         $('#tabel').dataTable({
             "scrollCollapse": true,
@@ -128,13 +136,13 @@
                 "render": function ( data, type, row ) {
                     return data == 'A'? '<span class="badge badge-pill badge-success">Aktif</span>' : '<span class="badge badge-pill badge-danger">Tidak Aktif</span>';
                 },
-                "targets": [3]
+                "targets": [4]
             },
             {
                 "render": function ( data, type, row ) {
                    return '<?= $ha['view']? '<button type="button" title="Ubah Data" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button> ' : '' ?><?= $ha['delete']? '<button type="button" title="Hapus Data" data-toggle="tooltip" class="btn btn-danger hapus"><span class="fa fa-trash"></span></button>' : '' ?>';
                 },
-                "targets": [4]
+                "targets": [5]
             },
             // {"className": "dt-center", "targets": [0,3]}
             ],
@@ -182,14 +190,14 @@
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            ubah_data(data[4]);
+            ubah_data(data[5]);
         });
 
         $('#tabel tbody').on( 'click', '.hapus', function () {
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[4]);
+            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[5]);
         });
 
         $('#input_pencarian').on('keyup', function(event) {
@@ -211,6 +219,8 @@
         reset_form();
         $('#tabel_card').hide();
         $('#form_card').show();
+        mys.year_picker();
+        
     }
 
     function ubah_data(id){
@@ -229,8 +239,10 @@
                 $('#id_anggaran').val(data.id_anggaran);
                 $('#kode_anggaran').val(data.kode_anggaran);
                 $('#nama_anggaran').val(data.nama_anggaran);
+                $('#tahun').val(data.tahun);
                 $('#status').val(data.status).trigger('change');
                 $('#kode_anggaran').prop('readonly', true);
+
             },
             error:function(data){
                 mys.notifikasi("Gagal Mengambil data dari server","error");

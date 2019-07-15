@@ -33,6 +33,6 @@
 		<a href="<?= base_url('site/laporan_permintaan') ?>" class="menu-item">Permintaan Anggaran</a>
 	</div>
 	<div class="submenu-content">
-		<a href="<?= base_url('site/laporan_anggaran') ?>" class="menu-item">Anggaran</a>
+		<a href="<?= base_url('site/laporan_anggaran') ?>" class="menu-item">Laporan Arus Dana</a>
 	</div>
 </div>

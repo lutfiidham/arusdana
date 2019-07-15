@@ -3,7 +3,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Laporan Permintaan Anggaran</h5>
+                    <h5>Laporan Arus Dana</h5>
                 </div>
             </div>
         </div>
@@ -14,7 +14,7 @@
                         <a href="<?= base_url() ?>"><i class="ik ik-home"></i></a>
                     </li>
                     <li class="breadcrumb-item" aria-current="page">Laporan</li>
-                    <li class="breadcrumb-item active" aria-current="page">Permintaan Anggaran</li>
+                    <li class="breadcrumb-item active" aria-current="page">Laporan Arus Dana</li>
                 </ol>
             </nav>
         </div>
