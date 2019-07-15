@@ -51,6 +51,17 @@ class Arusdana extends CI_Controller
 		echo json_encode($data);
 	}
 
+	function get_id_arusdana()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+		
+		$id = $this->input->post('id');
+		
+		$data = $this->adm->get_id_arusdana($id);
+
+		echo json_encode($data);
+	}
+
 	public function save()
 	{
 		if(!$this->input->is_ajax_request()) redirect();
@@ -68,6 +79,7 @@ class Arusdana extends CI_Controller
 			$realisasi->id_anggaran = $permintaan->id_anggaran;
 
 			$idArusDana = $this->adm->storeArusDana($realisasi);
+			$this->adm->updatePermintaanStatus($realisasi->id_permintaan, 'W');
 			if ($idArusDana > 0) {
 				foreach ($detail as $key => $d) {
 					$da = (array) $d;
@@ -84,13 +96,30 @@ class Arusdana extends CI_Controller
 
 	function cetak_laporan()
 	{
-		$id_permintaan = $this->input->post('id_permintaan');
-	    $arus_dana = $this->adm->get_by_permintaan($id_permintaan)->row();
+		$id_arus_dana = $this->input->post('id_arus_dana');
+	    $arus_dana = $this->adm->get_arusdana_by_id($id_arus_dana);
 	    $detail_arus_dana = $this->adm->get_detail_arus_dana($arus_dana->id_arus_dana)->result_array();
 		$this->load->library('Pdfgenerator');
 		$this->load->helper('my_helper');
 
 		$html = '';
+
+		$html .= '';
+
+		$html .= '<table width="100%" style="margin: 0px;">
+					<tr>
+					  <td width="60%">
+						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">Laporan Arus Dana  </span>
+					  </td>
+					  <td  width="20%">
+						
+					  </td>
+					</tr>
+					<tr  width="20%">
+						<td></td>
+						<td></td>
+					</tr>
+					</table>';
 
 		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN ARUS DANA</span>
 		<br>
@@ -105,24 +134,34 @@ class Arusdana extends CI_Controller
 						<tr">
 							<th class="data-center" style="width:5%">No.</th>
 							<th class="data-center" style="width:35%">Uraian</th>
-							<th class="data-center" style="width:25%">Nominal (Rp)</th>
+							<th class="data-center" style="width:25%">Penerimaan Anggaran (Rp)</th>
+							<th class="data-center" style="width:25%">Pengeluaran Realisasi (Rp)</th>
+							<th class="data-center" style="width:25%">Anggaran-Realisasi<br>Retur/(Kurang) (Rp)</th>
 							<th class="data-center" style="width:35%">Keterangan</th>
 						</tr>
 					</thead>';
 		$html.= 	'<tbody>';
 		$sum = 0;
+		$sumterima = 0;
+		$sumkeluar = 0;
 		foreach ($detail_arus_dana as $key => $value) {
 			$html .= '<tr>
 				<td class="data-center">'.($key+1).'</td>
 				<td class="data-left">'.$value['uraian'].'</td>
-				<td class="data-right">'.format_ribuan_indo($value['nominal'],0).'</td>
+				<td class="data-right">'.format_ribuan_indo($value['penerimaan'],0).'</td>
+				<td class="data-right">'.format_ribuan_indo($value['pengeluaran'],0).'</td>
+				<td class="data-right">'.format_ribuan_indo($value['penerimaan'] - $value['pengeluaran'],0).'</td>
 				<td class="data-left">'.$value['keterangan'].'</td>
 			</tr>';
-			$sum += $value['nominal'];
+			$sumterima += $value['penerimaan'];
+			$sumkeluar += $value['pengeluaran'];
+			$sum += $value['penerimaan'] - $value['pengeluaran'];
 		}
 		$html .= '<tfoot>
 				<tr>
 					<th colspan="2" class="data-center">TOTAL:</th>
+					<th class="data-right">'.format_ribuan_indo($sumterima,0).'</th>
+					<th class="data-right">'.format_ribuan_indo($sumkeluar,0).'</th>
 					<th class="data-right">'.format_ribuan_indo($arus_dana->total,0).'</th>
 					<th></th>
 				</tr>

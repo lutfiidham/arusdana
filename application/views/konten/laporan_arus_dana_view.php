@@ -257,7 +257,7 @@
                 },
                 {
                     "render": function ( data, type, row ) {
-                       return '<button type="button" title="Realisasi" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-search"></span></button> <button type="button" title="Cetak" data-toggle="tooltip" class="btn btn-success cetak"><span class="fa fa-print"></span></button>';
+                       return '<button type="button" title="Realisasi" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button> <button type="button" title="Cetak" data-toggle="tooltip" class="btn btn-danger cetak"><span class="fa fa-print"></span></button>';
                     },
                     "targets": [-1]
                 },
@@ -481,7 +481,26 @@
             var data = table.row( row.parents('tr') ).data();
             // mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[8]);
             var id_permintaan = data[7];
-            cetak(id_permintaan);
+             $.ajax({
+            url: mys.base_url+'arusdana/get_id_arusdana',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                id: id_permintaan
+            },
+            success: function(data){
+                // console.log(data['id_arus_dana']);
+                if (data) {
+                    cetak(data['id_arus_dana']);
+                }else{
+                    mys.notifikasi("Laporan tidak bisa dicetak karena belum direalisasi","error");
+                };
+            },
+            error:function(data){
+                mys.notifikasi("Gagal Mengambil data dari server","error");
+            }
+        });
+            
         });
 
         $('#input_pencarian').on('keyup', function(event) {
@@ -503,9 +522,9 @@
      
     });
 
-    function cetak(id_permintaan) {
+    function cetak(id_arus_dana) {
         var jendela = window.open( "", "Print", 'width=800,height=700,status=yes,toolbar=no,menubar=no, titlebar=yes,re sizable=yes,location=no,scrollbars=yes' );
-            var form = "<input type='hidden' name='id_permintaan' value='"+id_permintaan+"'>";
+            var form = "<input type='hidden' name='id_arus_dana' value='"+id_arus_dana+"'>";
             $(jendela.document.body).html('<form id="form_redirect" action="'+mys.base_url+'arusdana/cetak_laporan" method="POST">'+form+'</form>');
             $(jendela.document).find('#form_redirect').submit();
     }
@@ -623,7 +642,9 @@
         .always(function() {
             mys.unblok();
             // reload();
-            window.location.reload();
+            setTimeout(function() {
+                window.location.reload();
+            }, 3000);
         });
     }
 

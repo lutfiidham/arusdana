@@ -25,6 +25,13 @@ class Arusdana_model extends CI_Model {
 		return $this->db->where('id_permintaan', $idPermintaan)->get('permintaan_anggaran');
 	}
 
+	function get_by_id($id)
+	{
+		$this->db->select('*');
+		$this->db->where('id_permintaan', $id);
+		return $this->db->get('permintaan_anggaran');
+	}
+
 	function get_by_permintaan($id)
 	{
 		$this->db->select('*');
@@ -59,11 +66,28 @@ class Arusdana_model extends CI_Model {
 		return $this->db->get('tanda_tangan')->row();
 	}
 
+	function get_arusdana_by_id($id_arus_dana)
+	{
+		$this->db->where('id_arus_dana', $id_arus_dana);
+		return $this->db->get('arus_dana')->row();
+	}
+
+	function get_id_arusdana($id_permintaan)
+	{
+		$this->db->select('id_arus_dana');
+		$this->db->where('id_permintaan', $id_permintaan);
+		return $this->db->get('arus_dana')->row();
+	}
+
 	public function storeArusDana($arusDana)
 	{
 		$this->db->insert($this->table, $arusDana);
-		$this->db->update('permintaan_anggaran', ['status_realisasi' => 'W'], ['id_permintaan' => $arusDana->id_permintaan]);
 		return $this->db->insert_id();
+	}
+
+	function updatePermintaanStatus($idPermintaan, $status = 'W')
+	{
+		return $this->db->update('permintaan_anggaran', ['status_realisasi' => $status], ['id_permintaan' => $idPermintaan]);
 	}
 
 	public function storeChildArusDana($items)
