@@ -117,7 +117,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="catatan">Catatan</label>
-                                <textarea class="form-control tgl" name="catatan" id="catatan" required></textarea>
+                                <textarea class="form-control tgl" name="catatan" id="catatan"></textarea>
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -239,9 +239,10 @@
             {"width": "15%"},
             {"width": "15%"},
             {"width": "10%"},
+            {"width": "10%"},
+            {"width": "10%"},
             {"width": "15%"},
-            {"width": "13%"},
-            {"width": "15%", "orderable": false}
+            {"width": "10%", "orderable": false}
             ],
             "order" : [
             [0, "asc"],
@@ -800,7 +801,7 @@
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="keterangan">Keterangan</label>
-                                <input type="text" class="form-control" name="keterangan" id="keterangan" required>
+                                <input type="text" class="form-control" name="keterangan" id="keterangan">
                                 <span class="help-block"></span>
                             </div>
                         </div>
