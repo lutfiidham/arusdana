@@ -9,9 +9,9 @@
 	<div class="submenu-content">
 		<a href="<?= base_url('site/anggaran') ?>" class="menu-item">Anggaran</a>
 	</div>
-	<div class="submenu-content">
+<!-- 	<div class="submenu-content">
 		<a href="<?= base_url('site/pemegang_jabatan') ?>" class="menu-item">Pemegang Jabatan</a>
-	</div>
+	</div> -->
 	<div class="submenu-content">
 		<a href="<?= base_url('site/tandatangan') ?>" class="menu-item">Setting Tanda Tangan</a>
 	</div>
@@ -23,7 +23,7 @@
 		<a href="<?= base_url('site/permintaan_anggaran') ?>" class="menu-item">Permintaan Anggaran</a>
 	</div>
 	<div class="submenu-content">
-		<a href="<?= base_url('site/laporan_arus_dana') ?>" class="menu-item">Laporan Arus Dana</a>
+		<a href="<?= base_url('site/laporan_arus_dana') ?>" class="menu-item">Laporan Arus Dana/Realisasi</a>
 	</div>
 </div>
 

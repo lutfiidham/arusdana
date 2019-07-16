@@ -3,7 +3,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Laporan Arus Dana</h5>
+                    <h5>Laporan Arus Dana/Realisasi</h5>
                 </div>
             </div>
         </div>
@@ -14,7 +14,7 @@
                         <a href="<?= base_url() ?>"><i class="ik ik-home"></i></a>
                     </li>
                     <li class="breadcrumb-item" aria-current="page">Proses</li>
-                    <li class="breadcrumb-item active" aria-current="page">Laporan Arus Dana</li>
+                    <li class="breadcrumb-item active" aria-current="page">Laporan Arus Dana/Realisasi</li>
                 </ol>
             </nav>
         </div>
@@ -34,7 +34,7 @@
                 <div class="row clearfix">
                     <div class="col-lg-2">
                     <?php if ($ha['insert']): ?>
-                        <!-- <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button> -->
+                        <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button>
                     <?php endif ?>
                     </div>
                     <div class="col-lg-1" style="text-align:right;padding-top:7px">
@@ -135,9 +135,9 @@
                     <h6 class="font-weight-bold">Detail Permintaan</h6>
                     <hr>
                     <div class="row">
-                        <!-- <div class="col-lg-2">
+                        <div class="col-lg-2">
                             <button type="button" id="btn_add_det_anggaran" class="btn btn-primary btn-block">(+) Detail</button>
-                        </div> -->
+                        </div>
                         <div class="col-lg-1" style="text-align:right;padding-top:7px">
                             Cari :
                         </div>
@@ -312,7 +312,7 @@
             columns : [
                 { data : null},
                 { data : "uraian"},
-                { data : "nominal"},
+                { data : "penerimaan"},
                 { data : "keterangan"},
                 { data : "id_detail_permintaan", "orderable": false},
             ],
@@ -380,6 +380,39 @@
             simpan();
             // if (form_validator.form()) {
             // }
+        });
+
+        $('#id_unit_kerja,#id_kategori,#tanggal').on('change', function(event) {
+            var data_send = {};
+                data_send.tanggal = mys.toDate($('#tanggal').val());
+                data_send.id_unit_kerja = $('#id_unit_kerja').val();
+                data_send.id_kategori = $('#id_kategori').val();
+            var id_permintaan = $('#id_permintaan').val();
+
+
+            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori || id_permintaan) {
+               $('#no_anggaran').val(null);
+               $('#no_anggaran_view').html('-');
+                return false;
+            }
+
+            mys.blok()
+                $.ajax({
+                    url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: data_send,
+                    success: function(data){
+                       $('#no_anggaran').val(data.no_anggaran);
+                       $('#no_anggaran_view').html(data.no_anggaran);
+                    },
+                    error:function(data){
+                        mys.notifikasi("Gagal Mengambil data dari server","error");
+                    }
+                })
+                .always(function() {
+                    mys.unblok();
+                });
         });
 
         $("#form_det_permintaan").submit(function(event) {
@@ -746,7 +779,8 @@
         var jenis_masukan = $('#jenis_masukan').val();
         var id_detail_permintaan = $('#id_detail_permintaan').val();
         var uraian = $('#uraian').val();
-        var nominal = mys.reverse_format_ribuan($('#nominal').val());
+        var penerimaan = mys.reverse_format_ribuan($('#penerimaan').val());
+        var pengeluaran = mys.reverse_format_ribuan($('#pengeluaran').val());
         var keterangan = $('#keterangan').val();
 
         if (jenis_masukan == 'new') {
@@ -754,7 +788,8 @@
             var d = {
                 "id_detail_permintaan" : "new"+(data_detil_permintaan.length+1),
                 "uraian" : uraian,
-                "nominal" : nominal,
+                "penerimaan" : penerimaan,
+                "pengeluaran" : pengeluaran,
                 "keterangan" : keterangan,
             }
             data_detil_permintaan.push(d);
@@ -768,7 +803,8 @@
             var d_baru = {
                 "id_detail_permintaan" : d_lama.id_detail_permintaan,
                 "uraian" : uraian,
-                "nominal" : nominal,
+                "penerimaan" : penerimaan,
+                "pengeluaran" : pengeluaran,
                 "keterangan" : keterangan,
             }
 
@@ -786,7 +822,8 @@
         $('#btn_insert_det_permintaan').html('Simpan Perubahan')
         $('#id_detail_permintaan').val(data.id_detail_permintaan);
         $('#uraian').val(data.uraian);
-        $('#nominal').val(data.nominal);
+        $('#penerimaan').val(data.penerimaan);
+        $('#pengeluaran').val(data.pengeluaran);
         $('#keterangan').val(data.keterangan);
         $('#modal_detil').modal('show');
     }
@@ -812,21 +849,28 @@
                     <input type="hidden" name="jenis_masukan" id="jenis_masukan">
                     <input type="hidden" name="id_detail_permintaan" id="id_detail_permintaan">
                     <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label for="uraian">Uraian</label>
                                 <input type="text" class="form-control" name="uraian" id="uraian" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
-                                <label for="nominal">Nominal</label>
-                                <input type="text" class="form-control autonumeric" name="nominal" id="nominal" required>
+                                <label for="penerimaan">Penerimaan</label>
+                                <input type="text" class="form-control autonumeric" name="penerimaan" id="penerimaan" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="pengeluaran">Pengeluaran</label>
+                                <input type="text" class="form-control autonumeric" name="pengeluaran" id="pengeluaran" required>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label for="keterangan">Keterangan</label>
                                 <input type="text" class="form-control" name="keterangan" id="keterangan" required>
