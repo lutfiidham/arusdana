@@ -81,7 +81,7 @@
 
                     <div class="form-group">
                         <label for="tahun">Tahun Anggaran</label>
-                        <input type="text" class="form-control tahun" name="tahun" id="tahun" required>
+                        <input type="text" class="form-control tahun" data-target="#tahun" name="tahun" id="tahun" required>
                         <span class="help-block"></span>
                     </div>
 
@@ -220,6 +220,8 @@
         $('#tabel_card').hide();
         $('#form_card').show();
         mys.year_picker();
+        $('#tahun').val(moment().format("YYYY"));
+        $('#status').val('A').trigger('change');
         
     }
 
