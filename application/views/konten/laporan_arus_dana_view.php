@@ -602,7 +602,7 @@
         var realisasi = {};
             realisasi["id_permintaan"] = $('#id_permintaan').val()? $('#id_permintaan').val() : null;
             realisasi["catatan"] = $('#catatan_realisasi').val();
-            realisasi["total"] = parseInt($('#total_retur').text().replace(/\D/g, ''));
+            realisasi["total"] = parseInt($('#total_retur').text().replace(/[^0-9\-]/g, ''));
 
         var table = $('#tabel_detail_permintaan tbody tr');
         var detail = [];
