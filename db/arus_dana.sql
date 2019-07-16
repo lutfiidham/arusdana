@@ -1,71 +1,79 @@
--- phpMyAdmin SQL Dump
--- version 4.4.15.9
--- https://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: 13 Jul 2019 pada 13.51
--- Versi Server: 5.6.37
--- PHP Version: 5.6.31
+/*
+SQLyog Ultimate v13.1.1 (64 bit)
+MySQL - 5.6.27-log : Database - arus_dana
+*********************************************************************
+*/
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+/*!40101 SET NAMES utf8 */;
 
+/*!40101 SET SQL_MODE=''*/;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`arus_dana` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
---
--- Database: `arus_dana`
---
+USE `arus_dana`;
 
--- --------------------------------------------------------
+/*Table structure for table `admin` */
 
---
--- Struktur dari tabel `admin`
---
+DROP TABLE IF EXISTS `admin`;
 
-CREATE TABLE IF NOT EXISTS `admin` (
-  `id_admin` int(10) unsigned NOT NULL,
+CREATE TABLE `admin` (
+  `id_admin` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `nama_admin` varchar(100) DEFAULT NULL,
   `username` varchar(20) DEFAULT NULL,
   `password_admin` varchar(100) DEFAULT NULL,
   `level_admin` varchar(5) DEFAULT NULL COMMENT 'ADM, MNG,ADR',
-  `status_admin` varchar(2) DEFAULT 'A'
+  `status_admin` varchar(2) DEFAULT 'A',
+  PRIMARY KEY (`id_admin`),
+  UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `admin`
---
+/*Data for the table `admin` */
 
-INSERT INTO `admin` (`id_admin`, `nama_admin`, `username`, `password_admin`, `level_admin`, `status_admin`) VALUES
-(1, 'Super Administrator', 'superadmin', '$2y$10$K5KdI2pCnak7ZrHPHC62COqSgujp22tkXiBaCwQ5uSG.kX9.pjSB6', 'ADR', 'A'),
-(2, 'Admin Biasa', 'admin', '$2y$10$XzBxbRQQ5WTkJwPlcKRDRe7XiuMwwn7JIuWzH1Vprq6OyrvASa0Pe', 'ADM', 'A'),
-(3, 'Manager', 'manager', '$2y$10$1Hcf8IaRaliRFiOHiFm/oeP3oeMCPu1V6RdUwTTXlt3u/DQOH9Kia', 'MNG', 'A');
+insert  into `admin`(`id_admin`,`nama_admin`,`username`,`password_admin`,`level_admin`,`status_admin`) values 
+(1,'Super Administrator','superadmin','$2y$10$K5KdI2pCnak7ZrHPHC62COqSgujp22tkXiBaCwQ5uSG.kX9.pjSB6','ADR','A'),
+(2,'Admin Biasa','admin','$2y$10$XzBxbRQQ5WTkJwPlcKRDRe7XiuMwwn7JIuWzH1Vprq6OyrvASa0Pe','ADM','A'),
+(3,'Manager','manager','$2y$10$1Hcf8IaRaliRFiOHiFm/oeP3oeMCPu1V6RdUwTTXlt3u/DQOH9Kia','MNG','A');
 
--- --------------------------------------------------------
+/*Table structure for table `anggaran` */
 
---
--- Struktur dari tabel `anggaran`
---
+DROP TABLE IF EXISTS `anggaran`;
 
-CREATE TABLE IF NOT EXISTS `anggaran` (
-  `id_anggaran` int(11) NOT NULL,
+CREATE TABLE `anggaran` (
+  `id_anggaran` int(11) NOT NULL AUTO_INCREMENT,
   `kode_anggaran` varchar(255) DEFAULT NULL,
   `nama_anggaran` varchar(255) DEFAULT NULL,
   `id_bagian` int(11) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `status` varchar(1) DEFAULT NULL,
+  `tahun` year(4) DEFAULT NULL,
+  PRIMARY KEY (`id_anggaran`),
+  KEY `fk_reference_4` (`id_bagian`),
+  CONSTRAINT `anggaran_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+/*Data for the table `anggaran` */
 
---
--- Struktur dari tabel `arus_dana`
---
+insert  into `anggaran`(`id_anggaran`,`kode_anggaran`,`nama_anggaran`,`id_bagian`,`status`,`tahun`) values 
+(1,'A.1','Transportasi Marketing ',1,'A',2019),
+(2,'A.2','Hosting dan Domain',1,'A',2019),
+(3,'A.3','Biaya Konsumsi Rapat',1,'A',2019),
+(4,'A.4','Proyek Software',1,'A',2019),
+(5,'A.5','Hubungan Antar Instansi',1,'A',2019),
+(6,'A.6','Pelatihan & Sertifikasi',1,'A',2019),
+(7,'B.1','Acara MOU',1,'A',2019),
+(8,'B.2','Sertifikat Pelatihan',1,'A',2019),
+(9,'B.3','Brosur ITCoPS',1,'A',2019),
+(10,'B.4','Menyebarkan Brosur',1,'A',2019);
 
-CREATE TABLE IF NOT EXISTS `arus_dana` (
-  `id_arus_dana` int(11) NOT NULL,
+/*Table structure for table `arus_dana` */
+
+DROP TABLE IF EXISTS `arus_dana`;
+
+CREATE TABLE `arus_dana` (
+  `id_arus_dana` int(11) NOT NULL AUTO_INCREMENT,
   `no_arus_dana` varchar(255) DEFAULT NULL,
   `tanggal` date DEFAULT NULL,
   `id_permintaan` int(11) DEFAULT NULL,
@@ -74,121 +82,186 @@ CREATE TABLE IF NOT EXISTS `arus_dana` (
   `id_anggaran` int(11) DEFAULT NULL,
   `catatan` varchar(255) DEFAULT NULL,
   `total` int(11) DEFAULT NULL,
-  `bbm` varchar(1) DEFAULT NULL
+  `bbm` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`id_arus_dana`),
+  KEY `fk_reference_11` (`id_permintaan`),
+  KEY `fk_reference_12` (`id_unit_kerja`),
+  KEY `fk_reference_13` (`id_kategori`),
+  KEY `fk_reference_14` (`id_anggaran`),
+  CONSTRAINT `arus_dana_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
+  CONSTRAINT `arus_dana_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
+  CONSTRAINT `arus_dana_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+/*Data for the table `arus_dana` */
 
---
--- Struktur dari tabel `bagian`
---
+/*Table structure for table `bagian` */
 
-CREATE TABLE IF NOT EXISTS `bagian` (
-  `id_bagian` int(11) NOT NULL,
+DROP TABLE IF EXISTS `bagian`;
+
+CREATE TABLE `bagian` (
+  `id_bagian` int(11) NOT NULL AUTO_INCREMENT,
   `kode_bagian` varchar(20) DEFAULT NULL,
   `nama_bagian` varchar(255) DEFAULT NULL,
-  `status_bagian` varchar(255) DEFAULT NULL
+  `status_bagian` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_bagian`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `bagian`
---
+/*Data for the table `bagian` */
 
-INSERT INTO `bagian` (`id_bagian`, `kode_bagian`, `nama_bagian`, `status_bagian`) VALUES
-(1, 'PKS', 'Pusat Kerja Sama', 'A'),
-(2, 'PUS', 'Perpustakaan', 'A');
+insert  into `bagian`(`id_bagian`,`kode_bagian`,`nama_bagian`,`status_bagian`) values 
+(1,'PKS','Pusat Kerja Sama','A'),
+(2,'PUS','Perpustakaan','A');
 
--- --------------------------------------------------------
+/*Table structure for table `detail_arus_dana` */
 
---
--- Struktur dari tabel `detail_arus_dana`
---
+DROP TABLE IF EXISTS `detail_arus_dana`;
 
-CREATE TABLE IF NOT EXISTS `detail_arus_dana` (
-  `id_detail_arus` int(11) NOT NULL,
+CREATE TABLE `detail_arus_dana` (
+  `id_detail_arus` int(11) NOT NULL AUTO_INCREMENT,
   `id_arus_dana` int(11) DEFAULT NULL,
   `uraian` varchar(255) DEFAULT NULL,
   `penerimaan` int(11) DEFAULT NULL,
   `pengeluaran` int(11) DEFAULT NULL,
-  `keterangan` varchar(255) DEFAULT NULL
+  `keterangan` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_detail_arus`),
+  KEY `fk_reference_15` (`id_arus_dana`),
+  CONSTRAINT `detail_arus_dana_ibfk_1` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+/*Data for the table `detail_arus_dana` */
 
---
--- Struktur dari tabel `detail_permintaan_anggaran`
---
+/*Table structure for table `detail_permintaan_anggaran` */
 
-CREATE TABLE IF NOT EXISTS `detail_permintaan_anggaran` (
-  `id_detail_permintaan` int(11) NOT NULL,
+DROP TABLE IF EXISTS `detail_permintaan_anggaran`;
+
+CREATE TABLE `detail_permintaan_anggaran` (
+  `id_detail_permintaan` int(11) NOT NULL AUTO_INCREMENT,
   `id_permintaan` int(11) DEFAULT NULL,
   `uraian` varchar(255) DEFAULT NULL,
   `nominal` int(11) DEFAULT NULL,
-  `keterangan` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `keterangan` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_detail_permintaan`),
+  KEY `fk_reference_10` (`id_permintaan`),
+  CONSTRAINT `detail_permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+/*Data for the table `detail_permintaan_anggaran` */
 
---
--- Struktur dari tabel `kategori`
---
+/*Table structure for table `kategori` */
 
-CREATE TABLE IF NOT EXISTS `kategori` (
-  `id_kategori` int(11) NOT NULL,
+DROP TABLE IF EXISTS `kategori`;
+
+CREATE TABLE `kategori` (
+  `id_kategori` int(11) NOT NULL AUTO_INCREMENT,
   `kode_kategori` varchar(255) DEFAULT NULL,
   `nama_kategori` varchar(255) DEFAULT NULL,
   `id_bagian` int(11) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `status` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`id_kategori`),
+  KEY `fk_reference_3` (`id_bagian`),
+  CONSTRAINT `kategori_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `kategori`
---
+/*Data for the table `kategori` */
 
-INSERT INTO `kategori` (`id_kategori`, `kode_kategori`, `nama_kategori`, `id_bagian`, `status`) VALUES
-(1, 'UMUM', 'UMUM', 1, 'A'),
-(2, 'SINLUI', 'SINLUI', 1, 'A');
+insert  into `kategori`(`id_kategori`,`kode_kategori`,`nama_kategori`,`id_bagian`,`status`) values 
+(1,'UMUM','UMUM',1,'A'),
+(2,'SINLUI','SINLUI',1,'A'),
+(3,'PEMKOT','PEMKOT',1,'A'),
+(4,'WHS','SMK WACHID HASYIM',1,'A'),
+(5,'STIKES','STIKES DR SOETOMO',1,'A'),
+(6,'UMKM','UMKM BPR JATIM',1,'A'),
+(7,'DIT','Dili institute of Technology',1,'A'),
+(8,'PARIS','PARIS STIKOM',1,'A'),
+(9,'WBS','PT WIRA BHUMI SEJATI',1,'A'),
+(10,'POLTEKPEL','Politeknik Pelayaran Surabaya',1,'A'),
+(11,'MKM','PT MATAHARI MKM',1,'A'),
+(12,'PGDAIS2','PT PEGADAIAN PERSERO AIS',1,'A'),
+(13,'SHS','Surabaya Hotel School',1,'A'),
+(14,'RSFATIMAH','Rumah Sakit Aisyah Fatimah',1,'A'),
+(15,'RISDIKTI','Ristekdikti Jakarta',1,'A'),
+(16,'KENPARK','Kenpark Surabaya',1,'A'),
+(17,'IPH','IPH SCHOOL',1,'A'),
+(18,'DKRTHSBY','Dinas Kebersihan dan Pertamanan Surabaya',1,'A'),
+(19,'RSKOESMO','RS Koesmo Tuban',1,'A'),
+(20,'UNIJOYO','Universitas Trunojo Madura',1,'A'),
+(21,'MP','Master Park Purwodadi',1,'A'),
+(22,'DINKOMINFO','Dinas Komunikasi dan Informatika Gresik',1,'A'),
+(23,'RSMLMG','RS Muhammadiyah Lamongan',1,'A'),
+(24,'KOPERTISIX','Kopertis Wilayah IX Sulawesi',1,'A'),
+(25,'JTMPARK','PT. JATIM PARK 2, Batu Malang',1,'A'),
+(26,'RSI JMSR','RS Islam Jemursari',1,'A'),
+(27,'DRMGLF','Darmo Golf',1,'A'),
+(28,'MSMANGK','Museum Angkut Batu Malang',1,'A'),
+(29,'STIESIA','STIESIA SURABAYA',1,'A'),
+(30,'STAAL','Sekolah Tinggi Akademi Angkatan Laut',1,'A'),
+(31,'RSUDBKLN','RSUD BANGKALAN',1,'A'),
+(32,'SILABAHU','PT PEGADAIAN PERSERO SILABAHU',1,'A'),
+(33,'TPS','Terminal Peti Kemas Surabaya',1,'A'),
+(34,'PPGI','Persatuan Perusahaan Gadai Indonesia',1,'A'),
+(35,'SILABA','PT PEGADAIAN PERSERO SILABA',1,'A');
 
--- --------------------------------------------------------
+/*Table structure for table `pemegang_jabatan` */
 
---
--- Struktur dari tabel `pemegang_jabatan`
---
+DROP TABLE IF EXISTS `pemegang_jabatan`;
 
-CREATE TABLE IF NOT EXISTS `pemegang_jabatan` (
-  `id_pj` int(11) NOT NULL,
+CREATE TABLE `pemegang_jabatan` (
+  `id_pj` int(11) NOT NULL AUTO_INCREMENT,
   `id_bagian` int(11) DEFAULT NULL,
   `nama` varchar(255) DEFAULT NULL,
-  `jabatan` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `jabatan` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_pj`),
+  KEY `fk_reference_17` (`id_bagian`),
+  CONSTRAINT `pemegang_jabatan_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+/*Data for the table `pemegang_jabatan` */
 
---
--- Struktur dari tabel `permintaan_anggaran`
---
+insert  into `pemegang_jabatan`(`id_pj`,`id_bagian`,`nama`,`jabatan`) values 
+(1,1,'Lulut Fitriyaningrum, S.Kom.','Admin'),
+(2,1,'Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat'),
+(3,1,'Jimmy, S.Kom.','Kepala Unit SSI'),
+(4,1,'Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya '),
+(5,1,'Prof. Dr. Budi Jatmiko, M.Pd','Rektor'),
+(6,1,'Pantjawati Sudarmaningtyas, S.Kom., M.Eng','Wakil Rektor Bidang Akademik');
 
-CREATE TABLE IF NOT EXISTS `permintaan_anggaran` (
-  `id_permintaan` int(11) NOT NULL,
+/*Table structure for table `permintaan_anggaran` */
+
+DROP TABLE IF EXISTS `permintaan_anggaran`;
+
+CREATE TABLE `permintaan_anggaran` (
+  `id_permintaan` int(11) NOT NULL AUTO_INCREMENT,
   `no_anggaran` varchar(255) DEFAULT NULL,
   `id_bagian` int(11) DEFAULT NULL,
   `id_unit_kerja` int(11) DEFAULT NULL,
   `id_kategori` int(11) DEFAULT NULL,
   `id_anggaran` int(11) DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
   `tanggal_kebutuhan` date DEFAULT NULL,
   `catatan` varchar(255) DEFAULT NULL,
   `total` int(11) DEFAULT NULL,
-  `status_realisasi` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `status_realisasi` varchar(1) DEFAULT 'D',
+  PRIMARY KEY (`id_permintaan`),
+  UNIQUE KEY `no_anggaran` (`no_anggaran`),
+  KEY `fk_reference_6` (`id_bagian`),
+  KEY `fk_reference_7` (`id_unit_kerja`),
+  KEY `fk_reference_8` (`id_kategori`),
+  KEY `fk_reference_9` (`id_anggaran`),
+  CONSTRAINT `permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`),
+  CONSTRAINT `permintaan_anggaran_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
+  CONSTRAINT `permintaan_anggaran_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
+  CONSTRAINT `permintaan_anggaran_ibfk_4` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+/*Data for the table `permintaan_anggaran` */
 
---
--- Struktur dari tabel `tanda_tangan`
---
+/*Table structure for table `tanda_tangan` */
 
-CREATE TABLE IF NOT EXISTS `tanda_tangan` (
-  `id_ttd` int(11) NOT NULL,
+DROP TABLE IF EXISTS `tanda_tangan`;
+
+CREATE TABLE `tanda_tangan` (
+  `id_ttd` int(11) NOT NULL AUTO_INCREMENT,
   `id_bagian` int(11) DEFAULT NULL,
   `dokumen` varchar(10) DEFAULT NULL,
   `dibuat` varchar(255) DEFAULT NULL,
@@ -198,289 +271,126 @@ CREATE TABLE IF NOT EXISTS `tanda_tangan` (
   `diketahui` varchar(255) DEFAULT NULL,
   `jabatan_yg_mengetahui` varchar(255) DEFAULT NULL,
   `disetujui` varchar(255) DEFAULT NULL,
-  `jabatan_penyetuju` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `jabatan_penyetuju` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_ttd`),
+  KEY `fk_reference_16` (`id_bagian`),
+  CONSTRAINT `tanda_tangan_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `tanda_tangan`
---
+/*Data for the table `tanda_tangan` */
 
-INSERT INTO `tanda_tangan` (`id_ttd`, `id_bagian`, `dokumen`, `dibuat`, `jabatan_pembuat`, `diperiksa`, `jabatan_pemeriksa`, `diketahui`, `jabatan_yg_mengetahui`, `disetujui`, `jabatan_penyetuju`) VALUES
-(1, 1, 'permintaan', 'Lulut Fitriyaningrum, S,Kom', 'Admin', 'Tan Amelia, S.Kom., M.MT., MCP', 'Kepala Pusat', 'Lilis Binawati, S.E., M.Ak', 'Wakil Rektor Bidang Sumber Daya', 'Prof. Dr. Budi Jatmiko, M.Pd', 'Rektor');
+insert  into `tanda_tangan`(`id_ttd`,`id_bagian`,`dokumen`,`dibuat`,`jabatan_pembuat`,`diperiksa`,`jabatan_pemeriksa`,`diketahui`,`jabatan_yg_mengetahui`,`disetujui`,`jabatan_penyetuju`) values 
+(1,1,'permintaan','Lulut Fitriyaningrum, S,Kom','Admin','Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat','Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya','Prof. Dr. Budi Jatmiko, M.Pd','Rektor'),
+(2,1,'realisasi','Lulut Fitriyaningrum, S,Kom','Admin','Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat','Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya','Prof. Dr. Budi Jatmiko, M.Pd','Rektor'),
+(3,1,'reimburse','','',NULL,NULL,NULL,NULL,'Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya');
 
--- --------------------------------------------------------
+/*Table structure for table `unit_kerja` */
 
---
--- Struktur dari tabel `unit_kerja`
---
+DROP TABLE IF EXISTS `unit_kerja`;
 
-CREATE TABLE IF NOT EXISTS `unit_kerja` (
-  `id_unit_kerja` int(11) NOT NULL,
+CREATE TABLE `unit_kerja` (
+  `id_unit_kerja` int(11) NOT NULL AUTO_INCREMENT,
   `id_bagian` int(11) DEFAULT NULL,
   `nama_unit_kerja` varchar(255) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL,
-  `kode_unit_kerja` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `kode_unit_kerja` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_unit_kerja`),
+  KEY `fk_reference_2` (`id_bagian`),
+  CONSTRAINT `unit_kerja_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `unit_kerja`
---
+/*Data for the table `unit_kerja` */
 
-INSERT INTO `unit_kerja` (`id_unit_kerja`, `id_bagian`, `nama_unit_kerja`, `status`, `kode_unit_kerja`) VALUES
-(1, 1, 'Solusi Sistem Informasi', 'A', 'SSI');
+insert  into `unit_kerja`(`id_unit_kerja`,`id_bagian`,`nama_unit_kerja`,`status`,`kode_unit_kerja`) values 
+(1,1,'Solusi Sistem Informasi','A','SSI'),
+(2,1,'Pelatiahan dan Sertifikasi','A','PS'),
+(3,1,'Hubungan Antar Instansi','A','HAI');
 
--- --------------------------------------------------------
+/*Table structure for table `user` */
 
---
--- Struktur dari tabel `user`
---
+DROP TABLE IF EXISTS `user`;
 
-CREATE TABLE IF NOT EXISTS `user` (
-  `user_id` int(11) NOT NULL,
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) DEFAULT NULL,
   `nama_admin` varchar(255) NOT NULL,
   `password_admin` varchar(255) DEFAULT NULL,
   `id_bagian` int(11) DEFAULT NULL,
   `level_admin` varchar(100) NOT NULL,
-  `status_admin` varchar(100) NOT NULL
+  `status_admin` varchar(100) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `fk_reference_1` (`id_bagian`),
+  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `user`
---
+/*Data for the table `user` */
 
-INSERT INTO `user` (`user_id`, `username`, `nama_admin`, `password_admin`, `id_bagian`, `level_admin`, `status_admin`) VALUES
-(1, 'superadmin', 'Super Administrator', '$2y$10$K5KdI2pCnak7ZrHPHC62COqSgujp22tkXiBaCwQ5uSG.kX9.pjSB6', NULL, 'ADR', 'A'),
-(2, 'lulut', 'Lulut Fitr', '$2y$10$XfZDYKf9aHOZSrwdXGsxd.3S3B1n9BcyofkHw9L0C8YxrEufyAR3C', 1, 'ADM', 'A'),
-(4, 'meli', 'Tan Amelia', '$2y$10$cUE1lu7QY8HXCyw.9g1JqOdpK12I/wOWFawrqpPhuch9uG.4p8kt.', 1, 'MNG', 'A');
+insert  into `user`(`user_id`,`username`,`nama_admin`,`password_admin`,`id_bagian`,`level_admin`,`status_admin`) values 
+(1,'superadmin','Super Administrator','$2y$10$K5KdI2pCnak7ZrHPHC62COqSgujp22tkXiBaCwQ5uSG.kX9.pjSB6',NULL,'ADR','A'),
+(2,'lulut','Lulut Fitr','$2y$10$XfZDYKf9aHOZSrwdXGsxd.3S3B1n9BcyofkHw9L0C8YxrEufyAR3C',1,'ADM','A'),
+(4,'meli','Tan Amelia','$2y$10$cUE1lu7QY8HXCyw.9g1JqOdpK12I/wOWFawrqpPhuch9uG.4p8kt.',1,'MNG','A');
 
---
--- Indexes for dumped tables
---
+/* Function  structure for function  `generate_no_anggaran` */
 
---
--- Indexes for table `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id_admin`),
-  ADD UNIQUE KEY `username` (`username`);
+/*!50003 DROP FUNCTION IF EXISTS `generate_no_anggaran` */;
+DELIMITER $$
 
---
--- Indexes for table `anggaran`
---
-ALTER TABLE `anggaran`
-  ADD PRIMARY KEY (`id_anggaran`),
-  ADD KEY `fk_reference_4` (`id_bagian`);
+/*!50003 CREATE DEFINER=`ssi`@`%` FUNCTION `generate_no_anggaran`(p_tanggal DATE, p_id_unit INT, p_id_kategori INT) RETURNS varchar(50) CHARSET latin1
+BEGIN
+	DECLARE v_kode_unit varchar(50);
+	DECLARE v_kode_kategori varchar(50);
+	declare v_bulan_romawi varchar(5);
+	declare v_no_anggaran varchar(100);
+	declare v_urutan int;
+	
+	select (IFNULL(CAST(MAX(SUBSTR(no_anggaran,1,1)) AS UNSIGNED),0)+1) into v_urutan 
+	from permintaan_anggaran where date_format(tanggal,'%Y-%m') = date_format(p_tanggal,'%Y-%m');
+	
+	select kode_unit_kerja into v_kode_unit from unit_kerja where id_unit_kerja = p_id_unit;
+	SELECT kode_kategori INTO v_kode_kategori FROM kategori WHERE id_kategori = p_id_kategori;
+	
+	set v_bulan_romawi = to_roman(date_format(p_tanggal,'%c'));
+	
+	set v_no_anggaran = concat(v_urutan,'/',v_kode_unit,'-',v_kode_kategori,'/',v_bulan_romawi,'/',date_format(p_tanggal,'%Y'));
+	
+	return v_no_anggaran;
+	
+    END */$$
+DELIMITER ;
 
---
--- Indexes for table `arus_dana`
---
-ALTER TABLE `arus_dana`
-  ADD PRIMARY KEY (`id_arus_dana`),
-  ADD KEY `fk_reference_11` (`id_permintaan`),
-  ADD KEY `fk_reference_12` (`id_unit_kerja`),
-  ADD KEY `fk_reference_13` (`id_kategori`),
-  ADD KEY `fk_reference_14` (`id_anggaran`);
+/* Function  structure for function  `to_roman` */
 
---
--- Indexes for table `bagian`
---
-ALTER TABLE `bagian`
-  ADD PRIMARY KEY (`id_bagian`);
+/*!50003 DROP FUNCTION IF EXISTS `to_roman` */;
+DELIMITER $$
 
---
--- Indexes for table `detail_arus_dana`
---
-ALTER TABLE `detail_arus_dana`
-  ADD PRIMARY KEY (`id_detail_arus`),
-  ADD KEY `fk_reference_15` (`id_arus_dana`);
+/*!50003 CREATE DEFINER=`ssi`@`%` FUNCTION `to_roman`(`inArabic` INT) RETURNS varchar(15) CHARSET latin1
+BEGIN
+	DECLARE numeral CHAR(7) DEFAULT 'IVXLCDM';
+	    DECLARE stringInUse CHAR(3);
+	    DECLARE position tinyint DEFAULT 1;
+	    DECLARE currentDigit tinyint;
+	    DECLARE returnValue VARCHAR(15) DEFAULT '';
+	    IF(inArabic > 3999) THEN RETURN 'overflow'; END IF;
+	    IF(inArabic = 0) THEN RETURN 'N'; END IF;
+	    WHILE position <= CEIL(LOG10(inArabic + .1)) DO
+		SET currentDigit := MOD(FLOOR(inArabic / POW(10, position - 1)), 10);
+		SET returnValue := CONCAT(
+		    CASE currentDigit
+			WHEN 4 THEN CONCAT(SUBSTRING(numeral, position * 2 - 1, 1), SUBSTRING(numeral, position * 2, 1))
+			WHEN 9 THEN CONCAT(SUBSTRING(numeral, position * 2 - 1, 1), SUBSTRING(numeral, position * 2 + 1, 1))
+			ELSE CONCAT(
+			    REPEAT(SUBSTRING(numeral, position * 2, 1), currentDigit >= 5),
+			    REPEAT(SUBSTRING(numeral, position * 2 - 1, 1), MOD(currentDigit, 5))
+			)
+		    END,
+		    returnValue);
+		SET position := position + 1;
+	    END WHILE;
+	    RETURN returnValue;
+    END */$$
+DELIMITER ;
 
---
--- Indexes for table `detail_permintaan_anggaran`
---
-ALTER TABLE `detail_permintaan_anggaran`
-  ADD PRIMARY KEY (`id_detail_permintaan`),
-  ADD KEY `fk_reference_10` (`id_permintaan`);
-
---
--- Indexes for table `kategori`
---
-ALTER TABLE `kategori`
-  ADD PRIMARY KEY (`id_kategori`),
-  ADD KEY `fk_reference_3` (`id_bagian`);
-
---
--- Indexes for table `pemegang_jabatan`
---
-ALTER TABLE `pemegang_jabatan`
-  ADD PRIMARY KEY (`id_pj`),
-  ADD KEY `fk_reference_17` (`id_bagian`);
-
---
--- Indexes for table `permintaan_anggaran`
---
-ALTER TABLE `permintaan_anggaran`
-  ADD PRIMARY KEY (`id_permintaan`),
-  ADD KEY `fk_reference_6` (`id_bagian`),
-  ADD KEY `fk_reference_7` (`id_unit_kerja`),
-  ADD KEY `fk_reference_8` (`id_kategori`),
-  ADD KEY `fk_reference_9` (`id_anggaran`);
-
---
--- Indexes for table `tanda_tangan`
---
-ALTER TABLE `tanda_tangan`
-  ADD PRIMARY KEY (`id_ttd`),
-  ADD KEY `fk_reference_16` (`id_bagian`);
-
---
--- Indexes for table `unit_kerja`
---
-ALTER TABLE `unit_kerja`
-  ADD PRIMARY KEY (`id_unit_kerja`),
-  ADD KEY `fk_reference_2` (`id_bagian`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`),
-  ADD KEY `fk_reference_1` (`id_bagian`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id_admin` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `anggaran`
---
-ALTER TABLE `anggaran`
-  MODIFY `id_anggaran` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `arus_dana`
---
-ALTER TABLE `arus_dana`
-  MODIFY `id_arus_dana` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `bagian`
---
-ALTER TABLE `bagian`
-  MODIFY `id_bagian` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `detail_arus_dana`
---
-ALTER TABLE `detail_arus_dana`
-  MODIFY `id_detail_arus` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `detail_permintaan_anggaran`
---
-ALTER TABLE `detail_permintaan_anggaran`
-  MODIFY `id_detail_permintaan` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `kategori`
---
-ALTER TABLE `kategori`
-  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `pemegang_jabatan`
---
-ALTER TABLE `pemegang_jabatan`
-  MODIFY `id_pj` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `permintaan_anggaran`
---
-ALTER TABLE `permintaan_anggaran`
-  MODIFY `id_permintaan` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tanda_tangan`
---
-ALTER TABLE `tanda_tangan`
-  MODIFY `id_ttd` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `unit_kerja`
---
-ALTER TABLE `unit_kerja`
-  MODIFY `id_unit_kerja` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
---
-
---
--- Ketidakleluasaan untuk tabel `anggaran`
---
-ALTER TABLE `anggaran`
-  ADD CONSTRAINT `anggaran_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
-
---
--- Ketidakleluasaan untuk tabel `arus_dana`
---
-ALTER TABLE `arus_dana`
-  ADD CONSTRAINT `arus_dana_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
-  ADD CONSTRAINT `arus_dana_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
-  ADD CONSTRAINT `arus_dana_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
-  ADD CONSTRAINT `arus_dana_ibfk_4` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`);
-
---
--- Ketidakleluasaan untuk tabel `detail_arus_dana`
---
-ALTER TABLE `detail_arus_dana`
-  ADD CONSTRAINT `detail_arus_dana_ibfk_1` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`);
-
---
--- Ketidakleluasaan untuk tabel `detail_permintaan_anggaran`
---
-ALTER TABLE `detail_permintaan_anggaran`
-  ADD CONSTRAINT `detail_permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`);
-
---
--- Ketidakleluasaan untuk tabel `kategori`
---
-ALTER TABLE `kategori`
-  ADD CONSTRAINT `kategori_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
-
---
--- Ketidakleluasaan untuk tabel `pemegang_jabatan`
---
-ALTER TABLE `pemegang_jabatan`
-  ADD CONSTRAINT `pemegang_jabatan_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
-
---
--- Ketidakleluasaan untuk tabel `permintaan_anggaran`
---
-ALTER TABLE `permintaan_anggaran`
-  ADD CONSTRAINT `permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`),
-  ADD CONSTRAINT `permintaan_anggaran_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
-  ADD CONSTRAINT `permintaan_anggaran_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
-  ADD CONSTRAINT `permintaan_anggaran_ibfk_4` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`);
-
---
--- Ketidakleluasaan untuk tabel `tanda_tangan`
---
-ALTER TABLE `tanda_tangan`
-  ADD CONSTRAINT `tanda_tangan_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
-
---
--- Ketidakleluasaan untuk tabel `unit_kerja`
---
-ALTER TABLE `unit_kerja`
-  ADD CONSTRAINT `unit_kerja_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
-
---
--- Ketidakleluasaan untuk tabel `user`
---
-ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
