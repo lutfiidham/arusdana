@@ -243,7 +243,7 @@
                 $('#nama_anggaran').val(data.nama_anggaran);
                 $('#tahun').val(data.tahun);
                 $('#status').val(data.status).trigger('change');
-                $('#kode_anggaran').prop('readonly', true);
+                // $('#kode_anggaran').prop('readonly', true);
 
             },
             error:function(data){
