@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => '172.25.82.186',
 	'username' => 'ssi',
 	'password' => 'ssi',
 	'database' => 'arus_dana',
