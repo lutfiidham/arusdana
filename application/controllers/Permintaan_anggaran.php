@@ -103,12 +103,14 @@ class Permintaan_anggaran extends CI_Controller {
 		$detail_permintaan = json_decode($this->input->post('detail_permintaan'));
 		$permintaan_anggaran['id_bagian'] = $this->session->userdata('id_bagian');
 		$id_for_cetak = null;
-
 		if ($permintaan_anggaran['id_permintaan']) {
 			//update
 			// $permintaan_update
 			$update_permintaan = $this->model->update(['id_permintaan'=>$permintaan_anggaran['id_permintaan']],
-				['total' => $permintaan_anggaran['total']]
+				[
+				'total' => $permintaan_anggaran['total'],
+				'catatan'=>$permintaan_anggaran['catatan']
+				]
 			);
 			$delete_detil = $this->model->delete_detil(['id_permintaan'=>$permintaan_anggaran['id_permintaan']]);
 

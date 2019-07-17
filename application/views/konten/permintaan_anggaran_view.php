@@ -521,12 +521,12 @@
                 buka_form();
                 var permintaan = data.permintaan;
                     $('#id_permintaan').val(permintaan.id_permintaan);
-                    $('#id_unit_kerja').val(permintaan.id_unit_kerja).trigger('change').prop('disabled',true);
-                    $('#id_kategori').val(permintaan.id_kategori).trigger('change').prop('disabled',true);
-                    $('#id_anggaran').val(permintaan.id_anggaran).trigger('change').prop('disabled',true);
-                    $('#tanggal').val(permintaan.tanggal).prop('disabled',true);
-                    $('#tanggal_kebutuhan').val(permintaan.tanggal_kebutuhan).prop('disabled',true);
-                    $('#catatan').val(permintaan.catatan).prop('disabled',true);
+                    $('#id_unit_kerja').val(permintaan.id_unit_kerja).trigger('change');
+                    $('#id_kategori').val(permintaan.id_kategori).trigger('change');
+                    $('#id_anggaran').val(permintaan.id_anggaran).trigger('change');
+                    $('#tanggal').val(permintaan.tanggal);
+                    $('#tanggal_kebutuhan').val(permintaan.tanggal_kebutuhan);
+                    $('#catatan').val(permintaan.catatan);
                     $('#no_anggaran').val(permintaan.no_anggaran);
                     $('#no_anggaran_view').html(permintaan.no_anggaran);
 
