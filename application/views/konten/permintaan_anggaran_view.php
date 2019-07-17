@@ -436,7 +436,13 @@
             });
         });
 
-        $('#id_unit_kerja,#id_kategori,#tanggal').on('change', function(event) {
+        $('#id_unit_kerja,#id_kategori').on('change', function(event) {
+            generate_no();            
+        });
+
+        $('#tanggal').on('change.datetimepicker', generate_no);
+
+        function generate_no () {
             var data_send = {};
                 data_send.tanggal = mys.toDate($('#tanggal').val());
                 data_send.id_unit_kerja = $('#id_unit_kerja').val();
@@ -467,7 +473,7 @@
                 .always(function() {
                     mys.unblok();
                 });
-        });
+        }
 
         $('#input_pencarian').on('keyup', function(event) {
             var tabel = $('#tabel');
