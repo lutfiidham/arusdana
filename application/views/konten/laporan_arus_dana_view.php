@@ -333,43 +333,43 @@
         });
 
 
-        // form_validator = $('#form').validate({
-        //     highlight: function(element, errorClass, validClass) {
-        //         $(element).addClass(errorClass).removeClass(validClass);
-        //         $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-        //     },
-        //     unhighlight: function(element, errorClass, validClass) {
-        //         $(element).removeClass(errorClass).addClass(validClass);
-        //         $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-        //     },
-        //     errorClass: "is-invalid text-red",
-        //     errorElement: "em",
-        //     errorPlacement: function(error, element) {
-        //         error.appendTo(element.parent("div").find(".help-block"));
-        //     },
-        //     submitHandler: function(form) {
-        //         form.submit();
-        //     },
-        // });
+        form_validator = $('#form').validate({
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass(errorClass).removeClass(validClass);
+                $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).removeClass(errorClass).addClass(validClass);
+                $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+            },
+            errorClass: "is-invalid text-red",
+            errorElement: "em",
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent("div").find(".help-block"));
+            },
+            submitHandler: function(form) {
+                form.submit();
+            },
+        });
 
-        // form_validator_detil = $('#form_det_permintaan').validate({
-        //     highlight: function(element, errorClass, validClass) {
-        //         $(element).addClass(errorClass).removeClass(validClass);
-        //         $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-        //     },
-        //     unhighlight: function(element, errorClass, validClass) {
-        //         $(element).removeClass(errorClass).addClass(validClass);
-        //         $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-        //     },
-        //     errorClass: "is-invalid text-red",
-        //     errorElement: "em",
-        //     errorPlacement: function(error, element) {
-        //         error.appendTo(element.parent("div").find(".help-block"));
-        //     },
-        //     submitHandler: function(form) {
-        //         form.submit();
-        //     }
-        // });
+        form_validator_detil = $('#form_det_permintaan').validate({
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass(errorClass).removeClass(validClass);
+                $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).removeClass(errorClass).addClass(validClass);
+                $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+            },
+            errorClass: "is-invalid text-red",
+            errorElement: "em",
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent("div").find(".help-block"));
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
 
         
         $("#form").submit(function(event) {
@@ -382,7 +382,13 @@
             // }
         });
 
-        $('#id_unit_kerja,#id_kategori,#tanggal').on('change', function(event) {
+        $('#id_unit_kerja,#id_kategori').on('change', function(event) {
+            generate_no();            
+        });
+
+        $('#tanggal').on('change.datetimepicker', generate_no);
+
+        function generate_no () {
             var data_send = {};
                 data_send.tanggal = mys.toDate($('#tanggal').val());
                 data_send.id_unit_kerja = $('#id_unit_kerja').val();
@@ -413,7 +419,7 @@
                 .always(function() {
                     mys.unblok();
                 });
-        });
+        }
 
         $("#form_det_permintaan").submit(function(event) {
             if (form_validator_detil.form()) {
@@ -703,7 +709,7 @@
     }
 
     function reset_form_det_permintaan(){
-        // form_validator_detil.resetForm();
+        form_validator_detil.resetForm();
         $('#form_det_permintaan')[0].reset();
         $('#form_det_permintaan').find('input[type="hidden"]').val('');
         $('#form_det_permintaan').find('label,select,input,textarea').removeClass('is-invalid text-red');
