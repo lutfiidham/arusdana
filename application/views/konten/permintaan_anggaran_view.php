@@ -526,8 +526,8 @@
                     $('#id_unit_kerja').val(permintaan.id_unit_kerja).trigger('change');
                     $('#id_kategori').val(permintaan.id_kategori).trigger('change');
                     $('#id_anggaran').val(permintaan.id_anggaran).trigger('change');
-                    $('#tanggal').val(permintaan.tanggal);
-                    $('#tanggal_kebutuhan').val(permintaan.tanggal_kebutuhan);
+                    $('#tanggal').val(mys.toDate(permintaan.tanggal));
+                    $('#tanggal_kebutuhan').val(mys.toDate(permintaan.tanggal_kebutuhan));
                     $('#catatan').val(permintaan.catatan);
                     $('#no_anggaran').val(permintaan.no_anggaran);
                     $('#no_anggaran_view').html(permintaan.no_anggaran);

@@ -107,12 +107,7 @@ class Permintaan_anggaran extends CI_Controller {
 			//update
 			// $permintaan_update
 			$update_permintaan = $this->model->update(['id_permintaan'=>$permintaan_anggaran['id_permintaan']],
-				[
-				'no_anggaran' => $permintaan_anggaran['no_anggaran'],
-				'tanggal_kebutuhan' => $permintaan_anggaran['tanggal_kebutuhan'],
-				'total' => $permintaan_anggaran['total'],
-				'catatan'=>$permintaan_anggaran['catatan']
-				]
+				$permintaan_anggaran
 			);
 			$delete_detil = $this->model->delete_detil(['id_permintaan'=>$permintaan_anggaran['id_permintaan']]);
 
