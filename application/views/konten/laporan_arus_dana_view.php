@@ -34,7 +34,7 @@
                 <div class="row clearfix">
                     <div class="col-lg-2">
                     <?php if ($ha['insert']): ?>
-                        <!-- <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button> -->
+                        <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button>
                     <?php endif ?>
                     </div>
                     <div class="col-lg-1" style="text-align:right;padding-top:7px">
@@ -135,9 +135,9 @@
                     <h6 class="font-weight-bold">Detail Permintaan</h6>
                     <hr>
                     <div class="row">
-                        <!-- <div class="col-lg-2">
+                        <div class="col-lg-2">
                             <button type="button" id="btn_add_det_anggaran" class="btn btn-primary btn-block">(+) Detail</button>
-                        </div> -->
+                        </div>
                         <div class="col-lg-1" style="text-align:right;padding-top:7px">
                             Cari :
                         </div>
@@ -797,6 +797,45 @@
         tabel_detail_permintaan.draw();
     }
 
+    $('#id_unit_kerja,#id_kategori').on('change', function(event) {
+            generate_no();            
+        });
+
+        $('#tanggal').on('change.datetimepicker', generate_no);
+
+        function generate_no () {
+            var data_send = {};
+                data_send.tanggal = mys.toDate($('#tanggal').val());
+                data_send.id_unit_kerja = $('#id_unit_kerja').val();
+                data_send.id_kategori = $('#id_kategori').val();
+            var id_permintaan = $('#id_permintaan').val();
+
+
+            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori || id_permintaan) {
+               $('#no_anggaran').val(null);
+               $('#no_anggaran_view').html('-');
+                return false;
+            }
+
+            mys.blok()
+                $.ajax({
+                    url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: data_send,
+                    success: function(data){
+                       $('#no_anggaran').val(data.no_anggaran);
+                       $('#no_anggaran_view').html(data.no_anggaran);
+                    },
+                    error:function(data){
+                        mys.notifikasi("Gagal Mengambil data dari server","error");
+                    }
+                })
+                .always(function() {
+                    mys.unblok();
+                });
+        }
+
 
 </script>
 
@@ -812,21 +851,28 @@
                     <input type="hidden" name="jenis_masukan" id="jenis_masukan">
                     <input type="hidden" name="id_detail_permintaan" id="id_detail_permintaan">
                     <div class="row">
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label for="uraian">Uraian</label>
                                 <input type="text" class="form-control" name="uraian" id="uraian" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
-                                <label for="nominal">Nominal</label>
+                                <label for="nominal">Penerimaan</label>
                                 <input type="text" class="form-control autonumeric" name="nominal" id="nominal" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="nominal">Pengeluaran</label>
+                                <input type="text" class="form-control autonumeric" name="nominal" id="nominal" required>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label for="keterangan">Keterangan</label>
                                 <input type="text" class="form-control" name="keterangan" id="keterangan" required>
