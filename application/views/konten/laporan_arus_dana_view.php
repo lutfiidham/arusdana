@@ -291,7 +291,7 @@
             {visible : false, targets : []},
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="text" value="'+data+'" class="form-control penerimaan autonumeric" required>';
+                        return '<input type="text" value="'+data+'" class="form-control penerimaan" required>';
                     },
                     targets: [2]
                 },
@@ -595,6 +595,7 @@
         $('#form_card').show();
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
+        $('#id_kategori').val('PKS').trigger('change.select2');
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
     }
