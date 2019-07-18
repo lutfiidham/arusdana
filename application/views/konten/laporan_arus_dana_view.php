@@ -100,8 +100,8 @@
                                 <span class="help-block"></span>
                             </div>
                             <div class="form-group">
-                                <label for="tanggal_kebutuhan">Tanggal Kebutuhan</label>
-                                <input type="text" class="form-control tgl" data-target="#tanggal_kebutuhan" name="tanggal_kebutuhan" id="tanggal_kebutuhan" required>
+                                <label for="periode_pelaksanaan">Periode Pelaksanaan</label>
+                                <input type="text" class="form-control tgl" data-target="#periode_pelaksanaan" name="periode_pelaksanaan" id="periode_pelaksanaan" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -114,11 +114,11 @@
                                 </select>
                                 <span class="help-block"></span>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="catatan">Catatan</label>
                                 <textarea class="form-control tgl" name="catatan" id="catatan" required></textarea>
                                 <span class="help-block"></span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <hr>
@@ -312,7 +312,7 @@
             columns : [
                 { data : null},
                 { data : "uraian"},
-                { data : "nominal"},
+                { data : "penerimaan"},
                 { data : "keterangan"},
                 { data : "id_detail_permintaan", "orderable": false},
             ],
@@ -578,7 +578,7 @@
                     $('#id_kategori').val(permintaan.id_kategori).trigger('change').prop('disabled',true);
                     $('#id_anggaran').val(permintaan.id_anggaran).trigger('change').prop('disabled',true);
                     $('#tanggal').val(permintaan.tanggal).prop('disabled',true);
-                    $('#tanggal_kebutuhan').val(permintaan.tanggal_kebutuhan).prop('disabled',true);
+                    $('#periode_pelaksanaan').val(permintaan.periode_pelaksanaan).prop('disabled',true);
                     $('#catatan').val(permintaan.catatan).prop('disabled',true);
                     $('#no_anggaran').val(permintaan.no_anggaran);
                     $('#no_anggaran_view').html(permintaan.no_anggaran);
@@ -601,6 +601,9 @@
     function simpan(){
         var realisasi = {};
             realisasi["id_permintaan"] = $('#id_permintaan').val()? $('#id_permintaan').val() : null;
+            realisasi["no_arus_dana"] = $('#no_arus_dana').val();
+            realisasi["tanggal"] = $('#tanggal').val();
+            realisasi["periode_pelaksanaan"] = $('#periode_pelaksanaan').val();
             realisasi["catatan"] = $('#catatan_realisasi').val();
             realisasi["total"] = parseInt($('#total_retur').text().replace(/[^0-9\-]/g, ''));
 
@@ -642,9 +645,9 @@
         .always(function() {
             mys.unblok();
             // reload();
-            setTimeout(function() {
-                window.location.reload();
-            }, 3000);
+            // setTimeout(function() {
+            //     window.location.reload();
+            // }, 3000);
         });
     }
 
@@ -746,7 +749,8 @@
         var jenis_masukan = $('#jenis_masukan').val();
         var id_detail_permintaan = $('#id_detail_permintaan').val();
         var uraian = $('#uraian').val();
-        var nominal = mys.reverse_format_ribuan($('#nominal').val());
+        var penerimaan = mys.reverse_format_ribuan($('#penerimaan').val());
+        var pengeluaran = mys.reverse_format_ribuan($('#pengeluaran').val());
         var keterangan = $('#keterangan').val();
 
         if (jenis_masukan == 'new') {
@@ -754,7 +758,8 @@
             var d = {
                 "id_detail_permintaan" : "new"+(data_detil_permintaan.length+1),
                 "uraian" : uraian,
-                "nominal" : nominal,
+                "penerimaan" : penerimaan,
+                "pengeluaran" : pengeluaran,
                 "keterangan" : keterangan,
             }
             data_detil_permintaan.push(d);
@@ -768,7 +773,8 @@
             var d_baru = {
                 "id_detail_permintaan" : d_lama.id_detail_permintaan,
                 "uraian" : uraian,
-                "nominal" : nominal,
+                "penerimaan" : penerimaan,
+                "pengeluaran" : pengeluaran,
                 "keterangan" : keterangan,
             }
 
@@ -786,7 +792,8 @@
         $('#btn_insert_det_permintaan').html('Simpan Perubahan')
         $('#id_detail_permintaan').val(data.id_detail_permintaan);
         $('#uraian').val(data.uraian);
-        $('#nominal').val(data.nominal);
+        $('#penerimaan').val(data.penerimaan);
+        $('#pengeluaran').val(data.pengeluaran);
         $('#keterangan').val(data.keterangan);
         $('#modal_detil').modal('show');
     }
@@ -860,15 +867,15 @@
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
-                                <label for="nominal">Penerimaan</label>
-                                <input type="text" class="form-control autonumeric" name="nominal" id="nominal" required>
+                                <label for="penerimaan">Penerimaan</label>
+                                <input type="text" class="form-control autonumeric" name="penerimaan" id="penerimaan" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
-                                <label for="nominal">Pengeluaran</label>
-                                <input type="text" class="form-control autonumeric" name="nominal" id="nominal" required>
+                                <label for="pengeluaran">Pengeluaran</label>
+                                <input type="text" class="form-control autonumeric" name="pengeluaran" id="pengeluaran" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
