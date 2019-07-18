@@ -352,24 +352,24 @@
         //     },
         // });
 
-        // form_validator_detil = $('#form_det_permintaan').validate({
-        //     highlight: function(element, errorClass, validClass) {
-        //         $(element).addClass(errorClass).removeClass(validClass);
-        //         $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-        //     },
-        //     unhighlight: function(element, errorClass, validClass) {
-        //         $(element).removeClass(errorClass).addClass(validClass);
-        //         $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-        //     },
-        //     errorClass: "is-invalid text-red",
-        //     errorElement: "em",
-        //     errorPlacement: function(error, element) {
-        //         error.appendTo(element.parent("div").find(".help-block"));
-        //     },
-        //     submitHandler: function(form) {
-        //         form.submit();
-        //     }
-        // });
+        form_validator_detil = $('#form_det_permintaan').validate({
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass(errorClass).removeClass(validClass);
+                $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).removeClass(errorClass).addClass(validClass);
+                $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+            },
+            errorClass: "is-invalid text-red",
+            errorElement: "em",
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent("div").find(".help-block"));
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
 
         
         $("#form").submit(function(event) {

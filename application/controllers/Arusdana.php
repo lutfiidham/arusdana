@@ -90,6 +90,7 @@ class Arusdana extends CI_Controller
 
 			echo json_encode(['status' => true]);
 		} else {
+			// isien nang kene
 			echo json_encode(['status' => false]);
 		}
 	}
@@ -107,8 +108,12 @@ class Arusdana extends CI_Controller
 		$html .= '';
 
 		$html .= '<table width="100%" style="margin: 0px;">
-					<tr >
-					  <td width="50%">
+					<tr style="padding-top:1px;
+  padding-bottom:1px;
+  padding-right:1px;">
+					  <td width="50%" style="padding-top:1px;
+  padding-bottom:1px;
+  padding-right:1px;">
 						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">Laporan Arus Dana  </span>
 					  </td>
 					  <td width="20%">Bagian</td>
@@ -116,7 +121,9 @@ class Arusdana extends CI_Controller
 						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">: '.$this->session->userdata('kode_bagian').'</span></td>
 					  
 					</tr>
-					<tr>
+					<tr style="padding-top:1px;
+  padding-bottom:1px;
+  padding-right:1px;">
 					  <td width="50%">
 						
 					  </td>
