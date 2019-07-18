@@ -230,7 +230,7 @@
                 $('#kode_kategori').val(data.kode_kategori);
                 $('#nama_kategori').val(data.nama_kategori);
                 $('#status').val(data.status).trigger('change');
-                $('#kode_kategori').prop('readonly', true);
+                // $('#kode_kategori').prop('readonly', true);
             },
             error:function(data){
                 mys.notifikasi("Gagal Mengambil data dari server","error");
