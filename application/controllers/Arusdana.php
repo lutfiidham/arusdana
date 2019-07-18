@@ -107,26 +107,33 @@ class Arusdana extends CI_Controller
 		$html .= '';
 
 		$html .= '<table width="100%" style="margin: 0px;">
-					<tr>
-					  <td width="60%">
+					<tr >
+					  <td width="50%">
 						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">Laporan Arus Dana  </span>
 					  </td>
-					  <td  width="20%">
+					  <td width="20%">Bagian</td>
+					  <td  width="30%">
+						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">: '.$this->session->userdata('kode_bagian').'</span></td>
+					  
+					</tr>
+					<tr>
+					  <td width="50%">
 						
 					  </td>
+					  <td width="25%" style="text-decoration:underline">Realisasi Anggaran No.</td>
+					  <td  width="25%">
+						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">: '.$arus_dana->no_arus_dana.'</span></td>
+					  
 					</tr>
-					<tr  width="20%">
-						<td></td>
-						<td></td>
-					</tr>
+					
 					</table>';
 
 		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN ARUS DANA</span>
 		<br>
-		<span>NOMOR: '.$arus_dana->no_arus_dana.'</span></p><br>';
+		';
 
 		$detil_anggaran = $this->adm->get_detil_anggaran($arus_dana->id_anggaran);
-		$html.= '<p>Kegiatan: ('.$detil_anggaran->kode_anggaran.') '.$detil_anggaran->nama_anggaran.' </p><br>';
+		$html.= '<p style="text-align:center;"">Kegiatan: ('.$detil_anggaran->kode_anggaran.') '.$detil_anggaran->nama_anggaran.' </p><br>';
 		$html .= '<p style="text-align:center;text-decoration:underline">Tanggal Kebutuhan: '.tanggal_full($arus_dana->tanggal).'</p><br>';
 
 		$html.= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">';
