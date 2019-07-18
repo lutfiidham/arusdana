@@ -96,7 +96,7 @@
                             <div class="form-group">
                                 <label for="id_kategori">Kategori</label>
                                 <select name="id_kategori" id="id_kategori" class="form-control cmb_select2" required="required">
-                                    <option ></option>
+                                    
                                 </select>
                                 <span class="help-block"></span>
                             </div>
@@ -503,6 +503,7 @@
         $('#form_card').show();
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
+        $('#id_kategori').val('<?= $this->session->userdata('kode_bagian'); ?>').trigger('change.select2');
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
     }

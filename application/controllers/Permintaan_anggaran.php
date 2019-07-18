@@ -108,6 +108,8 @@ class Permintaan_anggaran extends CI_Controller {
 			// $permintaan_update
 			$update_permintaan = $this->model->update(['id_permintaan'=>$permintaan_anggaran['id_permintaan']],
 				[
+				'no_anggaran' => $permintaan_anggaran['no_anggaran'],
+				'tanggal_kebutuhan' => $permintaan_anggaran['tanggal_kebutuhan'],
 				'total' => $permintaan_anggaran['total'],
 				'catatan'=>$permintaan_anggaran['catatan']
 				]
@@ -234,10 +236,12 @@ class Permintaan_anggaran extends CI_Controller {
 
 		if ($list->num_rows() > 0) {
 			foreach ($list->result_array() as $key => $value) {
-				$data[$key]['id']   = $value['id_kategori'];
-				$data[$key]['name'] = $value['kode_kategori'].' - '.$value['nama_kategori'];
+				$data[$key+1]['id']   = $value['id_kategori'];
+				$data[$key+1]['name'] = $value['kode_kategori'].' - '.$value['nama_kategori'];
 			}
 		}
+		$data[0]['id']   = $this->session->userdata('kode_bagian');
+		$data[0]['name'] = $this->session->userdata('kode_bagian');
 
 		echo json_encode($data);
 	}
