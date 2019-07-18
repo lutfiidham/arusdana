@@ -450,7 +450,7 @@
             var id_permintaan = $('#id_permintaan').val();
 
 
-            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori || id_permintaan) {
+            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori) {
                $('#no_anggaran').val(null);
                $('#no_anggaran_view').html('-');
                 return false;
