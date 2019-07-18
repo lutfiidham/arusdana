@@ -3,7 +3,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Laporan Arus Dana/Realisasi</h5>
+                    <h5>Laporan Arus Dana</h5>
                 </div>
             </div>
         </div>
@@ -14,7 +14,7 @@
                         <a href="<?= base_url() ?>"><i class="ik ik-home"></i></a>
                     </li>
                     <li class="breadcrumb-item" aria-current="page">Proses</li>
-                    <li class="breadcrumb-item active" aria-current="page">Laporan Arus Dana/Realisasi</li>
+                    <li class="breadcrumb-item active" aria-current="page">Laporan Arus Dana</li>
                 </ol>
             </nav>
         </div>
@@ -34,7 +34,7 @@
                 <div class="row clearfix">
                     <div class="col-lg-2">
                     <?php if ($ha['insert']): ?>
-                        <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button>
+                        <!-- <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button> -->
                     <?php endif ?>
                     </div>
                     <div class="col-lg-1" style="text-align:right;padding-top:7px">
@@ -135,9 +135,9 @@
                     <h6 class="font-weight-bold">Detail Permintaan</h6>
                     <hr>
                     <div class="row">
-                        <div class="col-lg-2">
+                        <!-- <div class="col-lg-2">
                             <button type="button" id="btn_add_det_anggaran" class="btn btn-primary btn-block">(+) Detail</button>
-                        </div>
+                        </div> -->
                         <div class="col-lg-1" style="text-align:right;padding-top:7px">
                             Cari :
                         </div>
@@ -291,7 +291,7 @@
             {visible : false, targets : []},
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="text" value="'+data+'" class="form-control penerimaan" required>';
+                        return '<input type="text" value="'+data+'" class="form-control penerimaan autonumeric" required>';
                     },
                     targets: [2]
                 },
@@ -312,7 +312,7 @@
             columns : [
                 { data : null},
                 { data : "uraian"},
-                { data : "penerimaan"},
+                { data : "nominal"},
                 { data : "keterangan"},
                 { data : "id_detail_permintaan", "orderable": false},
             ],
@@ -333,43 +333,43 @@
         });
 
 
-        form_validator = $('#form').validate({
-            highlight: function(element, errorClass, validClass) {
-                $(element).addClass(errorClass).removeClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).removeClass(errorClass).addClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-            },
-            errorClass: "is-invalid text-red",
-            errorElement: "em",
-            errorPlacement: function(error, element) {
-                error.appendTo(element.parent("div").find(".help-block"));
-            },
-            submitHandler: function(form) {
-                form.submit();
-            },
-        });
+        // form_validator = $('#form').validate({
+        //     highlight: function(element, errorClass, validClass) {
+        //         $(element).addClass(errorClass).removeClass(validClass);
+        //         $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+        //     },
+        //     unhighlight: function(element, errorClass, validClass) {
+        //         $(element).removeClass(errorClass).addClass(validClass);
+        //         $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+        //     },
+        //     errorClass: "is-invalid text-red",
+        //     errorElement: "em",
+        //     errorPlacement: function(error, element) {
+        //         error.appendTo(element.parent("div").find(".help-block"));
+        //     },
+        //     submitHandler: function(form) {
+        //         form.submit();
+        //     },
+        // });
 
-        form_validator_detil = $('#form_det_permintaan').validate({
-            highlight: function(element, errorClass, validClass) {
-                $(element).addClass(errorClass).removeClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).removeClass(errorClass).addClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-            },
-            errorClass: "is-invalid text-red",
-            errorElement: "em",
-            errorPlacement: function(error, element) {
-                error.appendTo(element.parent("div").find(".help-block"));
-            },
-            submitHandler: function(form) {
-                form.submit();
-            }
-        });
+        // form_validator_detil = $('#form_det_permintaan').validate({
+        //     highlight: function(element, errorClass, validClass) {
+        //         $(element).addClass(errorClass).removeClass(validClass);
+        //         $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
+        //     },
+        //     unhighlight: function(element, errorClass, validClass) {
+        //         $(element).removeClass(errorClass).addClass(validClass);
+        //         $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
+        //     },
+        //     errorClass: "is-invalid text-red",
+        //     errorElement: "em",
+        //     errorPlacement: function(error, element) {
+        //         error.appendTo(element.parent("div").find(".help-block"));
+        //     },
+        //     submitHandler: function(form) {
+        //         form.submit();
+        //     }
+        // });
 
         
         $("#form").submit(function(event) {
@@ -381,45 +381,6 @@
             // if (form_validator.form()) {
             // }
         });
-
-        $('#id_unit_kerja,#id_kategori').on('change', function(event) {
-            generate_no();            
-        });
-
-        $('#tanggal').on('change.datetimepicker', generate_no);
-
-        function generate_no () {
-            var data_send = {};
-                data_send.tanggal = mys.toDate($('#tanggal').val());
-                data_send.id_unit_kerja = $('#id_unit_kerja').val();
-                data_send.id_kategori = $('#id_kategori').val();
-            var id_permintaan = $('#id_permintaan').val();
-
-
-            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori || id_permintaan) {
-               $('#no_anggaran').val(null);
-               $('#no_anggaran_view').html('-');
-                return false;
-            }
-
-            mys.blok()
-                $.ajax({
-                    url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
-                    type: 'POST',
-                    dataType: 'JSON',
-                    data: data_send,
-                    success: function(data){
-                       $('#no_anggaran').val(data.no_anggaran);
-                       $('#no_anggaran_view').html(data.no_anggaran);
-                    },
-                    error:function(data){
-                        mys.notifikasi("Gagal Mengambil data dari server","error");
-                    }
-                })
-                .always(function() {
-                    mys.unblok();
-                });
-        }
 
         $("#form_det_permintaan").submit(function(event) {
             if (form_validator_detil.form()) {
@@ -595,7 +556,6 @@
         $('#form_card').show();
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
-        $('#id_kategori').val('PKS').trigger('change.select2');
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
     }
@@ -710,7 +670,7 @@
     }
 
     function reset_form_det_permintaan(){
-        form_validator_detil.resetForm();
+        // form_validator_detil.resetForm();
         $('#form_det_permintaan')[0].reset();
         $('#form_det_permintaan').find('input[type="hidden"]').val('');
         $('#form_det_permintaan').find('label,select,input,textarea').removeClass('is-invalid text-red');
@@ -786,8 +746,7 @@
         var jenis_masukan = $('#jenis_masukan').val();
         var id_detail_permintaan = $('#id_detail_permintaan').val();
         var uraian = $('#uraian').val();
-        var penerimaan = mys.reverse_format_ribuan($('#penerimaan').val());
-        var pengeluaran = mys.reverse_format_ribuan($('#pengeluaran').val());
+        var nominal = mys.reverse_format_ribuan($('#nominal').val());
         var keterangan = $('#keterangan').val();
 
         if (jenis_masukan == 'new') {
@@ -795,8 +754,7 @@
             var d = {
                 "id_detail_permintaan" : "new"+(data_detil_permintaan.length+1),
                 "uraian" : uraian,
-                "penerimaan" : penerimaan,
-                "pengeluaran" : pengeluaran,
+                "nominal" : nominal,
                 "keterangan" : keterangan,
             }
             data_detil_permintaan.push(d);
@@ -810,8 +768,7 @@
             var d_baru = {
                 "id_detail_permintaan" : d_lama.id_detail_permintaan,
                 "uraian" : uraian,
-                "penerimaan" : penerimaan,
-                "pengeluaran" : pengeluaran,
+                "nominal" : nominal,
                 "keterangan" : keterangan,
             }
 
@@ -829,8 +786,7 @@
         $('#btn_insert_det_permintaan').html('Simpan Perubahan')
         $('#id_detail_permintaan').val(data.id_detail_permintaan);
         $('#uraian').val(data.uraian);
-        $('#penerimaan').val(data.penerimaan);
-        $('#pengeluaran').val(data.pengeluaran);
+        $('#nominal').val(data.nominal);
         $('#keterangan').val(data.keterangan);
         $('#modal_detil').modal('show');
     }
@@ -856,28 +812,21 @@
                     <input type="hidden" name="jenis_masukan" id="jenis_masukan">
                     <input type="hidden" name="id_detail_permintaan" id="id_detail_permintaan">
                     <div class="row">
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="uraian">Uraian</label>
                                 <input type="text" class="form-control" name="uraian" id="uraian" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
-                                <label for="penerimaan">Penerimaan</label>
-                                <input type="text" class="form-control autonumeric" name="penerimaan" id="penerimaan" required>
+                                <label for="nominal">Nominal</label>
+                                <input type="text" class="form-control autonumeric" name="nominal" id="nominal" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                            <div class="form-group">
-                                <label for="pengeluaran">Pengeluaran</label>
-                                <input type="text" class="form-control autonumeric" name="pengeluaran" id="pengeluaran" required>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="keterangan">Keterangan</label>
                                 <input type="text" class="form-control" name="keterangan" id="keterangan" required>
