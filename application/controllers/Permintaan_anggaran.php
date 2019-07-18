@@ -240,8 +240,8 @@ class Permintaan_anggaran extends CI_Controller {
 				$data[$key+1]['name'] = $value['kode_kategori'].' - '.$value['nama_kategori'];
 			}
 		}
-		$data[0]['id']   = $this->session->userdata('kode_bagian');
-		$data[0]['name'] = $this->session->userdata('kode_bagian');
+		// $data[0]['id']   = $this->session->userdata('kode_bagian');
+		// $data[0]['name'] = $this->session->userdata('kode_bagian');
 
 		echo json_encode($data);
 	}

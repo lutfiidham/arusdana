@@ -503,7 +503,7 @@
         $('#form_card').show();
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
-        $('#id_kategori').val('<?= $this->session->userdata('kode_bagian'); ?>').trigger('change.select2');
+        // $('#id_kategori').text('<?= $this->session->userdata('kode_bagian').' --'.$this->session->userdata('kode_bagian').'-'; ?>').trigger('change.select2');
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
     }
