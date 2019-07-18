@@ -209,6 +209,7 @@
     var form_validator_detil;
     var tabel_detail_permintaan;
     var tabel;
+    var save_method;
     var data_detil_permintaan = [];
 
     $(document).ready(function() {
@@ -291,19 +292,19 @@
             {visible : false, targets : []},
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="text" value="'+data+'" class="form-control penerimaan autonumeric" required>';
+                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control penerimaan autonumeric" required>';
                     },
                     targets: [2]
                 },
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="text" class="form-control pengeluaran autonumeric" required>';
+                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control pengeluaran autonumeric" required>';
                     },
                     targets: [3]
                 },
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="text" class="form-control keterangan" required>';
+                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control keterangan" required>';
                     },
                     targets: [4]
                 },
@@ -313,8 +314,8 @@
                 { data : null},
                 { data : "uraian"},
                 { data : "penerimaan"},
+                { data : "pengeluaran"},
                 { data : "keterangan"},
-                { data : "id_detail_permintaan", "orderable": false},
             ],
 
             order : [
@@ -401,9 +402,10 @@
 
         $('#tabel tbody').on( 'click', '.ubah', function () {
             var row = $(this);
+            save_method= 'update';
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            ubah_data(data[7]);
+            ubah_data(data[7],data[8]);
         });
 
         $('#tabel_detail_permintaan tbody').on('keyup', '.autonumeric', function(event) {
@@ -444,61 +446,36 @@
             });
         });
 
-        $('#id_unit_kerja,#id_kategori,#tanggal').on('change', function(event) {
-            var data_send = {};
-                data_send.tanggal = mys.toDate($('#tanggal').val());
-                data_send.id_unit_kerja = $('#id_unit_kerja').val();
-                data_send.id_kategori = $('#id_kategori').val();
-
-            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori) {
-               $('#no_anggaran').val(null);
-               $('#no_anggaran_view').html('-');
-                return false;
-            }
-
-            // mys.blok()
-            //     $.ajax({
-            //         url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
-            //         type: 'POST',
-            //         dataType: 'JSON',
-            //         data: data_send,
-            //         success: function(data){
-            //            $('#no_anggaran').val(data.no_anggaran);
-            //            $('#no_anggaran_view').html(data.no_anggaran);
-            //         },
-            //         error:function(data){
-            //             mys.notifikasi("Gagal Mengambil data dari server","error");
-            //         }
-            //     })
-            //     .always(function() {
-            //         mys.unblok();
-            //     });
-        });
 
         $('#tabel tbody').on( 'click', '.cetak', function () {
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
+
+            if(data[8] =='arus_dana'){
+                cetak(data[7]);
+                return false;
+            }
             // mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[8]);
             var id_permintaan = data[7];
              $.ajax({
-            url: mys.base_url+'arusdana/get_id_arusdana',
-            type: 'POST',
-            dataType: 'JSON',
-            data: {
-                id: id_permintaan
-            },
-            success: function(data){
-                // console.log(data['id_arus_dana']);
-                if (data) {
-                    cetak(data['id_arus_dana']);
-                }else{
-                    mys.notifikasi("Laporan tidak bisa dicetak karena belum direalisasi","error");
-                };
-            },
-            error:function(data){
-                mys.notifikasi("Gagal Mengambil data dari server","error");
-            }
+                url: mys.base_url+'arusdana/get_id_arusdana',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {
+                    id: id_permintaan
+                },
+                success: function(data){
+                    // console.log(data['id_arus_dana']);
+                    if (data) {
+                        cetak(data['id_arus_dana']);
+                    }else{
+                        mys.notifikasi("Laporan tidak bisa dicetak karena belum direalisasi","error");
+                    };
+                },
+                error:function(data){
+                    mys.notifikasi("Gagal Mengambil data dari server","error");
+                }
         });
             
         });
@@ -514,11 +491,19 @@
 
         $('#btnAdd').on('click', function(event) {
             buka_form();
+            calculateAmount();
         });
 
         $('#btnBack').on('click', function(event) {
             tutup_form();
         });
+
+
+        $('#id_unit_kerja,#id_kategori').on('change', function(event) {
+            generate_no();            
+        });
+
+        $('#tanggal').on('change.datetimepicker', generate_no);
      
     });
 
@@ -561,29 +546,30 @@
     }
 
 
-    function ubah_data(id){
+    function ubah_data(id,jenis){
         mys.blok()
         $.ajax({
             url: mys.base_url+'arusdana/get_data_by_id',
             type: 'POST',
             dataType: 'JSON',
             data: {
-                id: id
+                id: id,
+                jenis: jenis
             },
             success: function(data){
                 buka_form();
-                var permintaan = data.permintaan;
-                    $('#id_permintaan').val(permintaan.id_permintaan);
-                    $('#id_unit_kerja').val(permintaan.id_unit_kerja).trigger('change').prop('disabled',true);
-                    $('#id_kategori').val(permintaan.id_kategori).trigger('change').prop('disabled',true);
-                    $('#id_anggaran').val(permintaan.id_anggaran).trigger('change').prop('disabled',true);
-                    $('#tanggal').val(permintaan.tanggal).prop('disabled',true);
-                    $('#periode_pelaksanaan').val(permintaan.periode_pelaksanaan).prop('disabled',true);
-                    $('#catatan').val(permintaan.catatan).prop('disabled',true);
-                    $('#no_anggaran').val(permintaan.no_anggaran);
-                    $('#no_anggaran_view').html(permintaan.no_anggaran);
+                var core = data.data;
+                    $('#id_permintaan').val(core.id_permintaan);
+                    $('#id_unit_kerja').val(core.id_unit_kerja).trigger('change');
+                    $('#id_kategori').val(core.id_kategori).trigger('change');
+                    $('#id_anggaran').val(core.id_anggaran).trigger('change');
+                    $('#tanggal').val(core.tanggal);
+                    $('#periode_pelaksanaan').val(core.periode_pelaksanaan);
+                    $('#catatan').val(core.catatan);
+                    $('#no_anggaran').val(core.no_anggaran);
+                    $('#no_anggaran_view').html(core.no_anggaran);
 
-                var detail_permintaan = data.detail_permintaan;
+                var detail_permintaan = data.detil;
                     data_detil_permintaan = detail_permintaan;
                 reload_tabel_detail_permintaan();
                 calculateAmount();
@@ -804,11 +790,6 @@
         tabel_detail_permintaan.draw();
     }
 
-    $('#id_unit_kerja,#id_kategori').on('change', function(event) {
-            generate_no();            
-        });
-
-        $('#tanggal').on('change.datetimepicker', generate_no);
 
         function generate_no () {
             var data_send = {};

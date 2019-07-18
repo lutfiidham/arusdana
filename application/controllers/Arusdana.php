@@ -22,13 +22,15 @@ class Arusdana extends CI_Controller
 		if ($list->num_rows() > 0) {
 			foreach ($list->result_array() as $key => $value) {
 				$data['data'][$key][] = ($key + 1) . '.';
-				$data['data'][$key][] = $value['no_anggaran'];
+				$data['data'][$key][] = $value['nomor'];
 				$data['data'][$key][] = $value['nama_unit_kerja'];
 				$data['data'][$key][] = $value['nama_kategori'];
 				$data['data'][$key][] = $value['kode_anggaran'].' - '.$value['nama_anggaran'];
 				$data['data'][$key][] = $value['tanggal'];
 				$data['data'][$key][] = $value['status_realisasi'];
-				$data['data'][$key][] = $value['id_permintaan'];
+				$data['data'][$key][] = $value['id'];
+				$data['data'][$key][] = $value['jenis'];
+				$data['data'][$key][] = $value['periode_pelaksanaan'];
 				$data['total'] = $key + 1;
 			}
 
@@ -42,10 +44,11 @@ class Arusdana extends CI_Controller
 		if(!$this->input->is_ajax_request()) redirect();
 		
 		$id = $this->input->post('id');
+		$jenis = $this->input->post('jenis');
 		
 		$data = [
-		    'permintaan' => $this->adm->get_by_id($id)->row(),
-		    'detail_permintaan'  => $this->adm->get_detail_permintaan($id)->result_array(),
+		    'data' => $this->adm->get_by_id($id,$jenis)->row(),
+		    'detil'  => $this->adm->get_detail_permintaan($id,$jenis)->result_array(),
 		];
 
 		echo json_encode($data);
