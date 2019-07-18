@@ -504,6 +504,7 @@
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
         // $('#id_kategori').text('<?= $this->session->userdata('kode_bagian').' --'.$this->session->userdata('kode_bagian').'-'; ?>').trigger('change.select2');
+        $('#id_kategori').val($('#id_kategori option:eq(1)').val()).trigger('change');
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
     }
