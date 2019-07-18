@@ -230,7 +230,7 @@
                 $('#kode_unit_kerja').val(data.kode_unit_kerja);
                 $('#nama_unit_kerja').val(data.nama_unit_kerja);
                 $('#status').val(data.status).trigger('change');
-                $('#kode_unit_kerja').prop('readonly', true);
+                // $('#kode_unit_kerja').prop('readonly', true);
             },
             error:function(data){
                 mys.notifikasi("Gagal Mengambil data dari server","error");
