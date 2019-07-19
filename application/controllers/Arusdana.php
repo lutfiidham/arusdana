@@ -93,11 +93,12 @@ class Arusdana extends CI_Controller
 
 			echo json_encode(['status' => true]);
 		} else {
-			// $realisasi->no_arus_dana = $permintaan->no_anggaran;
-			// $realisasi->tanggal = date('Y-m-d');
-			// $realisasi->id_unit_kerja = $permintaan->id_unit_kerja;
-			// $realisasi->id_kategori = $permintaan->id_kategori;
-			// $realisasi->id_anggaran = $permintaan->id_anggaran;
+			$realisasi->no_arus_dana = $permintaan->no_anggaran;
+			$realisasi->tanggal = date('Y-m-d');
+			$realisasi->id_unit_kerja = $permintaan->id_unit_kerja;
+			$realisasi->id_kategori = $permintaan->id_kategori;
+			$realisasi->id_anggaran = $permintaan->id_anggaran;
+			
 			var_dump($realisasi);
 			$idArusDana = $this->adm->storeArusDana($realisasi);
 			// $this->adm->updatePermintaanStatus($realisasi->id_permintaan, 'W');
