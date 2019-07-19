@@ -127,6 +127,16 @@ var myscript_js = {
 
         });
     },
+    mmyyyy_picker: function(){
+        $('.bulantahun').attr('data-toggle', 'datetimepicker');
+        $('.bulantahun').datetimepicker({
+            locale:'id',
+            format: 'MMMM-YYYY',
+            viewMode: 'years',
+            autoclose: true,
+
+        });
+    },
     daterange_picker: function(){
     	$('.tgl_range').daterangepicker({
             "showDropdowns": true,
@@ -240,6 +250,7 @@ var myscript_js = {
     	myscript_js.tgl_picker();
     	myscript_js.jam_picker();
     	myscript_js.year_picker();
+        myscript_js.mmyyyy_picker();
     	myscript_js.daterange_picker();
     	myscript_js.file_upload_custom();
         myscript_js.combobox();

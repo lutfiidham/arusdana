@@ -101,8 +101,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="periode_pelaksanaan">Periode Pelaksanaan</label>
-                                <input type="text" class="form-control tgl" data-target="#periode_pelaksanaan" name="periode_pelaksanaan" id="periode_pelaksanaan" required>
-                                <span class="help-block"></span>
+                                <input type="text" class="form-control bulantahun" data-target="#periode_pelaksanaan" name="periode_pelaksanaan" id="periode_pelaksanaan" required>
                             </div>
                         </div>
 
@@ -398,6 +397,7 @@
 
         $('#btn_insert_det_permintaan').on('click', function(event) {
             $('#form_det_permintaan').submit();
+            calculateAmount();
         });
 
         $('#tabel tbody').on( 'click', '.ubah', function () {
@@ -540,6 +540,7 @@
         $('#form_tender_vendor_card').hide();
         $('#form_card').show();
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
+        $('#periode_pelaksanaan').val(moment().format('MMMM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
@@ -589,7 +590,7 @@
             realisasi["id_permintaan"] = $('#id_permintaan').val()? $('#id_permintaan').val() : null;
             realisasi["no_arus_dana"] = $('#no_arus_dana').val();
             realisasi["tanggal"] = $('#tanggal').val();
-            realisasi["periode_pelaksanaan"] = $('#periode_pelaksanaan').val();
+            realisasi["periode_pelaksanaan"] = moment($('#periode_pelaksanaan').val(), 'MMMM-YYYY').format('YYYY-MM-DD');
             realisasi["catatan"] = $('#catatan_realisasi').val();
             realisasi["total"] = parseInt($('#total_retur').text().replace(/[^0-9\-]/g, ''));
 
