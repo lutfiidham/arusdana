@@ -82,6 +82,7 @@ class Arusdana extends CI_Controller
 			$realisasi->id_anggaran = $permintaan->id_anggaran;
 
 			$idArusDana = $this->adm->storeArusDana($realisasi);
+			$id_realisasi = $this->db->insert_id();
 			$this->adm->updatePermintaanStatus($realisasi->id_permintaan, 'W');
 			if ($idArusDana > 0) {
 				foreach ($detail as $key => $d) {
@@ -90,17 +91,12 @@ class Arusdana extends CI_Controller
 					$this->adm->storeChildArusDana($da);
 				}
 			}
-
-			echo json_encode(['status' => true]);
+			echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
 		} else {
-			$realisasi->no_arus_dana = $permintaan->no_anggaran;
 			$realisasi->tanggal = date('Y-m-d');
-			$realisasi->id_unit_kerja = $permintaan->id_unit_kerja;
-			$realisasi->id_kategori = $permintaan->id_kategori;
-			$realisasi->id_anggaran = $permintaan->id_anggaran;
 			
-			var_dump($realisasi);
 			$idArusDana = $this->adm->storeArusDana($realisasi);
+			$id_realisasi = $this->db->insert_id();
 			// $this->adm->updatePermintaanStatus($realisasi->id_permintaan, 'W');
 			if ($idArusDana > 0) {
 				foreach ($detail as $key => $d) {
@@ -110,7 +106,7 @@ class Arusdana extends CI_Controller
 				}
 			}
 
-			echo json_encode(['status' => 'tanpa_permintaan']);
+			echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
 		}
 	}
 

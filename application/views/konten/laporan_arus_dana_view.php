@@ -3,7 +3,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Laporan Arus Dana</h5>
+                    <h5>Laporan Arus Dana/Realisasi</h5>
                 </div>
             </div>
         </div>
@@ -14,7 +14,7 @@
                         <a href="<?= base_url() ?>"><i class="ik ik-home"></i></a>
                     </li>
                     <li class="breadcrumb-item" aria-current="page">Proses</li>
-                    <li class="breadcrumb-item active" aria-current="page">Laporan Arus Dana</li>
+                    <li class="breadcrumb-item active" aria-current="page">Laporan Arus Dana/Realisasi</li>
                 </ol>
             </nav>
         </div>
@@ -113,11 +113,11 @@
                                 </select>
                                 <span class="help-block"></span>
                             </div>
-                            <!-- <div class="form-group">
+                            <div class="form-group">
                                 <label for="catatan">Catatan</label>
                                 <textarea class="form-control tgl" name="catatan" id="catatan" required></textarea>
                                 <span class="help-block"></span>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -382,6 +382,45 @@
             // }
         });
 
+        $('#id_unit_kerja,#id_kategori').on('change', function(event) {
+            generate_no();            
+        });
+
+        $('#tanggal').on('change.datetimepicker', generate_no);
+
+        function generate_no () {
+            var data_send = {};
+                data_send.tanggal = mys.toDate($('#tanggal').val());
+                data_send.id_unit_kerja = $('#id_unit_kerja').val();
+                data_send.id_kategori = $('#id_kategori').val();
+            var id_permintaan = $('#id_permintaan').val();
+
+
+            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori || id_permintaan) {
+               $('#no_anggaran').val(null);
+               $('#no_anggaran_view').html('-');
+                return false;
+            }
+
+            mys.blok()
+                $.ajax({
+                    url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: data_send,
+                    success: function(data){
+                       $('#no_anggaran').val(data.no_anggaran);
+                       $('#no_anggaran_view').html(data.no_anggaran);
+                    },
+                    error:function(data){
+                        mys.notifikasi("Gagal Mengambil data dari server","error");
+                    }
+                })
+                .always(function() {
+                    mys.unblok();
+                });
+        }
+
         $("#form_det_permintaan").submit(function(event) {
             if (form_validator_detil.form()) {
                 tambah_detil();
@@ -542,6 +581,7 @@
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
         $('#periode_pelaksanaan').val(moment().format('MMMM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
+        $('#id_kategori').val('PKS').trigger('change.select2');
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
     }
@@ -588,8 +628,11 @@
     function simpan(){
         var realisasi = {};
             realisasi["id_permintaan"] = $('#id_permintaan').val()? $('#id_permintaan').val() : null;
-            realisasi["no_arus_dana"] = $('#no_arus_dana').val();
+            realisasi["no_arus_dana"] = $('#no_anggaran').val();
             realisasi["tanggal"] = $('#tanggal').val();
+            realisasi["id_unit_kerja"] = $('#id_unit_kerja').val();
+            realisasi["id_kategori"] = $('#id_kategori').val();
+            realisasi["id_anggaran"] = $('#id_anggaran').val();
             realisasi["periode_pelaksanaan"] = moment($('#periode_pelaksanaan').val(), 'MMMM-YYYY').format('YYYY-MM-DD');
             realisasi["catatan"] = $('#catatan_realisasi').val();
             realisasi["total"] = parseInt($('#total_retur').text().replace(/[^0-9\-]/g, ''));
@@ -619,6 +662,7 @@
                 if (data.status) {
                     mys.notifikasi("Data Berhasil Disimpan","success");
                     data_detil_permintaan = [];
+                    cetak(data.id_arus_dana);
                     // tutup_form();
                 } else{
                     mys.notifikasi("Terdapat Kesalahan dalam menyimpan data.","error");
@@ -660,7 +704,7 @@
     }
 
     function reset_form_det_permintaan(){
-        // form_validator_detil.resetForm();
+        form_validator_detil.resetForm();
         $('#form_det_permintaan')[0].reset();
         $('#form_det_permintaan').find('input[type="hidden"]').val('');
         $('#form_det_permintaan').find('label,select,input,textarea').removeClass('is-invalid text-red');
