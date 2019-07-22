@@ -663,7 +663,11 @@
                     mys.notifikasi("Data Berhasil Disimpan","success");
                     data_detil_permintaan = [];
                     cetak(data.id_arus_dana);
-                    // tutup_form();
+                    // setTimeout(function() {
+                    //     window.location.reload();
+                    // }, 3000);
+                    
+                    tutup_form();
                 } else{
                     mys.notifikasi("Terdapat Kesalahan dalam menyimpan data.","error");
                 }
