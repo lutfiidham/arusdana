@@ -84,6 +84,11 @@ if ( ! function_exists('my_helper'))
 		return $bulanIndo[$mm].' '.$yy; 
 	}
 
+	function minus_kurung($foo)
+	{
+		return ($foo < 0 ? "(".format_ribuan_indo(abs($foo),0).")" : format_ribuan_indo($foo,0));
+	}
+
 		function list_bulan()
 	{
 		$bulanIndo = [];
@@ -199,6 +204,11 @@ if ( ! function_exists('my_helper'))
 	{
 		return number_format($nilai,$dibelakang_koma,',','.');
 	}
+
+	// function format_ribuan_indo_kurung($nilai, $dibelakang_koma)
+	// {
+	// 	return minus_kurung(number_format($nilai,$dibelakang_koma,',','.'));
+	// }
 
 	function get_input_group($name,$label,$cannot_null = false,$type ="text")
 	{

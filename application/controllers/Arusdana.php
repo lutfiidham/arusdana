@@ -45,7 +45,7 @@ class Arusdana extends CI_Controller
 		
 		$id = $this->input->post('id');
 		$jenis = $this->input->post('jenis');
-		
+		// var_dump($id.$jenis);
 		$data = [
 		    'data' => $this->adm->get_by_id($id,$jenis)->row(),
 		    'detil'  => $this->adm->get_detail_permintaan($id,$jenis)->result_array(),
@@ -168,9 +168,9 @@ class Arusdana extends CI_Controller
 			$html .= '<tr>
 				<td class="data-center">'.($key+1).'</td>
 				<td class="data-left">'.$value['uraian'].'</td>
-				<td class="data-right">'.format_ribuan_indo($value['penerimaan'],0).'</td>
-				<td class="data-right">'.format_ribuan_indo($value['pengeluaran'],0).'</td>
-				<td class="data-right">'.format_ribuan_indo($value['penerimaan'] - $value['pengeluaran'],0).'</td>
+				<td class="data-right">'.minus_kurung($value['penerimaan']).'</td>
+				<td class="data-right">'.minus_kurung($value['pengeluaran']).'</td>
+				<td class="data-right">'.minus_kurung($value['penerimaan'] - $value['pengeluaran']).'</td>
 				<td class="data-left">'.$value['keterangan'].'</td>
 			</tr>';
 			$sumterima += $value['penerimaan'];
@@ -180,9 +180,9 @@ class Arusdana extends CI_Controller
 		$html .= '<tfoot>
 				<tr>
 					<th colspan="2" class="data-center">TOTAL:</th>
-					<th class="data-right">'.format_ribuan_indo($sumterima,0).'</th>
-					<th class="data-right">'.format_ribuan_indo($sumkeluar,0).'</th>
-					<th class="data-right">'.format_ribuan_indo($arus_dana->total,0).'</th>
+					<th class="data-right">'.minus_kurung($sumterima).'</th>
+					<th class="data-right">'.minus_kurung($sumkeluar).'</th>
+					<th class="data-right">'.minus_kurung($arus_dana->total).'</th>
 					<th></th>
 				</tr>
 		</tfoot>';
