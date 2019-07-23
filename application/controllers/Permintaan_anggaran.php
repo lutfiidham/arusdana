@@ -165,7 +165,8 @@ class Permintaan_anggaran extends CI_Controller {
 
 
 		$this->db->trans_begin();
-
+		$exec = $this->model->delete_detail(['id_permintaan' => $this->input->post('id')]);
+		$exec = $this->model->delete(['id_permintaan' => $this->input->post('id')]);
 
 		$exec = $this->db->trans_status();
 

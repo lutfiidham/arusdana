@@ -87,6 +87,13 @@ class Permintaan_anggaran_model extends CI_Model {
 		return $delete;
 	}
 
+	function delete_detail($where)
+	{
+		$this->db->where($where);
+		$delete = $this->db->delete('detail_permintaan_anggaran');
+		return $delete;
+	}
+
 	function insert_detil($data)
 	{
 		$insert = $this->db->insert('detail_permintaan_anggaran', $data);

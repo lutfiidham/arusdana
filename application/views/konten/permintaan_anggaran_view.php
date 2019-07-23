@@ -228,7 +228,9 @@
             },
             {
                 "render": function ( data, type, row ) {
-                   return '<button type="button" title="View Data" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button> <button type="button" title="Cetak Form Permintaan" data-toggle="tooltip" class="btn btn-danger cetak"><span class="fa fa-print"></span></button>';
+                   return '<button type="button" title="View Data" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button>\
+                   <button type="button" title="Cetak Form Permintaan" data-toggle="tooltip" class="btn btn-success cetak"><span class="fa fa-print"></span></button>\
+                       <button type="button" title="Hapus" data-toggle="tooltip" class="btn btn-danger hapus"><span class="fa fa-trash"></span></button>';
                 },
                 "targets": [8]
             },
@@ -241,8 +243,8 @@
             {"width": "10%"},
             {"width": "10%"},
             {"width": "10%"},
-            {"width": "15%"},
-            {"width": "10%", "orderable": false}
+            {"width": "10%"},
+            {"width": "15%", "orderable": false}
             ],
             "order" : [
             [0, "asc"],
@@ -407,6 +409,15 @@
             // mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[8]);
             var id_permintaan = data[8];
             cetak(id_permintaan);
+        });
+
+        $('#tabel tbody').on( 'click', '.hapus', function () {
+            var row = $(this);
+            var table = $('#tabel').DataTable();
+            var data = table.row( row.parents('tr') ).data();
+            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[8]);
+            // var id_permintaan = data[8];
+            // hapus(id_permintaan);
         });
 
         $('#tabel_detail_permintaan tbody').on( 'click', '.ubah_detail', function () {
