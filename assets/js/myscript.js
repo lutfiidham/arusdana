@@ -98,6 +98,13 @@ var myscript_js = {
         j = (j = i.length) > 3 ? j % 3 : 0;
         return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
     },
+    money_minus_kurung: function (a) {
+        if (a<0) {
+            return '('+myscript_js.formatMoney(Math.abs(a),0, ',', '.')+')';
+        }else{
+            return myscript_js.formatMoney(a,0, ',', '.');
+        };
+    },
     reverse_format_ribuan : function(teks){
         var hasil = teks.replace(/\D/g, '');
         return hasil;

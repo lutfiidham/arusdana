@@ -570,7 +570,7 @@
 
         $('#total_penerimaan').text('Rp ' + mys.formatMoney(total_penerimaan, 0, ',', '.'));
         $('#total_pengeluaran').text('Rp ' + mys.formatMoney(total_pengeluaran, 0, ',', '.'));
-        $('#total_retur').text('Rp ' + mys.formatMoney(total_penerimaan - total_pengeluaran, 0, ',', '.'));
+        $('#total_retur').text('Rp ' + mys.money_minus_kurung(total_penerimaan - total_pengeluaran));
     }
 
     function buka_form() {
