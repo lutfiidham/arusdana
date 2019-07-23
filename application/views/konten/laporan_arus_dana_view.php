@@ -610,6 +610,7 @@
                     $('#tanggal').val(moment(core.tanggal).format('DD-MM-YYYY'));
                     $('#periode_pelaksanaan').val(moment(core.periode_pelaksanaan).format('MMMM-YYYY'));
                     $('#catatan').val(core.catatan);
+                    $('#catatan_realisasi').val(core.catatan);
                     $('#no_anggaran').val(core.no_anggaran);
                     $('#no_anggaran_view').html(core.no_anggaran);
 

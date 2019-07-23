@@ -50,9 +50,10 @@ class Arusdana_model extends CI_Model {
 			return $this->db->get('arus_dana');
 		}
 		$this->db->select('permintaan_anggaran.*');
-		$this->db->join('arus_dana', 'permintaan_anggaran.id_permintaan = arus_dana.id_permintaan', 'left');
-		$this->db->where('arus_dana.id_permintaan', $id);
+		// $this->db->join('arus_dana', 'permintaan_anggaran.id_permintaan = arus_dana.id_permintaan', 'left');
+		$this->db->where('id_permintaan', $id);
 		return $this->db->get('permintaan_anggaran');
+		// var_dump($this->db->last_query());
 	}
 
 	function get_by_permintaan($id)
