@@ -257,7 +257,8 @@
                 },
                 {
                     "render": function ( data, type, row ) {
-                       return '<button type="button" title="Realisasi" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button> <button type="button" title="Cetak" data-toggle="tooltip" class="btn btn-danger cetak"><span class="fa fa-print"></span></button>';
+                       return '<button type="button" title="Realisasi" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button>\
+                       <button type="button" title="Cetak" data-toggle="tooltip" class="btn btn-success cetak"><span class="fa fa-print"></span></button>';
                     },
                     "targets": [-1]
                 },
@@ -588,6 +589,7 @@
 
 
     function ubah_data(id,jenis){
+        console.log(id+jenis);
         mys.blok()
         $.ajax({
             url: mys.base_url+'arusdana/get_data_by_id',
@@ -600,12 +602,13 @@
             success: function(data){
                 buka_form();
                 var core = data.data;
+                    console.log(data);
                     $('#id_permintaan').val(core.id_permintaan);
                     $('#id_unit_kerja').val(core.id_unit_kerja).trigger('change');
                     $('#id_kategori').val(core.id_kategori).trigger('change');
                     $('#id_anggaran').val(core.id_anggaran).trigger('change');
-                    $('#tanggal').val(core.tanggal);
-                    $('#periode_pelaksanaan').val(core.periode_pelaksanaan);
+                    $('#tanggal').val(moment(core.tanggal).format('DD-MM-YYYY'));
+                    $('#periode_pelaksanaan').val(moment(core.periode_pelaksanaan).format('MMMM-YYYY'));
                     $('#catatan').val(core.catatan);
                     $('#no_anggaran').val(core.no_anggaran);
                     $('#no_anggaran_view').html(core.no_anggaran);
@@ -666,7 +669,7 @@
                     // setTimeout(function() {
                     //     window.location.reload();
                     // }, 3000);
-                    
+
                     tutup_form();
                 } else{
                     mys.notifikasi("Terdapat Kesalahan dalam menyimpan data.","error");
