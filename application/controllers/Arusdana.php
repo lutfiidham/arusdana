@@ -70,6 +70,7 @@ class Arusdana extends CI_Controller
 		if(!$this->input->is_ajax_request()) redirect();
 
 		$realisasi = json_decode($this->input->post('realisasi'));
+		$realisasi->id_bagian = $this->session->userdata('id_bagian');
 		$detail = (array) json_decode($this->input->post('detail'));
 		
 		$permintaan = $this->adm->getAnggaran($realisasi->id_permintaan)->row();
@@ -120,43 +121,33 @@ class Arusdana extends CI_Controller
 
 		$html = '';
 
-		$html .= '';
-
-		$html .= '<table width="100%" style="margin: 0px;">
-					<tr style="padding-top:1px;
-  padding-bottom:1px;
-  padding-right:1px;">
-					  <td width="50%" style="padding-top:1px;
-  padding-bottom:1px;
-  padding-right:1px;">
-						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">Laporan Arus Dana  </span>
+		$html .= '<table width="100%">
+					<tr >
+					  <td width="50%">
+						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">Laporan Arus Dana  </span></p>
 					  </td>
-					  <td width="20%">Bagian</td>
+					  <td width="20%";">Bagian</td>
 					  <td  width="30%">
-						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">: '.$this->session->userdata('kode_bagian').'</span></td>
+						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">: '.$this->session->userdata('kode_bagian').'</span></p></td>
 					  
 					</tr>
-					<tr style="padding-top:1px;
-  padding-bottom:1px;
-  padding-right:1px;">
+					<tr>
 					  <td width="50%">
 						
 					  </td>
 					  <td width="25%" style="text-decoration:underline">Realisasi Anggaran No.</td>
 					  <td  width="25%">
-						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">: '.$arus_dana->no_arus_dana.'</span></td>
-					  
+						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">: '.$arus_dana->no_arus_dana.'</span></p></td>
 					</tr>
 					
 					</table>';
 
 		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN ARUS DANA</span>
-		<br>
 		';
 
 		$detil_anggaran = $this->adm->get_detil_anggaran($arus_dana->id_anggaran);
-		$html.= '<p style="text-align:center;"">Kegiatan: ('.$detil_anggaran->kode_anggaran.') '.$detil_anggaran->nama_anggaran.' </p><br>';
-		$html .= '<p style="text-align:center;text-decoration:underline">Tanggal Kebutuhan: '.tanggal_full($arus_dana->tanggal).'</p><br>';
+		$html.= '<p style="text-align:center;"">Kegiatan: ('.$detil_anggaran->kode_anggaran.') '.$detil_anggaran->nama_anggaran.' </p>';
+		$html .= '<p style="text-align:center;">Periode Pelaksanaan: '.bulan_tahun($arus_dana->periode_pelaksanaan).'</p><br>';
 
 		$html.= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">';
 		$html.=		'<thead>
@@ -202,7 +193,7 @@ class Arusdana extends CI_Controller
 			<tr>
 				<td style="width:33%" class="data-center">&nbsp;</td>
 				<td style="width:33%" class="data-center">&nbsp;</td>
-				<td style="width:33%" class="data-center">Surabaya, '.tanggal_full($arus_dana->tanggal).'</td>
+				<td style="width:33%" class="data-center">Surabaya, '.tanggal_full(date("Y/m/d")).'</td>
 			</tr>
 			<tr>
 				<td style="width:33%" class="data-center">Diketahui Oleh:</td>
