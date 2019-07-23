@@ -113,11 +113,11 @@
                                 </select>
                                 <span class="help-block"></span>
                             </div>
-                            <div class="form-group">
+<!--                             <div class="form-group">
                                 <label for="catatan">Catatan</label>
                                 <textarea class="form-control tgl" name="catatan" id="catatan" required></textarea>
                                 <span class="help-block"></span>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <hr>
