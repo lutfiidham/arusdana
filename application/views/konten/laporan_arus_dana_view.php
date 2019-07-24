@@ -402,38 +402,7 @@
 
         $('#tanggal').on('change.datetimepicker', generate_no);
 
-        function generate_no () {
-            var data_send = {};
-                data_send.tanggal = mys.toDate($('#tanggal').val());
-                data_send.id_unit_kerja = $('#id_unit_kerja').val();
-                data_send.id_kategori = $('#id_kategori').val();
-            var id_permintaan = $('#id_permintaan').val();
-
-
-            if (!data_send.tanggal) {
-               $('#no_anggaran').val(null);
-               $('#no_anggaran_view').html('-');
-                return false;
-            }
-
-            mys.blok()
-                $.ajax({
-                    url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
-                    type: 'POST',
-                    dataType: 'JSON',
-                    data: data_send,
-                    success: function(data){
-                       $('#no_anggaran').val(data.no_anggaran);
-                       $('#no_anggaran_view').html(data.no_anggaran);
-                    },
-                    error:function(data){
-                        mys.notifikasi("Gagal Mengambil data dari server","error");
-                    }
-                })
-                .always(function() {
-                    mys.unblok();
-                });
-        }
+        
 
         $("#form_det_permintaan").submit(function(event) {
             if (form_validator_detil.form()) {
@@ -597,10 +566,11 @@
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
         $('#periode_pelaksanaan').val(moment().format('MMMM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
-        $('#id_kategori').val($('#id_kategori option:eq(1)').val()).trigger('change');
+        // $('#id_kategori').val($('#id_kategori option:eq(1)').val()).trigger('change');
         $('#reimburse').prop('checked', false);
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
+        generate_no();
     }
 
 
@@ -650,6 +620,7 @@
         var realisasi = {};
             realisasi["id_permintaan"] = $('#id_permintaan').val()? $('#id_permintaan').val() : null;
             realisasi["no_arus_dana"] = $('#no_anggaran').val();
+            realisasi["id_arus_dana"] = $('#id_arus_dana').val();
             realisasi["tanggal"] = $('#tanggal').val();
             realisasi["id_unit_kerja"] = $('#id_unit_kerja').val();
             realisasi["id_kategori"] = $('#id_kategori').val();
@@ -796,6 +767,39 @@
             }
         })
     }
+
+    function generate_no () {
+            var data_send = {};
+                data_send.tanggal = mys.toDate($('#tanggal').val());
+                data_send.id_unit_kerja = $('#id_unit_kerja').val();
+                data_send.id_kategori = $('#id_kategori').val();
+            var id_permintaan = $('#id_permintaan').val();
+
+
+            if (!data_send.tanggal) {
+               $('#no_anggaran').val(null);
+               $('#no_anggaran_view').html('-');
+                return false;
+            }
+
+            mys.blok()
+                $.ajax({
+                    url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: data_send,
+                    success: function(data){
+                       $('#no_anggaran').val(data.no_anggaran);
+                       $('#no_anggaran_view').html(data.no_anggaran);
+                    },
+                    error:function(data){
+                        mys.notifikasi("Gagal Mengambil data dari server","error");
+                    }
+                })
+                .always(function() {
+                    mys.unblok();
+                });
+        }
 
     function load_kategori(){
         $.ajax({
