@@ -93,12 +93,14 @@ CREATE TABLE `arus_dana` (
   CONSTRAINT `arus_dana_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
   CONSTRAINT `arus_dana_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `arus_dana_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 /*Data for the table `arus_dana` */
 
 insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`,`id_unit_kerja`,`id_kategori`,`id_anggaran`,`catatan`,`total`,`bbm`,`periode_pelaksanaan`,`id_bagian`) values 
-(22,'1/HAI-DRMGLF/VII/2019','2019-07-23',NULL,3,27,2,'Catatan',-40000,NULL,'2019-07-01',1);
+(22,'1/HAI-DRMGLF/VII/2019','2019-07-23',NULL,3,27,2,'Catatan',-40000,'1','2019-07-01',1),
+(24,'1/PKS-DIT/VII/2019','2019-07-24',NULL,NULL,7,5,'',50000,'1','2019-07-01',1),
+(28,'1/PKS/VII/2019','2019-07-24',NULL,NULL,NULL,0,'',-20000,'1','2019-07-01',1);
 
 /*Table structure for table `bagian` */
 
@@ -132,12 +134,14 @@ CREATE TABLE `detail_arus_dana` (
   PRIMARY KEY (`id_detail_arus`),
   KEY `fk_reference_15` (`id_arus_dana`),
   CONSTRAINT `detail_arus_dana_ibfk_1` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_arus_dana` */
 
 insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`penerimaan`,`pengeluaran`,`keterangan`) values 
-(20,22,'uraian 1',10000,50000,'ket detail');
+(20,22,'uraian 1',10000,50000,'ket detail'),
+(21,24,'Bensin',0,50000,'A'),
+(24,28,'BBM',0,20000,'0');
 
 /*Table structure for table `detail_permintaan_anggaran` */
 
@@ -152,9 +156,12 @@ CREATE TABLE `detail_permintaan_anggaran` (
   PRIMARY KEY (`id_detail_permintaan`),
   KEY `fk_reference_10` (`id_permintaan`),
   CONSTRAINT `detail_permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_permintaan_anggaran` */
+
+insert  into `detail_permintaan_anggaran`(`id_detail_permintaan`,`id_permintaan`,`uraian`,`nominal`,`keterangan`) values 
+(3,3,'ac',232,'');
 
 /*Table structure for table `kategori` */
 
@@ -208,8 +215,7 @@ insert  into `kategori`(`id_kategori`,`kode_kategori`,`nama_kategori`,`id_bagian
 (32,'SILABAHU','PT PEGADAIAN PERSERO SILABAHU',1,'A'),
 (33,'TPS','Terminal Peti Kemas Surabaya',1,'A'),
 (34,'PPGI','Persatuan Perusahaan Gadai Indonesia',1,'A'),
-(35,'SILABA','PT PEGADAIAN PERSERO SILABA',1,'A'),
-(36,'PKS','-PKS-',1,'A');
+(35,'SILABA','PT PEGADAIAN PERSERO SILABA',1,'A');
 
 /*Table structure for table `pemegang_jabatan` */
 
@@ -253,9 +259,12 @@ CREATE TABLE `permintaan_anggaran` (
   CONSTRAINT `permintaan_anggaran_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `permintaan_anggaran_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
   CONSTRAINT `permintaan_anggaran_ibfk_4` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `permintaan_anggaran` */
+
+insert  into `permintaan_anggaran`(`id_permintaan`,`no_anggaran`,`id_bagian`,`id_unit_kerja`,`id_kategori`,`id_anggaran`,`tanggal`,`tanggal_kebutuhan`,`catatan`,`total`,`status_realisasi`) values 
+(3,'1/PKS-PKS/VII/2019',1,NULL,27,3,'2019-07-24','2019-07-25','a',232,'D');
 
 /*Table structure for table `tanda_tangan` */
 
@@ -283,7 +292,7 @@ CREATE TABLE `tanda_tangan` (
 insert  into `tanda_tangan`(`id_ttd`,`id_bagian`,`dokumen`,`dibuat`,`jabatan_pembuat`,`diperiksa`,`jabatan_pemeriksa`,`diketahui`,`jabatan_yg_mengetahui`,`disetujui`,`jabatan_penyetuju`) values 
 (1,1,'permintaan','Lulut Fitriyaningrum, S,Kom','Admin','Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat','Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya','Prof. Dr. Budi Jatmiko, M.Pd','Rektor'),
 (2,1,'realisasi','Lulut Fitriyaningrum, S,Kom','Admin','Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat','Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya','Prof. Dr. Budi Jatmiko, M.Pd','Rektor'),
-(3,1,'reimburse','','',NULL,NULL,NULL,NULL,'Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya');
+(3,1,'reimburse','Jimmy','Kanit SSI',NULL,NULL,NULL,NULL,'Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya');
 
 /*Table structure for table `unit_kerja` */
 
@@ -305,8 +314,7 @@ CREATE TABLE `unit_kerja` (
 insert  into `unit_kerja`(`id_unit_kerja`,`id_bagian`,`nama_unit_kerja`,`status`,`kode_unit_kerja`) values 
 (1,1,'Solusi Sistem Informasi','A','SSI'),
 (2,1,'Pelatiahan dan Sertifikasi','A','PS'),
-(3,1,'Hubungan Antar Instansi','A','HAI'),
-(4,1,'-PKS-','A','PKS');
+(3,1,'Hubungan Antar Instansi','A','HAI');
 
 /*Table structure for table `user` */
 
@@ -337,7 +345,7 @@ insert  into `user`(`user_id`,`username`,`nama_admin`,`password_admin`,`id_bagia
 /*!50003 DROP FUNCTION IF EXISTS `generate_no_anggaran` */;
 DELIMITER $$
 
-/*!50003 CREATE FUNCTION `generate_no_anggaran`(p_tanggal DATE, p_id_unit INT, p_id_kategori INT) RETURNS varchar(50) CHARSET latin1
+/*!50003 CREATE FUNCTION `generate_no_anggaran`(p_tanggal DATE, p_id_unit INT, p_id_kategori INT, p_kode_bagian VARCHAR(10)) RETURNS varchar(50) CHARSET latin1
 BEGIN
 	DECLARE v_kode_unit VARCHAR(50);
 	DECLARE v_kode_kategori VARCHAR(50);
@@ -346,11 +354,25 @@ BEGIN
 	DECLARE v_urutan INT;
 	DECLARE v_urutan_realisasi INT;
 	
-	SELECT (IFNULL(CAST(MAX(SUBSTR(no_anggaran,1,1)) AS UNSIGNED),0)+1) INTO v_urutan 
-	FROM permintaan_anggaran WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit;
+	IF(p_id_unit = '') THEN
+		SELECT (IFNULL(CAST(MAX(SUBSTR(no_anggaran,1,1)) AS UNSIGNED),0)+1) INTO v_urutan 
+		FROM permintaan_anggaran WHERE id_kategori IS NULL AND id_unit_kerja is NULL;
+		
+		SELECT (IFNULL(CAST(MAX(SUBSTR(no_arus_dana,1,1)) AS UNSIGNED),0)+1) INTO v_urutan_realisasi 
+		FROM arus_dana WHERE id_kategori IS NULL AND id_unit_kerja is NULL;
 
-	SELECT (IFNULL(CAST(MAX(SUBSTR(no_arus_dana,1,1)) AS UNSIGNED),0)+1) INTO v_urutan_realisasi 
-	FROM arus_dana WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit;
+		SET v_kode_unit = p_kode_bagian;
+	ELSE
+		SELECT (IFNULL(CAST(MAX(SUBSTR(no_anggaran,1,1)) AS UNSIGNED),0)+1) INTO v_urutan 
+		FROM permintaan_anggaran WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit;
+		
+		SELECT (IFNULL(CAST(MAX(SUBSTR(no_arus_dana,1,1)) AS UNSIGNED),0)+1) INTO v_urutan_realisasi 
+		FROM arus_dana WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit;
+
+		SELECT kode_unit_kerja INTO v_kode_unit FROM unit_kerja WHERE id_unit_kerja = p_id_unit;
+	END IF;
+
+	
 	
 	IF
 		v_urutan_realisasi>=v_urutan
@@ -358,13 +380,15 @@ BEGIN
 		SET v_urutan = v_urutan_realisasi;
 	END IF;
 
-	SELECT kode_unit_kerja INTO v_kode_unit FROM unit_kerja WHERE id_unit_kerja = p_id_unit;
 	SELECT kode_kategori INTO v_kode_kategori FROM kategori WHERE id_kategori = p_id_kategori;
 	
 	SET v_bulan_romawi = to_roman(DATE_FORMAT(p_tanggal,'%c'));
 	
-	SET v_no_anggaran = CONCAT(v_urutan,'/',v_kode_unit,'-',v_kode_kategori,'/',v_bulan_romawi,'/',DATE_FORMAT(p_tanggal,'%Y'));
-	
+	if(p_id_unit = '') Then
+		SET v_no_anggaran = CONCAT(v_urutan,'/',v_kode_unit,'/',v_bulan_romawi,'/',DATE_FORMAT(p_tanggal,'%Y'));
+	else
+		set v_no_anggaran = CONCAT(v_urutan,'/',v_kode_unit,'-',v_kode_kategori,'/',v_bulan_romawi,'/',DATE_FORMAT(p_tanggal,'%Y'));
+	end if;
 	RETURN v_no_anggaran;
 	
     END */$$
