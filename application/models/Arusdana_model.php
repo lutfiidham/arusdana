@@ -146,6 +146,12 @@ class Arusdana_model extends CI_Model {
 		return $delete;
 	}
 
+	function insert_detil($data)
+	{
+		$insert = $this->db->insert('detail_arus_dana', $data);
+		return $insert;
+	}
+
 
 }
 

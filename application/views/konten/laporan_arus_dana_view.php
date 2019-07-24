@@ -305,6 +305,12 @@
             {visible : false, targets : []},
                 {
                     render: function ( data, type, row ) {
+                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control uraian" required>';
+                    },
+                    targets: [1]
+                },
+                {
+                    render: function ( data, type, row ) {
                         return '<input type="text" value="'+(data? data : 0)+'" class="form-control penerimaan autonumeric" required>';
                     },
                     targets: [2]
@@ -396,11 +402,11 @@
             // }
         });
 
-        $('#id_unit_kerja,#id_kategori').on('change', function(event) {
-            generate_no();            
-        });
+        // $('#id_unit_kerja,#id_kategori').on('change', function(event) {
+        //     generate_no();            
+        // });
 
-        $('#tanggal').on('change.datetimepicker', generate_no);
+        // $('#tanggal').on('change.datetimepicker', generate_no);
 
         
 
@@ -523,11 +529,11 @@
         });
 
 
-        $('#id_unit_kerja,#id_kategori').on('change', function(event) {
-            generate_no();            
-        });
+        // $('#id_unit_kerja,#id_kategori').on('change', function(event) {
+        //     generate_no();            
+        // });
 
-        $('#tanggal').on('change.datetimepicker', generate_no);
+        // $('#tanggal').on('change.datetimepicker', generate_no);
      
     });
 
@@ -570,7 +576,7 @@
         $('#reimburse').prop('checked', false);
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
-        generate_no();
+        // generate_no();
     }
 
 
@@ -588,7 +594,7 @@
             success: function(data){
                 buka_form();
                 var core = data.data;
-                    // console.log(data);
+                    console.log(data);
                     $('#id_permintaan').val(core.id_permintaan);
                     $('#id_arus_dana').val(core.id_arus_dana);
                     $('#id_unit_kerja').val(core.id_unit_kerja).trigger('change');
@@ -603,8 +609,13 @@
                     }else{
                         $('#reimburse').prop('checked', false);
                     }
-                    $('#no_anggaran').val(core.no_anggaran);
-                    $('#no_anggaran_view').html(core.no_anggaran);
+                    if ($('#id_arus_dana').val() != '') {
+                        $('#no_anggaran').val(core.no_arus_dana);
+                        $('#no_anggaran_view').html(core.no_arus_dana);
+                    }else{
+                        $('#no_anggaran').val(core.no_anggaran);
+                        $('#no_anggaran_view').html(core.no_anggaran);
+                    };
 
                 var detail_permintaan = data.detil;
                     data_detil_permintaan = detail_permintaan;
@@ -647,7 +658,7 @@
         var detail = [];
         table.each(function(index, el) {
             var items = {};
-            items['uraian'] = $(el).find('td').eq(1).text();
+            items['uraian'] = $(el).find('input.uraian').val();
             items['penerimaan'] = $(el).find('input.penerimaan').val() ? parseInt($(el).find('input.penerimaan').val().replace(/\D/g, '')) : 0;
             items['pengeluaran'] = $(el).find('input.pengeluaran').val() ? parseInt($(el).find('input.pengeluaran').val().replace(/\D/g, '')) : 0;
             items['keterangan'] = $(el).find('input.keterangan').val();
@@ -786,6 +797,10 @@
                $('#no_anggaran_view').html('-');
                 return false;
             }
+
+            if ($('#id_arus_dana').val() != '' || $('#id_permintaan').val() != '') {
+                return false;
+            };
 
             mys.blok()
                 $.ajax({

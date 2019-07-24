@@ -84,7 +84,24 @@ class Arusdana extends CI_Controller
 		}
 
 		if ($realisasi->id_arus_dana != '') {
-			
+			//edit realisasi
+			$update_realisasi = $this->adm->update(['id_arus_dana'=>$realisasi->id_arus_dana],
+				$realisasi
+			);
+			$delete_detail = $this->adm->delete_detail(['id_arus_dana'=>$realisasi->id_arus_dana]);
+
+			foreach ($detail_permintaan as $key => $value) {
+				$data_detil = [
+					'id_arus_dana' => $realisasi->id_arus_dana,
+					'uraian' => $value->uraian,
+					'penerimaan' => $value->penerimaan,
+					'pengeluaran' => $value->pengeluaran,
+					'keterangan' => $value->keterangan,
+				];
+				$insert_detil = $this->adm->insert_detil($data_detil);
+			}
+			$id_for_cetak = $realisasi->id_arus_dana;
+
 		} else {
 			if (isset($permintaan)) {
 				$realisasi->no_arus_dana = $permintaan->no_anggaran;
