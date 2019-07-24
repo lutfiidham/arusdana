@@ -8,7 +8,7 @@ class Permintaan_anggaran_model extends CI_Model {
 	function get_data($tanggal = "")
 	{
 		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori');
-		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
+		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja', 'left');
 		$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
 		$this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
 		$this->db->where('pa.id_bagian', $this->session->userdata('id_bagian'));
