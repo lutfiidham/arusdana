@@ -598,6 +598,11 @@
                     $('#periode_pelaksanaan').val(moment(core.periode_pelaksanaan).format('MMMM-YYYY'));
                     $('#catatan').val(core.catatan);
                     $('#catatan_realisasi').val(core.catatan);
+                    if (core.bbm == '1') {
+                        $('#reimburse').prop('checked', true);
+                    }else{
+                        $('#reimburse').prop('checked', false);
+                    }
                     $('#no_anggaran').val(core.no_anggaran);
                     $('#no_anggaran_view').html(core.no_anggaran);
 
