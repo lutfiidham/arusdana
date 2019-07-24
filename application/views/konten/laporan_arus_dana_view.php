@@ -125,9 +125,20 @@
                         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                             <h6 class="font-weight-bold">No. Anggaran :</h6>
                         </div>
-                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <input type="hidden" name="no_anggaran" id="no_anggaran">
                             <h6 class="font-weight-bold" id="no_anggaran_view">-</h6>
+                        </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                            <div class="checkbox-fade fade-in-primary">
+                                <label>
+                                    <input type="checkbox" id="reimburse" name="reimburse" value="">
+                                    <span class="cr">
+                                        <i class="cr-icon ik ik-check txt-primary"></i>
+                                    </span>
+                                    <h7 class="font-weight-bold">REIMBURSE</h7>
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -432,6 +443,8 @@
             reset_form_det_permintaan();
             $('#jenis_masukan').val('new');
             $('#modal_detil').modal('toggle');
+            $('#penerimaan').val(0);
+            $('#pengeluaran').val(0);
             $('#alert_det_permintaan').empty();
         });
 
@@ -583,6 +596,7 @@
         $('#periode_pelaksanaan').val(moment().format('MMMM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
         $('#id_kategori').val('PKS').trigger('change.select2');
+        $('#reimburse').prop('checked', false);
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
     }
@@ -640,6 +654,11 @@
             realisasi["periode_pelaksanaan"] = moment($('#periode_pelaksanaan').val(), 'MMMM-YYYY').format('YYYY-MM-DD');
             realisasi["catatan"] = $('#catatan_realisasi').val();
             realisasi["total"] = parseInt($('#total_retur').text().replace(/[^0-9\-]/g, ''));
+            if ($('#reimburse').is(':checked')) {
+                realisasi["bbm"] = 1;
+            }else{
+                realisasi["bbm"] = 0;
+            };
 
         var table = $('#tabel_detail_permintaan tbody tr');
         var detail = [];

@@ -93,9 +93,13 @@ class Arusdana_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 
-	function get_list_ttd()
+	function get_list_ttd($bbm)
 	{
-		$this->db->where('dokumen', 'realisasi');
+		if ($bbm == 1) {
+			$this->db->where('dokumen', 'reimburse');
+		}else{
+			$this->db->where('dokumen', 'realisasi');
+		}
 		return $this->db->get('tanda_tangan')->row();
 	}
 

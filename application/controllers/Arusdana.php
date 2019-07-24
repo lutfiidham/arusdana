@@ -123,9 +123,14 @@ class Arusdana extends CI_Controller
 
 		$html .= '<table width="100%">
 					<tr >
-					  <td width="50%">
-						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">Laporan Arus Dana  </span></p>
-					  </td>
+					  <td width="50%">';
+					  if ($arus_dana->bbm == 1) {
+					  	$html .= '<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">Laporan Reimburse BBM</span></p>';
+					  }else{
+					  	$html .= '<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">Laporan Arus Dana  </span></p>';
+					  }
+						
+					  $html .='</td>
 					  <td width="20%";">Bagian</td>
 					  <td  width="30%">
 						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">: '.$this->session->userdata('kode_bagian').'</span></p></td>
@@ -146,7 +151,12 @@ class Arusdana extends CI_Controller
 		';
 
 		$detil_anggaran = $this->adm->get_detil_anggaran($arus_dana->id_anggaran);
-		$html.= '<p style="text-align:center;"">Kegiatan: ('.$detil_anggaran->kode_anggaran.') '.$detil_anggaran->nama_anggaran.' </p>';
+		if ($arus_dana->bbm == 1) {
+			$html.= '<p style="text-align:center;"">Kegiatan: Reimburse BBM</p>';
+		}else{
+			$html.= '<p style="text-align:center;"">Kegiatan: ('.$detil_anggaran->kode_anggaran.') '.$detil_anggaran->nama_anggaran.' </p>';
+		}
+
 		$html .= '<p style="text-align:center;">Periode Pelaksanaan: '.bulan_tahun($arus_dana->periode_pelaksanaan).'</p><br>';
 
 		$html.= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">';
@@ -188,7 +198,59 @@ class Arusdana extends CI_Controller
 		</tfoot>';
 		$html.='</tbody></table>';
 		$html.= '<p>Catatan: '.$arus_dana->catatan.' </p><br>';
-		$ttd = $this->adm->get_list_ttd();
+		$ttd = $this->adm->get_list_ttd($arus_dana->bbm);
+		if ($arus_dana->bbm == 1) {
+			$html.= '<table style="table-layout:fixed;" width="100%">
+			<tr>
+				<td style="width:33%" class="data-center">&nbsp;</td>
+				<td style="width:33%" class="data-center">&nbsp;</td>
+				<td style="width:33%" class="data-center">Surabaya, '.tanggal_full(date("Y/m/d")).'</td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center">Disetujui Oleh:</td>
+				<td style="width:33%" class="data-center"></td>
+				<td style="width:33%" class="data-center">Dibuat Oleh:</td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center">
+					<br><br><br><br>
+					<span style="font-weight:bold;text-decoration:underline">'.$ttd->disetujui.'</span><br>
+					<span>'.$ttd->jabatan_penyetuju.'</span>
+				</td>
+				<td style="width:33%" class="data-center">
+					<br><br><br><br>
+					<span style="font-weight:bold;text-decoration:underline"></span><br>
+					<span></span>
+				</td>
+				<td style="width:33%" class="data-center">
+					<br><br><br><br>
+					<span style="font-weight:bold;text-decoration:underline">'.$ttd->dibuat.'</span><br>
+					<span>'.$ttd->jabatan_pembuat.'</span>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center"><br></td>
+				<td style="width:33%" class="data-center"><br></td>
+				<td style="width:33%" class="data-center"><br></td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center">&nbsp;</td>
+				<td style="width:33%" class="data-center"></td>
+				<td style="width:33%" class="data-center">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width:33%" class="data-center"></td>
+				<td style="width:33%" class="data-center">
+					<br><br><br><br>
+					<span style="font-weight:bold;text-decoration:underline"></span><br>
+					<span></span>
+				</td>
+				<td style="width:33%" class="data-center"></td>
+			</tr>
+
+		</table>';
+		}else{
+
 		$html.= '<table style="table-layout:fixed;" width="100%">
 			<tr>
 				<td style="width:33%" class="data-center">&nbsp;</td>
@@ -238,6 +300,7 @@ class Arusdana extends CI_Controller
 			</tr>
 
 		</table>';
+	}
 
 		$data['html'] = $html;
 		$data['no_header'] = true;
