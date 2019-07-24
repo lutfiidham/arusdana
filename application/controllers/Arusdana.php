@@ -78,40 +78,73 @@ class Arusdana extends CI_Controller
 			$realisasi->id_unit_kerja = NULL;
 		}
 
-		if (isset($permintaan)) {
-			$realisasi->no_arus_dana = $permintaan->no_anggaran;
-			$realisasi->tanggal = date('Y-m-d');
-			$realisasi->id_kategori = $permintaan->id_kategori;
-			$realisasi->id_unit_kerja = $permintaan->id_unit_kerja;
-			$realisasi->id_anggaran = $permintaan->id_anggaran;
-
-			$idArusDana = $this->adm->storeArusDana($realisasi);
-			$id_realisasi = $this->db->insert_id();
-			$this->adm->updatePermintaanStatus($realisasi->id_permintaan, 'W');
-			if ($idArusDana > 0) {
-				foreach ($detail as $key => $d) {
-					$da = (array) $d;
-					$da['id_arus_dana'] = $idArusDana;
-					$this->adm->storeChildArusDana($da);
-				}
-			}
-			echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
-		} else {
-			$realisasi->tanggal = date('Y-m-d');
+		if ($realisasi->id_arus_dana == '') {
 			
-			$idArusDana = $this->adm->storeArusDana($realisasi);
-			$id_realisasi = $this->db->insert_id();
-			// $this->adm->updatePermintaanStatus($realisasi->id_permintaan, 'W');
-			if ($idArusDana > 0) {
-				foreach ($detail as $key => $d) {
-					$da = (array) $d;
-					$da['id_arus_dana'] = $idArusDana;
-					$this->adm->storeChildArusDana($da);
-				}
-			}
+		} else {
+			if (isset($permintaan)) {
+				$realisasi->no_arus_dana = $permintaan->no_anggaran;
+				$realisasi->tanggal = date('Y-m-d');
+				$realisasi->id_kategori = $permintaan->id_kategori;
+				$realisasi->id_unit_kerja = $permintaan->id_unit_kerja;
+				$realisasi->id_anggaran = $permintaan->id_anggaran;
 
-			echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
+				$idArusDana = $this->adm->storeArusDana($realisasi);
+				$id_realisasi = $this->db->insert_id();
+				$this->adm->updatePermintaanStatus($realisasi->id_permintaan, 'W');
+				if ($idArusDana > 0) {
+					foreach ($detail as $key => $d) {
+						$da = (array) $d;
+						$da['id_arus_dana'] = $idArusDana;
+						$this->adm->storeChildArusDana($da);
+					}
+				}
+				echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
+			} else {
+				$realisasi->tanggal = date('Y-m-d');
+				
+				$idArusDana = $this->adm->storeArusDana($realisasi);
+				$id_realisasi = $this->db->insert_id();
+				// $this->adm->updatePermintaanStatus($realisasi->id_permintaan, 'W');
+				if ($idArusDana > 0) {
+					foreach ($detail as $key => $d) {
+						$da = (array) $d;
+						$da['id_arus_dana'] = $idArusDana;
+						$this->adm->storeChildArusDana($da);
+					}
+				}
+
+				echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
+			}
 		}
+		
+	}
+
+	function delete()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+
+
+		$this->db->trans_begin();
+		$exec = $this->adm->delete_detail(['id_arus_dana' => $this->input->post('id')]);
+		$exec = $this->adm->delete(['id_arus_dana' => $this->input->post('id')]);
+
+		$exec = $this->db->trans_status();
+
+		if ($exec === FALSE)
+		{
+		        $this->db->trans_rollback();
+		}
+		else
+		{
+	        $this->db->trans_commit();
+		}
+
+
+		echo json_encode(
+			['status' => $exec]
+		);
+		
 	}
 
 	function cetak_laporan()

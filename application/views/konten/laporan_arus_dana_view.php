@@ -71,6 +71,7 @@
             <div class="card-body">
                 <form class="forms-sample" id="form" method="POST" action="javascript:;">
                     <input type="hidden" name="id_permintaan" id="id_permintaan">
+                    <input type="hidden" name="id_arus_dana" id="id_arus_dana">
                     <input type="hidden" name="no_anggaran" id="no_anggaran">
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -94,7 +95,7 @@
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="id_kategori">Kategori</label>
-                                <select name="id_kategori" id="id_kategori" class="form-control cmb_select2" required="required">
+                                <select name="id_kategori" id="id_kategori" class="form-control cmb_select2">
                                     <option ></option>
                                 </select>
                                 <span class="help-block"></span>
@@ -108,7 +109,7 @@
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="id_anggaran">Anggaran</label>
-                                <select name="id_anggaran" id="id_anggaran" class="form-control cmb_select2" required="required">
+                                <select name="id_anggaran" id="id_anggaran" class="form-control cmb_select2">
                                     <option ></option>
                                 </select>
                                 <span class="help-block"></span>
@@ -269,7 +270,8 @@
                 {
                     "render": function ( data, type, row ) {
                        return '<button type="button" title="Realisasi" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button>\
-                       <button type="button" title="Cetak" data-toggle="tooltip" class="btn btn-success cetak"><span class="fa fa-print"></span></button>';
+                       <button type="button" title="Cetak" data-toggle="tooltip" class="btn btn-success cetak"><span class="fa fa-print"></span></button>\
+                       <button type="button" title="Hapus" data-toggle="tooltip" class="btn btn-danger hapus"><span class="fa fa-trash"></span></button>';
                     },
                     "targets": [-1]
                 },
@@ -315,7 +317,7 @@
                 },
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control keterangan" required>';
+                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control keterangan">';
                     },
                     targets: [4]
                 },
@@ -408,7 +410,7 @@
             var id_permintaan = $('#id_permintaan').val();
 
 
-            if (!data_send.tanggal ||!data_send.id_kategori) {
+            if (!data_send.tanggal) {
                $('#no_anggaran').val(null);
                $('#no_anggaran_view').html('-');
                 return false;
@@ -469,7 +471,7 @@
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[8]);
+            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[7]);
         });
 
         $('#tabel_detail_permintaan tbody').on( 'click', '.ubah_detail', function () {
@@ -603,7 +605,7 @@
 
 
     function ubah_data(id,jenis){
-        console.log(id+jenis);
+        // console.log(id+jenis);
         mys.blok()
         $.ajax({
             url: mys.base_url+'arusdana/get_data_by_id',
@@ -616,8 +618,9 @@
             success: function(data){
                 buka_form();
                 var core = data.data;
-                    console.log(data);
+                    // console.log(data);
                     $('#id_permintaan').val(core.id_permintaan);
+                    $('#id_arus_dana').val(core.id_arus_dana);
                     $('#id_unit_kerja').val(core.id_unit_kerja).trigger('change');
                     $('#id_kategori').val(core.id_kategori).trigger('change');
                     $('#id_anggaran').val(core.id_anggaran).trigger('change');
@@ -710,6 +713,32 @@
             // setTimeout(function() {
             //     window.location.reload();
             // }, 3000);
+        });
+    }
+
+    function hapus(id){
+        mys.blok()
+        $.ajax({
+            url: mys.base_url+'arusdana/delete',
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                id: id
+            },
+            success: function(data){
+                if (data.status) {
+                    mys.notifikasi("Data Berhasil Dihapus","success");
+                } else{
+                    mys.notifikasi("Data Gagal Dihapus, Coba Beberapa Saat Lagi.","error");
+                }
+            },
+            error:function(data){
+                mys.notifikasi("Data Gagal Dihapus, Coba Beberapa Saat Lagi.","error");
+            }
+        })
+        .always(function() {
+            mys.unblok();
+            reload();
         });
     }
 
