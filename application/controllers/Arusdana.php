@@ -74,12 +74,15 @@ class Arusdana extends CI_Controller
 		$detail = (array) json_decode($this->input->post('detail'));
 		
 		$permintaan = $this->adm->getAnggaran($realisasi->id_permintaan)->row();
+		if ($realisasi->id_unit_kerja == '') {
+			$realisasi->id_unit_kerja = NULL;
+		}
 
 		if (isset($permintaan)) {
 			$realisasi->no_arus_dana = $permintaan->no_anggaran;
 			$realisasi->tanggal = date('Y-m-d');
-			$realisasi->id_unit_kerja = $permintaan->id_unit_kerja;
 			$realisasi->id_kategori = $permintaan->id_kategori;
+			$realisasi->id_unit_kerja = $permintaan->id_unit_kerja;
 			$realisasi->id_anggaran = $permintaan->id_anggaran;
 
 			$idArusDana = $this->adm->storeArusDana($realisasi);

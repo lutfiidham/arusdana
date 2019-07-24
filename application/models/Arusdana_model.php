@@ -15,14 +15,14 @@ class Arusdana_model extends CI_Model {
 		$query = "
 			select 'arus_dana' as jenis, id_arus_dana as id, tanggal, no_arus_dana as nomor, uk.nama_unit_kerja, kt.nama_kategori,an.kode_anggaran, an.nama_anggaran, periode_pelaksanaan, 'W' as status_realisasi
 			from arus_dana a
-			join unit_kerja uk on a.id_unit_kerja = uk.id_unit_kerja
+			left join unit_kerja uk on a.id_unit_kerja = uk.id_unit_kerja
 			join anggaran an on a.id_anggaran = an.id_anggaran
 			join kategori kt on a.id_kategori = kt.id_kategori
 			where a.id_bagian = ? and id_permintaan is null
 			UNION
 			select 'permintaan' as jenis, id_permintaan as id, tanggal, no_anggaran as nomor,  uk.nama_unit_kerja, kt.nama_kategori,an.kode_anggaran, an.nama_anggaran, NULL as periode_pelaksanaan, status_realisasi
 			from permintaan_anggaran pa
-			join unit_kerja uk on pa.id_unit_kerja = uk.id_unit_kerja
+			left join unit_kerja uk on pa.id_unit_kerja = uk.id_unit_kerja
 			join anggaran an on pa.id_anggaran = an.id_anggaran
 			join kategori kt on pa.id_kategori = kt.id_kategori
 			where pa.id_bagian = ?

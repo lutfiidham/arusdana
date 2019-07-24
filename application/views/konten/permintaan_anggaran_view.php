@@ -77,7 +77,7 @@
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="id_unit_kerja">Unit Kerja</label>
-                                <select name="id_unit_kerja" id="id_unit_kerja" class="form-control cmb_select2" required="required">
+                                <select name="id_unit_kerja" id="id_unit_kerja" class="form-control cmb_select2">
                                     <option ></option>
                                 </select>
                                 <span class="help-block"></span>
@@ -461,7 +461,7 @@
             var id_permintaan = $('#id_permintaan').val();
 
 
-            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori) {
+            if (!data_send.tanggal || !data_send.id_kategori) {
                $('#no_anggaran').val(null);
                $('#no_anggaran_view').html('-');
                 return false;

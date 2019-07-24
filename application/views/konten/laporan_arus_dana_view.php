@@ -76,7 +76,7 @@
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="id_unit_kerja">Unit Kerja</label>
-                                <select name="id_unit_kerja" id="id_unit_kerja" class="form-control cmb_select2" required="required">
+                                <select name="id_unit_kerja" id="id_unit_kerja" class="form-control cmb_select2">
                                     <option ></option>
                                 </select>
                                 <span class="help-block"></span>
@@ -174,7 +174,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                             <h6 class="font-weight-bold" >Catatan</h6>
-                            <textarea class="form-control" name="catatan_realisasi" id="catatan_realisasi" cols="30" rows="6" required=""></textarea>
+                            <textarea class="form-control" name="catatan_realisasi" id="catatan_realisasi" cols="30" rows="6"></textarea>
                         </div>
                     </div>
                     <hr>
@@ -408,7 +408,7 @@
             var id_permintaan = $('#id_permintaan').val();
 
 
-            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori || id_permintaan) {
+            if (!data_send.tanggal ||!data_send.id_kategori) {
                $('#no_anggaran').val(null);
                $('#no_anggaran_view').html('-');
                 return false;
@@ -595,7 +595,7 @@
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
         $('#periode_pelaksanaan').val(moment().format('MMMM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
-        $('#id_kategori').val('PKS').trigger('change.select2');
+        $('#id_kategori').val($('#id_kategori option:eq(1)').val()).trigger('change');
         $('#reimburse').prop('checked', false);
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
@@ -863,38 +863,38 @@
     }
 
 
-        function generate_no () {
-            var data_send = {};
-                data_send.tanggal = mys.toDate($('#tanggal').val());
-                data_send.id_unit_kerja = $('#id_unit_kerja').val();
-                data_send.id_kategori = $('#id_kategori').val();
-            var id_permintaan = $('#id_permintaan').val();
+        // function generate_no () {
+        //     var data_send = {};
+        //         data_send.tanggal = mys.toDate($('#tanggal').val());
+        //         data_send.id_unit_kerja = $('#id_unit_kerja').val();
+        //         data_send.id_kategori = $('#id_kategori').val();
+        //     var id_permintaan = $('#id_permintaan').val();
 
 
-            if (!data_send.tanggal || !data_send.id_unit_kerja || !data_send.id_kategori || id_permintaan) {
-               $('#no_anggaran').val(null);
-               $('#no_anggaran_view').html('-');
-                return false;
-            }
+        //     if (!data_send.tanggal || !data_send.id_kategori) {
+        //        $('#no_anggaran').val(null);
+        //        $('#no_anggaran_view').html('-');
+        //         return false;
+        //     }
 
-            mys.blok()
-                $.ajax({
-                    url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
-                    type: 'POST',
-                    dataType: 'JSON',
-                    data: data_send,
-                    success: function(data){
-                       $('#no_anggaran').val(data.no_anggaran);
-                       $('#no_anggaran_view').html(data.no_anggaran);
-                    },
-                    error:function(data){
-                        mys.notifikasi("Gagal Mengambil data dari server","error");
-                    }
-                })
-                .always(function() {
-                    mys.unblok();
-                });
-        }
+        //     mys.blok()
+        //         $.ajax({
+        //             url: mys.base_url+'permintaan_anggaran/get_no_anggaran',
+        //             type: 'POST',
+        //             dataType: 'JSON',
+        //             data: data_send,
+        //             success: function(data){
+        //                $('#no_anggaran').val(data.no_anggaran);
+        //                $('#no_anggaran_view').html(data.no_anggaran);
+        //             },
+        //             error:function(data){
+        //                 mys.notifikasi("Gagal Mengambil data dari server","error");
+        //             }
+        //         })
+        //         .always(function() {
+        //             mys.unblok();
+        //         });
+        // }
 
 
 </script>
