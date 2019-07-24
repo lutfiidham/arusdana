@@ -654,6 +654,10 @@
             realisasi["periode_pelaksanaan"] = moment($('#periode_pelaksanaan').val(), 'MMMM-YYYY').format('YYYY-MM-DD');
             realisasi["catatan"] = $('#catatan_realisasi').val();
             realisasi["total"] = parseInt($('#total_retur').text().replace(/[^0-9\-]/g, ''));
+            if ($('#total_retur').text().indexOf('(') > -1){
+                realisasi["total"] = -Math.abs(realisasi["total"]);
+            }
+
             if ($('#reimburse').is(':checked')) {
                 realisasi["bbm"] = 1;
             }else{
@@ -935,7 +939,7 @@
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label for="keterangan">Keterangan</label>
-                                <input type="text" class="form-control" name="keterangan" id="keterangan" required>
+                                <input type="text" class="form-control" name="keterangan" id="keterangan">
                                 <span class="help-block"></span>
                             </div>
                         </div>
