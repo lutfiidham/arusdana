@@ -103,6 +103,9 @@ class Permintaan_anggaran extends CI_Controller {
 		$detail_permintaan = json_decode($this->input->post('detail_permintaan'));
 		$permintaan_anggaran['id_bagian'] = $this->session->userdata('id_bagian');
 		$id_for_cetak = null;
+		if ($permintaan_anggaran['id_unit_kerja'] == '') {
+			$permintaan_anggaran['id_unit_kerja'] = NULL;
+		}
 		if ($permintaan_anggaran['id_permintaan']) {
 			//update
 			// $permintaan_update
