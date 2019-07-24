@@ -26,48 +26,48 @@
             <div class="card-header"><h3>Form Permintaan Anggaran</h3></div>
             <div class="card-body">
                 <form class="forms-sample" id="form_permintaan">
-                    <div class="form-group">
+                    <div class="form-group alert alert-primary">
                         <label for="kode_bagian">Dibuat Oleh</label>
                         <input type="text" class="form-control" name="permintaan-dibuat" id="permintaan-dibuat" required="">
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-primary">
                         <label for="kode_bagian">Jabatan Yang Membuat</label>
                         <input type="text" class="form-control" name="permintaan-jabatan_pembuat" id="permintaan-jabatan_pembuat" required="">
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-info">
                         <label for="nama_bagian">Diperiksa Oleh</label>
                         <input type="text" class="form-control" name="permintaan-diperiksa" id="permintaan-diperiksa" required>
                         <span class="help-block"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group alert alert-info">
                         <label for="nama_bagian">Jabatan Pemeriksa</label>
                         <input type="text" class="form-control" name="permintaan-jabatan_pemeriksa" id="permintaan-jabatan_pemeriksa" required>
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-warning">
                         <label for="kode_bagian">Diketahui Oleh</label>
                         <input type="text" class="form-control" name="permintaan-diketahui" id="permintaan-diketahui" required="">
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-warning">
                         <label for="kode_bagian">Jabatan yang Mengetahui</label>
                         <input type="text" class="form-control" name="permintaan-jabatan_yg_mengetahui" id="permintaan-jabatan_yg_mengetahui" required="">
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-danger">
                         <label for="nama_bagian">Disetujui Oleh</label>
                         <input type="text" class="form-control" name="permintaan-disetujui" id="permintaan-disetujui" required>
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-danger">
                         <label for="nama_bagian">Jabatan yang Menyetujui</label>
                         <input type="text" class="form-control" name="permintaan-jabatan_penyetuju" id="permintaan-jabatan_penyetuju" required>
                         <span class="help-block"></span>
@@ -81,49 +81,49 @@
             <div class="card-header"><h3>Form Arus Dana</h3></div>
             <div class="card-body">
                 <form class="forms-sample" id="form_realisasi">
-                    <div class="form-group">
+                    <div class="form-group alert alert-primary">
                         <label for="kode_bagian">Dibuat Oleh</label>
                         <input type="text" class="form-control" name="realisasi-dibuat" id="realisasi-dibuat" required="">
                         <span class="help-block"></span>
                     </div>
 
                     
-                    <div class="form-group">
+                    <div class="form-group alert alert-primary">
                         <label for="kode_bagian">Jabatan Yang Membuat</label>
                         <input type="text" class="form-control" name="realisasi-jabatan_pembuat" id="realisasi-jabatan_pembuat" required="">
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-info">
                         <label for="nama_bagian">Diperiksa Oleh</label>
                         <input type="text" class="form-control" name="realisasi-diperiksa" id="realisasi-diperiksa" required>
                         <span class="help-block"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group alert alert-info">
                         <label for="nama_bagian">Jabatan Pemeriksa</label>
                         <input type="text" class="form-control" name="realisasi-jabatan_pemeriksa" id="realisasi-jabatan_pemeriksa" required>
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-warning">
                         <label for="kode_bagian">Diketahui Oleh</label>
                         <input type="text" class="form-control" name="realisasi-diketahui" id="realisasi-diketahui" required="">
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-warning">
                         <label for="kode_bagian">Jabatan yang Mengetahui</label>
                         <input type="text" class="form-control" name="realisasi-jabatan_yg_mengetahui" id="realisasi-jabatan_yg_mengetahui" required="">
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-danger">
                         <label for="nama_bagian">Disetujui Oleh</label>
                         <input type="text" class="form-control" name="realisasi-disetujui" id="realisasi-disetujui" required>
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-danger">
                         <label for="nama_bagian">Jabatan yang Menyetujui</label>
                         <input type="text" class="form-control" name="realisasi-jabatan_penyetuju" id="realisasi-jabatan_penyetuju" required>
                         <span class="help-block"></span>
@@ -138,25 +138,25 @@
             <div class="card-header"><h3>Reimburse BBM</h3></div>
             <div class="card-body">
                 <form class="forms-sample" id="form_reimburse">
-                    <div class="form-group">
+                    <div class="form-group alert alert-primary">
                         <label for="kode_bagian">Dibuat Oleh</label>
                         <input type="text" class="form-control" name="reimburse-dibuat" id="reimburse-dibuat" required="">
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-primary">
                         <label for="nama_bagian">Jabatan Yang Membuat</label>
                         <input type="text" class="form-control" name="reimburse-jabatan_pembuat" id="reimburse-jabatan_pembuat" required>
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-danger">
                         <label for="nama_bagian">Disetujui Oleh</label>
                         <input type="text" class="form-control" name="reimburse-disetujui" id="reimburse-disetujui" required>
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group alert alert-danger">
                         <label for="nama_bagian">Jabatan Yang Menyetujui</label>
                         <input type="text" class="form-control" name="reimburse-jabatan_penyetuju" id="reimburse-jabatan_penyetuju" required>
                         <span class="help-block"></span>
