@@ -222,6 +222,7 @@
     var tabel;
     var save_method;
     var data_detil_permintaan = [];
+    var mustGenerateNumberFuckingCunts = true;
 
     $(document).ready(function() {
         mys = Object.create(myscript_js);
@@ -402,11 +403,11 @@
             // }
         });
 
-        // $('#id_unit_kerja,#id_kategori').on('change', function(event) {
-        //     generate_no();            
-        // });
+        $('#id_unit_kerja,#id_kategori').on('change', function(event) {
+            generate_no();
+        });
 
-        // $('#tanggal').on('change.datetimepicker', generate_no);
+        $('#tanggal').on('change.datetimepicker', generate_no);
 
         
 
@@ -577,11 +578,15 @@
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
         // generate_no();
+        
+        // Mbuh opo iki njir, kok iso men-solved kan masalah
+        $('#tanggal').trigger('change');
     }
 
 
     function ubah_data(id,jenis){
         // console.log(id+jenis);
+        mustGenerateNumberFuckingCunts = false;
         mys.blok()
         $.ajax({
             url: mys.base_url+'arusdana/get_data_by_id',
@@ -609,9 +614,11 @@
                     }else{
                         $('#reimburse').prop('checked', false);
                     }
+
                     if ($('#id_arus_dana').val() != '') {
+                        console.log(core.no_arus_dana);
                         $('#no_anggaran').val(core.no_arus_dana);
-                        $('#no_anggaran_view').html(core.no_arus_dana);
+                        $('#no_anggaran_view').text(core.no_arus_dana);
                     }else{
                         $('#no_anggaran').val(core.no_anggaran);
                         $('#no_anggaran_view').html(core.no_anggaran);
@@ -736,6 +743,7 @@
         $('#tabel_card').show();
         var t = $('#tabel').DataTable();
         t.columns.adjust().draw();
+        mustGenerateNumberFuckingCunts = true;
     }
 
     function reset_form() {
@@ -791,14 +799,13 @@
                 data_send.id_kategori = $('#id_kategori').val();
             var id_permintaan = $('#id_permintaan').val();
 
-
             if (!data_send.tanggal) {
                $('#no_anggaran').val(null);
                $('#no_anggaran_view').html('-');
                 return false;
             }
 
-            if ($('#id_arus_dana').val() != '' || $('#id_permintaan').val() != '') {
+            if (!mustGenerateNumberFuckingCunts) {
                 return false;
             };
 
@@ -811,6 +818,7 @@
                     success: function(data){
                        $('#no_anggaran').val(data.no_anggaran);
                        $('#no_anggaran_view').html(data.no_anggaran);
+
                     },
                     error:function(data){
                         mys.notifikasi("Gagal Mengambil data dari server","error");
