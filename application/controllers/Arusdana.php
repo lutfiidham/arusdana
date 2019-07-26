@@ -90,7 +90,7 @@ class Arusdana extends CI_Controller
 			);
 			$delete_detail = $this->adm->delete_detail(['id_arus_dana'=>$realisasi->id_arus_dana]);
 
-			foreach ($detail_permintaan as $key => $value) {
+			foreach ($detail as $key => $value) {
 				$data_detil = [
 					'id_arus_dana' => $realisasi->id_arus_dana,
 					'uraian' => $value->uraian,
@@ -100,7 +100,7 @@ class Arusdana extends CI_Controller
 				];
 				$insert_detil = $this->adm->insert_detil($data_detil);
 			}
-			$id_for_cetak = $realisasi->id_arus_dana;
+			$id_realisasi = $realisasi->id_arus_dana;
 
 		} else {
 			if (isset($permintaan)) {
@@ -135,9 +135,9 @@ class Arusdana extends CI_Controller
 					}
 				}
 
-				echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
 			}
 		}
+				echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
 		
 	}
 
@@ -180,6 +180,7 @@ class Arusdana extends CI_Controller
 		$html = '';
 
 		$html .= '<table width="100%">
+					<tbody>
 					<tr >
 					  <td width="50%">';
 					  if ($arus_dana->bbm == 1) {
@@ -202,7 +203,7 @@ class Arusdana extends CI_Controller
 					  <td  width="25%">
 						<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">: '.$arus_dana->no_arus_dana.'</span></p></td>
 					</tr>
-					
+					</tbody>
 					</table>';
 
 		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN ARUS DANA</span>

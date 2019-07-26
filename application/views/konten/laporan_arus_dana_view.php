@@ -644,7 +644,7 @@
             realisasi["id_permintaan"] = $('#id_permintaan').val()? $('#id_permintaan').val() : null;
             realisasi["no_arus_dana"] = $('#no_anggaran').val();
             realisasi["id_arus_dana"] = $('#id_arus_dana').val();
-            realisasi["tanggal"] = $('#tanggal').val();
+            realisasi["tanggal"] = mys.toDate($('#tanggal').val());
             realisasi["id_unit_kerja"] = $('#id_unit_kerja').val();
             realisasi["id_kategori"] = $('#id_kategori').val();
             realisasi["id_anggaran"] = $('#id_anggaran').val();
@@ -703,7 +703,7 @@
         })
         .always(function() {
             mys.unblok();
-            // reload();
+            reload();
             // setTimeout(function() {
             //     window.location.reload();
             // }, 3000);

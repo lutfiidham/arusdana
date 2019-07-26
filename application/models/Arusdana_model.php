@@ -24,7 +24,7 @@ class Arusdana_model extends CI_Model {
 			from permintaan_anggaran pa
 			left join unit_kerja uk on pa.id_unit_kerja = uk.id_unit_kerja
 			join anggaran an on pa.id_anggaran = an.id_anggaran
-			join kategori kt on pa.id_kategori = kt.id_kategori
+			left join kategori kt on pa.id_kategori = kt.id_kategori
 			where pa.id_bagian = ?
 			order by 2
 		";
@@ -150,6 +150,12 @@ class Arusdana_model extends CI_Model {
 	{
 		$insert = $this->db->insert('detail_arus_dana', $data);
 		return $insert;
+	}
+
+	function update($where,$data){
+		$this->db->where($where);
+		$update = $this->db->update($this->table, $data);
+		return $update;
 	}
 
 
