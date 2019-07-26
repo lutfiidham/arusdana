@@ -324,7 +324,7 @@
                 },
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control keterangan">';
+                        return '<input type="text" value="'+(data? data : '')+'" class="form-control keterangan">';
                     },
                     targets: [4]
                 },
@@ -922,6 +922,7 @@
     }
 
     function reload_tabel_detail_permintaan() {
+        console.log(data_detil_permintaan);
         tabel_detail_permintaan.clear();
         tabel_detail_permintaan.rows.add(data_detil_permintaan);
         tabel_detail_permintaan.draw();
