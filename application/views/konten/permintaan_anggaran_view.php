@@ -95,7 +95,7 @@
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="id_kategori">Kategori</label>
-                                <select name="id_kategori" id="id_kategori" class="form-control cmb_select2" required="required">
+                                <select name="id_kategori" id="id_kategori" class="form-control cmb_select2">
                                     
                                 </select>
                                 <span class="help-block"></span>
@@ -183,6 +183,7 @@
     var form_validator_detil;
     var tabel_detail_permintaan;
     var data_detil_permintaan = [];
+    var mustGenerateNumberFuckingCunts = true;
 
     $(document).ready(function() {
         mys = Object.create(myscript_js);
@@ -461,11 +462,16 @@
             var id_permintaan = $('#id_permintaan').val();
 
 
-            if (!data_send.tanggal || !data_send.id_kategori) {
+            if (!data_send.tanggal) {
                $('#no_anggaran').val(null);
                $('#no_anggaran_view').html('-');
                 return false;
             }
+
+            if (!mustGenerateNumberFuckingCunts) {
+                return false;
+            };
+
 
             mys.blok()
                 $.ajax({
@@ -515,13 +521,16 @@
         $('#tanggal').val(moment().format('DD-MM-YYYY'));
         // $('#status_permintaan_anggaran').val('P').trigger('change');
         // $('#id_kategori').text('<?= $this->session->userdata('kode_bagian').' --'.$this->session->userdata('kode_bagian').'-'; ?>').trigger('change.select2');
-        $('#id_kategori').val($('#id_kategori option:eq(1)').val()).trigger('change');
+        // $('#id_kategori').val($('#id_kategori option:eq(1)').val()).trigger('change');
         reload_tabel_detail_permintaan();
         $('#tabel_detail_permintaan').DataTable().columns.adjust().draw();
+        $('#tanggal').trigger('change');
     }
 
 
     function ubah_data(id){
+        mustGenerateNumberFuckingCunts = false;
+        
         mys.blok()
         $.ajax({
             url: mys.base_url+'permintaan_anggaran/get_data_by_id',

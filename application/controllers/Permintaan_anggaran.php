@@ -106,6 +106,9 @@ class Permintaan_anggaran extends CI_Controller {
 		if ($permintaan_anggaran['id_unit_kerja'] == '') {
 			$permintaan_anggaran['id_unit_kerja'] = NULL;
 		}
+		if ($permintaan_anggaran['id_kategori'] == '') {
+			$permintaan_anggaran['id_kategori'] = NULL;
+		}
 		if ($permintaan_anggaran['id_permintaan']) {
 			//update
 			// $permintaan_update
@@ -256,7 +259,7 @@ class Permintaan_anggaran extends CI_Controller {
 		$data = [
 			'no_anggaran' => $this->model->get_nomor_anggaran_baru($tanggal,$id_unit_kerja,$id_kategori)
 		];
-
+		// var_dump($this->db->last_query());
 		echo json_encode($data);
 	}
 
