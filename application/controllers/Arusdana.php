@@ -213,7 +213,11 @@ class Arusdana extends CI_Controller
 		if ($arus_dana->bbm == 1) {
 			$html.= '<p style="text-align:center;"">Kegiatan: Reimburse BBM</p>';
 		}else{
-			$html.= '<p style="text-align:center;"">Kegiatan: ('.$detil_anggaran->kode_anggaran.') '.$detil_anggaran->nama_anggaran.' </p>';
+			if ($detil_anggaran) {
+				$html.= '<p style="text-align:center;"">Kegiatan: ('.$detil_anggaran->kode_anggaran.') '.$detil_anggaran->nama_anggaran.' </p>';
+			} else {
+				$html.= '<p style="text-align:center;"">Kegiatan: - </p>';
+			}
 		}
 
 		$html .= '<p style="text-align:center;">Periode Pelaksanaan: '.bulan_tahun($arus_dana->periode_pelaksanaan).'</p><br>';
