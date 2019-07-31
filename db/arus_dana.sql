@@ -97,7 +97,7 @@ CREATE TABLE `arus_dana` (
   CONSTRAINT `arus_dana_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
   CONSTRAINT `arus_dana_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `arus_dana_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 /*Data for the table `arus_dana` */
 
@@ -119,8 +119,10 @@ insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`
 (25,'1/SSI-DKRTHSBY/I/2019','2019-07-26',NULL,1,18,4,'Tunai',-200000,'0','2019-01-01',1),
 (26,'5/PKS/II/2019','2019-07-26',NULL,NULL,NULL,0,'',-200000,'1','2019-02-01',1),
 (27,'6/PKS/II/2019','2019-07-26',NULL,NULL,NULL,NULL,'',-400000,'1','2019-02-01',1),
-(28,'7/PKS/II/2019','2019-07-26',NULL,NULL,NULL,NULL,'tunai',-114285,'0','2019-02-01',1),
-(29,'8/PKS/II/2019','2019-07-26',NULL,NULL,NULL,0,'Tunai',-37000,'0','2019-02-01',1);
+(28,'7/PKS/II/2019','2019-07-26',NULL,NULL,NULL,0,'tunai',-114285,'0','2019-02-01',1),
+(29,'8/PKS/II/2019','2019-07-26',NULL,NULL,NULL,NULL,'Tunai',-37000,'0','2019-02-01',1),
+(30,'9/PKS/III/2019','2019-03-29',NULL,NULL,NULL,14,'tunai',-1020000,'0','2019-03-01',1),
+(31,'10/PKS/III/2019','2019-03-29',NULL,NULL,NULL,NULL,'Transfer  BCA # 8220128599 a.n. Tan Amelia',-400000,'1','2019-03-01',1);
 
 /*Table structure for table `bagian` */
 
@@ -154,7 +156,7 @@ CREATE TABLE `detail_arus_dana` (
   PRIMARY KEY (`id_detail_arus`),
   KEY `fk_reference_15` (`id_arus_dana`),
   CONSTRAINT `detail_arus_dana_ibfk_1` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_arus_dana` */
 
@@ -180,8 +182,10 @@ insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`peneri
 (55,25,'Transportasi ke DKRTH Surabaya dan pelatihan scrum',0,200000,'Ke DKRTH 3x, pelatihan scrum 3 hari'),
 (59,26,'Biaya Transportasi Kanit SSI bulan Februari 2019',0,200000,'Transfer  BCA # 6720 4178 29 a.n Jimmy'),
 (61,27,'Biaya Transporsi Kepala Pusat PKS bulan Februari 2019',0,400000,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
-(62,29,'Pembelian Audio Splitter untuk Microphone Laptop',0,37000,''),
-(63,28,'Pembelian Condenser Microphone Mic untuk Laptop',0,114285,'tunai');
+(65,29,'Pembelian Audio Splitter untuk Microphone Laptop',0,37000,''),
+(66,28,'Pembelian Condenser Microphone Mic untuk Laptop',0,114285,'tunai'),
+(68,31,'Biaya BBM Kepala Pusat PKS bulan Maret 2019',0,400000,''),
+(69,30,'Pembelian 12 kaos PKS',0,1020000,'');
 
 /*Table structure for table `detail_permintaan_anggaran` */
 

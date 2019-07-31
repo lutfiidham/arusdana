@@ -46,6 +46,40 @@ class Tandatangan extends CI_Controller
 
 		echo json_encode(['status' => $affected]);
 	}
+
+	function get_data()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+		$list = $this->ttm->get_data();
+
+		$data['data']    = [];
+		$data['total']   = 0;
+		$data['success'] = false;
+
+		if ($list->num_rows() > 0) {
+			foreach ($list->result_array() as $key => $value) {
+				$data['data'][$key][] = ($key + 1) . '.';
+				$data['data'][$key][] = $value['nama'];
+				$data['data'][$key][] = $value['jabatan'];
+				$data['data'][$key][] = $value['id_pj'];
+				$data['total'] = $key + 1;
+			}
+
+			$data['success'] = true;
+		}
+		echo json_encode($data);
+	}
+
+	function get_data_by_id()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+		
+		$id = $this->input->post('id');
+		$data = $this->ttm->get_by_id($id)->row();
+
+		echo json_encode($data);
+	}
 }
 
 /* End of file Tandatangan.php */

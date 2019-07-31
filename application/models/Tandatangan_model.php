@@ -35,6 +35,18 @@ class Tandatangan_model extends CI_Model {
 		return $affected;
 	}
 
+	function get_data()
+	{
+		$this->db->where('id_bagian', $this->session->userdata('id_bagian'), FALSE);
+		return $this->db->get('pemegang_jabatan');
+	}
+
+	function get_by_id($id)
+	{
+		$this->db->where('id_pj', $id);
+		return $this->db->get('pemegang_jabatan');
+	}
+
 }
 
 /* End of file Tandatangan_model.php */
