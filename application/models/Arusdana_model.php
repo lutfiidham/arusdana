@@ -85,6 +85,12 @@ class Arusdana_model extends CI_Model {
 		return $this->db->get('detail_arus_dana');
 	}
 
+	function get_pembuat($id_pj)
+	{
+		$this->db->where('id_pj', $id_pj);
+		return $this->db->get('pemegang_jabatan');
+	}
+
 	function get_detil_anggaran($id_anggaran)
 	{
 		$this->db->select('*');

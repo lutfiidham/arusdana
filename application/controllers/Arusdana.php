@@ -263,53 +263,26 @@ class Arusdana extends CI_Controller
 		$html.= '<p>Catatan: '.$arus_dana->catatan.' </p><br>';
 		$ttd = $this->adm->get_list_ttd($arus_dana->bbm);
 		if ($arus_dana->bbm == 1) {
+			$pembuat = $this->adm->get_pembuat($arus_dana->id_pj)->row();
+			// var_dump($pembuat);
 			$html.= '<table style="table-layout:fixed;" width="100%">
 			<tr>
-				<td style="width:33%" class="data-center">&nbsp;</td>
-				<td style="width:33%" class="data-center">&nbsp;</td>
-				<td style="width:33%" class="data-center">Surabaya, '.tanggal_full(date("Y/m/d")).'</td>
+				<td style="width:50%" class="data-center">&nbsp;</td>
+				<td style="width:50%" class="data-center">Surabaya, '.tanggal_full(date("Y/m/d")).'</td>
 			</tr>
 			<tr>
-				<td style="width:33%" class="data-center">Disetujui Oleh:</td>
-				<td style="width:33%" class="data-center"></td>
-				<td style="width:33%" class="data-center">Dibuat Oleh:</td>
-			</tr>
-			<tr>
-				<td style="width:33%" class="data-center">
+				<td style="width:50%" class="data-center">
 					<br><br><br><br>
 					<span style="font-weight:bold;text-decoration:underline">'.$ttd->disetujui.'</span><br>
 					<span>'.$ttd->jabatan_penyetuju.'</span>
 				</td>
-				<td style="width:33%" class="data-center">
+				<td style="width:50%" class="data-center">
 					<br><br><br><br>
-					<span style="font-weight:bold;text-decoration:underline"></span><br>
-					<span></span>
-				</td>
-				<td style="width:33%" class="data-center">
-					<br><br><br><br>
-					<span style="font-weight:bold;text-decoration:underline">'.$ttd->dibuat.'</span><br>
-					<span>'.$ttd->jabatan_pembuat.'</span>
+					<span style="font-weight:bold;text-decoration:underline">'.$pembuat->nama.'</span><br>
+					<span>'.$pembuat->jabatan.'</span>
 				</td>
 			</tr>
-			<tr>
-				<td style="width:33%" class="data-center"><br></td>
-				<td style="width:33%" class="data-center"><br></td>
-				<td style="width:33%" class="data-center"><br></td>
-			</tr>
-			<tr>
-				<td style="width:33%" class="data-center">&nbsp;</td>
-				<td style="width:33%" class="data-center"></td>
-				<td style="width:33%" class="data-center">&nbsp;</td>
-			</tr>
-			<tr>
-				<td style="width:33%" class="data-center"></td>
-				<td style="width:33%" class="data-center">
-					<br><br><br><br>
-					<span style="font-weight:bold;text-decoration:underline"></span><br>
-					<span></span>
-				</td>
-				<td style="width:33%" class="data-center"></td>
-			</tr>
+		
 
 		</table>';
 		}else{

@@ -117,6 +117,24 @@ class Tandatangan extends CI_Controller
 		);
 		
 	}
+
+	function get_pemegang_jabatan()
+	{
+		if (!$this->input->is_ajax_request()) redirect();
+
+		$list = $this->ttm->get_pemegang_jabatan();
+
+		$data = [];
+
+		if ($list->num_rows() > 0) {
+			foreach ($list->result_array() as $key => $value) {
+				$data[$key]['id']   = $value['id_pj'];
+				$data[$key]['name'] = $value['nama'].' - '.$value['jabatan'];
+			}
+		}
+
+		echo json_encode($data);
+	}
 }
 
 /* End of file Tandatangan.php */

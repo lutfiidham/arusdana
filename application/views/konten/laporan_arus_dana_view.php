@@ -130,7 +130,7 @@
                             <input type="hidden" name="no_anggaran" id="no_anggaran">
                             <h6 class="font-weight-bold" id="no_anggaran_view">-</h6>
                         </div>
-                        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="checkbox-fade fade-in-primary">
                                 <label>
                                     <input type="checkbox" id="reimburse" name="reimburse" value="">
@@ -139,6 +139,15 @@
                                     </span>
                                     <h7 class="font-weight-bold">REIMBURSE</h7>
                                 </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group" id="div_pembuat" style="display: none">
+                                <label for="pembuat">Pembuat</label>
+                                <select name="pembuat" id="pembuat" class="form-control cmb_select2">
+                                    <option ></option>
+                                </select>
+                                <span class="help-block"></span>
                             </div>
                         </div>
                     </div>
@@ -231,6 +240,7 @@
         load_unit_kerja();
         load_anggaran();
         load_kategori();
+        load_pj();
 
         tabel = $('#tabel').DataTable({
             scrollCollapse: true,
@@ -353,6 +363,8 @@
             }
         });
 
+        
+
 
         // form_validator = $('#form').validate({
         //     highlight: function(element, errorClass, validClass) {
@@ -424,6 +436,16 @@
             $('#penerimaan').val(0);
             $('#pengeluaran').val(0);
             $('#alert_det_permintaan').empty();
+        });
+
+        $('#reimburse').on('click', function(event) {
+            if ($('#reimburse').is(':checked')) {
+                $('#div_pembuat').show('fast');
+            }else{
+                $('#div_pembuat').hide('fast');
+            };
+
+            /* Act on the event */
         });
 
         $('#btn_insert_det_permintaan').on('click', function(event) {
@@ -657,6 +679,7 @@
 
             if ($('#reimburse').is(':checked')) {
                 realisasi["bbm"] = 1;
+                realisasi["id_pj"] = $('#pembuat').val();
             }else{
                 realisasi["bbm"] = 0;
             };
@@ -784,6 +807,25 @@
                 $('#id_unit_kerja').append('<option></option>');
                 $.each(data, function(index, val) {
                     $('#id_unit_kerja').append('<option value="'+val.id+'">'+ val.name+'</option>');
+                });
+            },
+            error:function(data){
+                mys.notifikasi("Gagal Ambil Data.","error");
+            }
+        })
+    }
+
+    function load_pj(){
+        $.ajax({
+            url: mys.base_url+'tandatangan/get_pemegang_jabatan',
+            type: 'POST',
+            dataType: 'JSON',
+            data: null,
+            success: function(data){
+                $('#pembuat').empty();
+                $('#pembuat').append('<option></option>');
+                $.each(data, function(index, val) {
+                    $('#pembuat').append('<option value="'+val.id+'">'+ val.name+'</option>');
                 });
             },
             error:function(data){

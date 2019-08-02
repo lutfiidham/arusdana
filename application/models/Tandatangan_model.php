@@ -66,6 +66,13 @@ class Tandatangan_model extends CI_Model {
 		return $delete;
 	}
 
+	function get_pemegang_jabatan()
+	{
+		$this->db->where('id_bagian', $this->session->userdata('id_bagian'));
+		return $this->db->get('pemegang_jabatan');
+	}
+
+
 }
 
 /* End of file Tandatangan_model.php */
