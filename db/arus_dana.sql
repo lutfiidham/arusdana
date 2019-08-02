@@ -89,6 +89,7 @@ CREATE TABLE `arus_dana` (
   `bbm` varchar(1) DEFAULT NULL,
   `periode_pelaksanaan` date DEFAULT NULL,
   `id_bagian` int(11) DEFAULT NULL,
+  `id_pj` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_arus_dana`),
   KEY `fk_reference_11` (`id_permintaan`),
   KEY `fk_reference_12` (`id_unit_kerja`),
@@ -101,28 +102,28 @@ CREATE TABLE `arus_dana` (
 
 /*Data for the table `arus_dana` */
 
-insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`,`id_unit_kerja`,`id_kategori`,`id_anggaran`,`catatan`,`total`,`bbm`,`periode_pelaksanaan`,`id_bagian`) values 
-(10,'1/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-400000,'1','2018-12-01',1),
-(11,'2/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-200000,'1','2018-12-01',1),
-(12,'3/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-400000,'1','2019-01-01',1),
-(13,'4/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-200000,'1','2019-01-01',1),
-(14,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti Terlampir',0,'0','2019-01-01',1),
-(15,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti Terlampir',0,'0','2019-01-01',1),
-(16,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1),
-(17,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti terlampir',0,'0','2019-07-01',1),
-(18,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti terlampir',0,'0','2019-07-01',1),
-(19,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti terlampir',0,'0','2019-07-01',1),
-(20,'1/PS-STAAL/I/2019','2019-07-26',NULL,2,30,6,'',-18000,'0','2019-07-01',1),
-(22,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1),
-(23,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1),
-(24,'2/PS-UMUM/I/2019','2019-07-26',NULL,2,1,6,'Pelatihan dilaksanakan selama 8 kali pertemuan',-263400,'0','2019-01-01',1),
-(25,'1/SSI-DKRTHSBY/I/2019','2019-07-26',NULL,1,18,4,'Tunai',-200000,'0','2019-01-01',1),
-(26,'5/PKS/II/2019','2019-07-26',NULL,NULL,NULL,0,'',-200000,'1','2019-02-01',1),
-(27,'6/PKS/II/2019','2019-07-26',NULL,NULL,NULL,NULL,'',-400000,'1','2019-02-01',1),
-(28,'7/PKS/II/2019','2019-07-26',NULL,NULL,NULL,0,'tunai',-114285,'0','2019-02-01',1),
-(29,'8/PKS/II/2019','2019-07-26',NULL,NULL,NULL,NULL,'Tunai',-37000,'0','2019-02-01',1),
-(30,'9/PKS/III/2019','2019-03-29',NULL,NULL,NULL,14,'tunai',-1020000,'0','2019-03-01',1),
-(31,'10/PKS/III/2019','2019-03-29',NULL,NULL,NULL,NULL,'Transfer  BCA # 8220128599 a.n. Tan Amelia',-400000,'1','2019-03-01',1);
+insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`,`id_unit_kerja`,`id_kategori`,`id_anggaran`,`catatan`,`total`,`bbm`,`periode_pelaksanaan`,`id_bagian`,`id_pj`) values 
+(10,'1/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-400000,'1','2018-12-01',1,NULL),
+(11,'2/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-200000,'1','2018-12-01',1,NULL),
+(12,'3/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-400000,'1','2019-01-01',1,NULL),
+(13,'4/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-200000,'1','2019-01-01',1,NULL),
+(14,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti Terlampir',0,'0','2019-01-01',1,NULL),
+(15,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti Terlampir',0,'0','2019-01-01',1,NULL),
+(16,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1,NULL),
+(17,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti terlampir',0,'0','2019-07-01',1,NULL),
+(18,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti terlampir',0,'0','2019-07-01',1,NULL),
+(19,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti terlampir',0,'0','2019-07-01',1,NULL),
+(20,'1/PS-STAAL/I/2019','2019-07-26',NULL,2,30,6,'',-18000,'0','2019-07-01',1,NULL),
+(22,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1,NULL),
+(23,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1,NULL),
+(24,'2/PS-UMUM/I/2019','2019-07-26',NULL,2,1,6,'Pelatihan dilaksanakan selama 8 kali pertemuan',-263400,'0','2019-01-01',1,NULL),
+(25,'1/SSI-DKRTHSBY/I/2019','2019-07-26',NULL,1,18,4,'Tunai',-200000,'0','2019-01-01',1,NULL),
+(26,'5/PKS/II/2019','2019-07-26',NULL,NULL,NULL,0,'',-200000,'1','2019-02-01',1,NULL),
+(27,'6/PKS/II/2019','2019-07-26',NULL,NULL,NULL,NULL,'',-400000,'1','2019-02-01',1,NULL),
+(28,'7/PKS/II/2019','2019-07-26',NULL,NULL,NULL,0,'tunai',-114285,'0','2019-02-01',1,NULL),
+(29,'8/PKS/II/2019','2019-07-26',NULL,NULL,NULL,NULL,'Tunai',-37000,'0','2019-02-01',1,NULL),
+(30,'9/PKS/III/2019','2019-03-29',NULL,NULL,NULL,14,'tunai',-1020000,'0','2019-03-01',1,NULL),
+(31,'10/PKS/III/2019','2019-03-29',NULL,NULL,NULL,NULL,'Transfer  BCA # 8220128599 a.n. Tan Amelia',-400000,'1','2019-03-01',1,NULL);
 
 /*Table structure for table `bagian` */
 
@@ -407,18 +408,18 @@ BEGIN
 	DECLARE v_urutan_realisasi INT;
 	
 	IF(p_id_unit = '') THEN
-		SELECT (IFNULL(CAST(MAX(SUBSTR(no_anggaran,1,1)) AS UNSIGNED),0)+1) INTO v_urutan 
+		SELECT IFNULL(MAX(CAST(LEFT(no_anggaran,LOCATE('/',no_anggaran) - 1) AS UNSIGNED)),0)+1 INTO v_urutan 
 		FROM permintaan_anggaran WHERE id_kategori IS NULL AND id_unit_kerja IS NULL;
-		
-		SELECT (IFNULL(CAST(MAX(SUBSTR(no_arus_dana,1,1)) AS UNSIGNED),0)+1) INTO v_urutan_realisasi 
-		FROM arus_dana WHERE id_kategori IS NULL AND id_unit_kerja IS NULL;
 
+		SELECT IFNULL(MAX(CAST(LEFT(no_arus_dana,LOCATE('/',no_arus_dana) - 1) AS UNSIGNED)),0)+1 INTO v_urutan_realisasi 
+		FROM arus_dana WHERE id_kategori IS NULL AND id_unit_kerja IS NULL;
+		
 		SET v_kode_unit = p_kode_bagian;
 	ELSE
-		SELECT (IFNULL(CAST(MAX(SUBSTR(no_anggaran,1,1)) AS UNSIGNED),0)+1) INTO v_urutan 
+		SELECT IFNULL(MAX(CAST(LEFT(no_anggaran,LOCATE('/',no_anggaran) - 1) AS UNSIGNED)),0)+1 INTO v_urutan 
 		FROM permintaan_anggaran WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit;
 		
-		SELECT (IFNULL(CAST(MAX(SUBSTR(no_arus_dana,1,1)) AS UNSIGNED),0)+1) INTO v_urutan_realisasi 
+		SELECT IFNULL(MAX(CAST(LEFT(no_arus_dana,LOCATE('/',no_arus_dana) - 1) AS UNSIGNED)),0)+1 INTO v_urutan_realisasi 
 		FROM arus_dana WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit;
 
 		SELECT kode_unit_kerja INTO v_kode_unit FROM unit_kerja WHERE id_unit_kerja = p_id_unit;
