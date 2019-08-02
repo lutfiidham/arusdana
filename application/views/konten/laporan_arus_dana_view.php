@@ -633,6 +633,8 @@
                     $('#catatan_realisasi').val(core.catatan);
                     if (core.bbm == '1') {
                         $('#reimburse').prop('checked', true);
+                        $('#pembuat').val(core.id_pj).trigger('change');
+                        $('#div_pembuat').show();
                     }else{
                         $('#reimburse').prop('checked', false);
                     }

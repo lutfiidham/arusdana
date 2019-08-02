@@ -157,5 +157,5 @@ class Permintaan_anggaran_model extends CI_Model {
 
 }
 
-/* End of file Project_model.php */
-/* Location: ./application/models/Project_model.php */
+/* End of file Permintaan_anggaran_model.php */
+/* Location: ./application/models/Permintaan_anggaran_model.php */

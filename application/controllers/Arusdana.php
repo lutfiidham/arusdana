@@ -188,7 +188,6 @@ class Arusdana extends CI_Controller
 					  }else{
 					  	$html .= '<p style="text-align:left;"><span style="font-size:12px;text-decoration:underline">Laporan Arus Dana  </span></p>';
 					  }
-						
 					  $html .='</td>
 					  <td width="20%";">Bagian</td>
 					  <td  width="30%">
@@ -270,21 +269,23 @@ class Arusdana extends CI_Controller
 				<td style="width:50%" class="data-center">&nbsp;</td>
 				<td style="width:50%" class="data-center">Surabaya, '.tanggal_full(date("Y/m/d")).'</td>
 			</tr>
-			<tr>
-				<td style="width:50%" class="data-center">
+			<tr><td style="width:50%" class="data-center">
 					<br><br><br><br>
 					<span style="font-weight:bold;text-decoration:underline">'.$ttd->disetujui.'</span><br>
 					<span>'.$ttd->jabatan_penyetuju.'</span>
-				</td>
-				<td style="width:50%" class="data-center">
+				</td>';
+			if(isset($arus_dana->pj)){
+				$html .='<td style="width:50%" class="data-center">
 					<br><br><br><br>
 					<span style="font-weight:bold;text-decoration:underline">'.$pembuat->nama.'</span><br>
 					<span>'.$pembuat->jabatan.'</span>
-				</td>
-			</tr>
-		
+				</td>';
 
-		</table>';
+			}
+				$html .='</tr>
+			</table>';
+
+			
 		}else{
 
 		$html.= '<table style="table-layout:fixed;" width="100%">
