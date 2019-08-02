@@ -25,7 +25,7 @@
         <div class="card" id="card_permintaan">
             <div class="card-header"><h3>Form Permintaan Anggaran</h3></div>
             <div class="card-body">
-                <form class="forms-sample" id="form_permintaan">
+                <form class="forms-sample form-ttd" id="form_permintaan">
                     <div class="form-group alert alert-primary">
                         <label for="kode_bagian">Dibuat Oleh</label>
                         <input type="text" class="form-control" name="permintaan-dibuat" id="permintaan-dibuat" required="">
@@ -80,7 +80,7 @@
         <div class="card" id="card_permintaan">
             <div class="card-header"><h3>Form Arus Dana</h3></div>
             <div class="card-body">
-                <form class="forms-sample" id="form_realisasi">
+                <form class="forms-sample form-ttd" id="form_realisasi">
                     <div class="form-group alert alert-primary">
                         <label for="kode_bagian">Dibuat Oleh</label>
                         <input type="text" class="form-control" name="realisasi-dibuat" id="realisasi-dibuat" required="">
@@ -198,7 +198,7 @@
                     </div>
                 </div>
 
-                <form class="forms-sample" id="form_reimburse">
+                <form class="forms-sample form-ttd" id="form_reimburse">
                     <!-- <div class="form-group alert alert-primary">
                         <label for="kode_bagian">Dibuat Oleh</label>
                         <input type="text" class="form-control" name="reimburse-dibuat" id="reimburse-dibuat" required="">
@@ -240,12 +240,13 @@
     var form_permintaan_validator;
     var form_realisasi_validator;
     var form_reimburse_validator;
+    var form_pj_validator;
 
     $(document).ready(function() {
         mys = Object.create(myscript_js);
         mys.init('<?= base_url() ?>');
 
-        form_permintaan_validator = $('#form_permintaan').validate({
+        form_pj_validator = $('#form').validate({
             highlight: function(element, errorClass, validClass) {
                 $(element).addClass(errorClass).removeClass(validClass);
                 $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
@@ -260,26 +261,7 @@
                 error.insertAfter(element.parent("div").find(".help-block"));
             },
             submitHandler: function(form) {
-                simpan();
-            }
-        });
-
-        form_realisasi_validator = $('#form_realisasi').validate({
-            highlight: function(element, errorClass, validClass) {
-                $(element).addClass(errorClass).removeClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").addClass(errorClass);
-            },
-            unhighlight: function(element, errorClass, validClass) {
-                $(element).removeClass(errorClass).addClass(validClass);
-                $(element.form).find("label[for=" + element.id + "]").removeClass(errorClass);
-            },
-            errorClass: "is-invalid text-red",
-            errorElement: "em",
-            errorPlacement: function(error, element) {
-                error.insertAfter(element.parent("div").find(".help-block"));
-            },
-            submitHandler: function(form) {
-                simpan();
+                // simpan();
             }
         });
 
@@ -303,8 +285,8 @@
         });
         
         $("#form").submit(function(event) {
-            if (form_permintaan_validator.form()) {
-                simpan();
+            if (form_pj_validator.form()) {
+                simpan_pj();
             }
         });
 
@@ -381,18 +363,11 @@
                 form.submit();
             }
         });
-        
-        $("#form").submit(function(event) {
-            if (form_validator.form()) {
-                simpan();
-            }
-        });
 
         $('#tabel tbody').on( 'click', '.ubah', function () {
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            console.log(data);
             ubah_data(data[3]);
         });
 
@@ -400,7 +375,7 @@
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[4]);
+            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[3]);
         });
 
         $('#input_pencarian').on('keyup', function(event) {
@@ -486,7 +461,7 @@
     function hapus(id){
         mys.blok()
         $.ajax({
-            url: mys.base_url+'unit_kerja/delete',
+            url: mys.base_url+'tandatangan/delete',
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -551,7 +526,7 @@
             url: mys.base_url+'tandatangan/save',
             type: 'POST',
             dataType: 'JSON',
-            data: $('form').serialize(),
+            data: $('.form-ttd').serialize(),
             success: function(data){
                 if (data.status) {
                     mys.notifikasi("Data Berhasil Disimpan","success");

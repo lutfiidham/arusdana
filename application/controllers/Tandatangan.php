@@ -47,6 +47,31 @@ class Tandatangan extends CI_Controller
 		echo json_encode(['status' => $affected]);
 	}
 
+	function save_pj()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+		$exec = false;
+		
+		$data_array = array(
+			'id_pj' => $this->input->post('id_pj') ? $this->input->post('id_pj') : null,
+			'nama' => $this->input->post('nama'),
+			'jabatan' => $this->input->post('jabatan'),
+		);
+
+		if ($data_array['id_pj']) {
+			$exec = $this->ttm->update_pj(['id_pj' => $data_array['id_pj']],$data_array);
+		} else{
+			$data_array['id_bagian'] = $this->session->userdata('id_bagian');
+			$exec = $this->ttm->save_pj($data_array);
+		}
+
+
+		echo json_encode(
+			['status' => $exec]
+		);
+	}
+
 	function get_data()
 	{
 		if(!$this->input->is_ajax_request()) redirect();
@@ -79,6 +104,18 @@ class Tandatangan extends CI_Controller
 		$data = $this->ttm->get_by_id($id)->row();
 
 		echo json_encode($data);
+	}
+
+	function delete()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+		$exec = $this->ttm->delete(['id_pj' => $this->input->post('id')]);
+
+		echo json_encode(
+			['status' => $exec]
+		);
+		
 	}
 }
 

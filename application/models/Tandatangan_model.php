@@ -47,6 +47,25 @@ class Tandatangan_model extends CI_Model {
 		return $this->db->get('pemegang_jabatan');
 	}
 
+	function save_pj($data){
+		$insert = $this->db->insert('pemegang_jabatan', $data);
+		return $insert;
+	}
+
+	function update_pj($where,$data){
+		$this->db->where($where);
+		$update = $this->db->update('pemegang_jabatan', $data);
+		return $update;
+	}
+
+	function delete($where)
+	{
+		$this->db->where($where);
+		$delete = $this->db->delete('pemegang_jabatan');
+		var_dump($this->db->last_query());
+		return $delete;
+	}
+
 }
 
 /* End of file Tandatangan_model.php */
