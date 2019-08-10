@@ -269,12 +269,17 @@ class Arusdana extends CI_Controller
 				<td style="width:50%" class="data-center">&nbsp;</td>
 				<td style="width:50%" class="data-center">Surabaya, '.tanggal_full(date("Y/m/d")).'</td>
 			</tr>
+			<tr>
+				<td style="width:50%" class="data-center">Disetujui Oleh:</td>
+				<td style="width:50%" class="data-center">Dibuat Oleh:</td>
+			</tr>
 			<tr><td style="width:50%" class="data-center">
 					<br><br><br><br>
 					<span style="font-weight:bold;text-decoration:underline">'.$ttd->disetujui.'</span><br>
 					<span>'.$ttd->jabatan_penyetuju.'</span>
 				</td>';
-			if(isset($arus_dana->pj)){
+// var_dump($arus_dana);
+			if(isset($arus_dana->id_pj)){
 				$html .='<td style="width:50%" class="data-center">
 					<br><br><br><br>
 					<span style="font-weight:bold;text-decoration:underline">'.$pembuat->nama.'</span><br>
