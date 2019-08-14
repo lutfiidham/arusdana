@@ -98,15 +98,15 @@ CREATE TABLE `arus_dana` (
   CONSTRAINT `arus_dana_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
   CONSTRAINT `arus_dana_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `arus_dana_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=latin1;
 
 /*Data for the table `arus_dana` */
 
 insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`,`id_unit_kerja`,`id_kategori`,`id_anggaran`,`catatan`,`total`,`bbm`,`periode_pelaksanaan`,`id_bagian`,`id_pj`) values 
-(10,'1/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-400000,'1','2018-12-01',1,NULL),
-(11,'2/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-200000,'1','2018-12-01',1,NULL),
-(12,'3/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-400000,'1','2019-01-01',1,NULL),
-(13,'4/PKS/I/2019','2019-07-26',NULL,NULL,NULL,0,'Bukti terlampir',-200000,'1','2019-01-01',1,NULL),
+(10,'1/PKS/I/2019','2019-01-03',NULL,NULL,NULL,NULL,'Bukti terlampir',-400000,'1','2018-12-01',1,2),
+(11,'2/PKS/I/2019','2019-01-03',NULL,NULL,NULL,NULL,'Bukti terlampir',-200000,'1','2018-12-01',1,0),
+(12,'3/PKS/I/2019','2019-01-31',NULL,NULL,NULL,0,'Bukti terlampir',-400000,'1','2019-01-01',1,NULL),
+(13,'4/PKS/I/2019','2019-01-31',NULL,NULL,NULL,NULL,'Bukti terlampir',-200000,'1','2019-01-01',1,0),
 (14,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti Terlampir',0,'0','2019-01-01',1,NULL),
 (15,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti Terlampir',0,'0','2019-01-01',1,NULL),
 (16,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1,NULL),
@@ -116,14 +116,39 @@ insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`
 (20,'1/PS-STAAL/I/2019','2019-07-26',NULL,2,30,6,'',-18000,'0','2019-07-01',1,NULL),
 (22,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1,NULL),
 (23,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1,NULL),
-(24,'2/PS-UMUM/I/2019','2019-07-26',NULL,2,1,6,'Pelatihan dilaksanakan selama 8 kali pertemuan',-263400,'0','2019-01-01',1,NULL),
+(24,'2/PS-UMUM/I/2019','2019-01-31',NULL,2,1,6,'Pelatihan dilaksanakan selama 8 kali pertemuan',-263400,'0','2019-01-01',1,NULL),
 (25,'1/SSI-DKRTHSBY/I/2019','2019-07-26',NULL,1,18,4,'Tunai',-200000,'0','2019-01-01',1,NULL),
-(26,'5/PKS/II/2019','2019-07-26',NULL,NULL,NULL,0,'',-200000,'1','2019-02-01',1,NULL),
-(27,'6/PKS/II/2019','2019-07-26',NULL,NULL,NULL,NULL,'',-400000,'1','2019-02-01',1,NULL),
-(28,'7/PKS/II/2019','2019-07-26',NULL,NULL,NULL,0,'tunai',-114285,'0','2019-02-01',1,NULL),
-(29,'8/PKS/II/2019','2019-07-26',NULL,NULL,NULL,NULL,'Tunai',-37000,'0','2019-02-01',1,NULL),
+(26,'5/PKS/II/2019','2019-02-28',NULL,NULL,NULL,NULL,'',-200000,'1','2019-02-01',1,0),
+(27,'6/PKS/II/2019','2019-02-28',NULL,NULL,NULL,0,'',-400000,'1','2019-02-01',1,0),
+(28,'7/PKS/II/2019','2019-02-28',NULL,NULL,NULL,NULL,'tunai',-114285,'0','2019-02-01',1,NULL),
+(29,'8/PKS/II/2019','2019-02-28',NULL,NULL,NULL,0,'Tunai',-37000,'0','2019-02-01',1,NULL),
 (30,'9/PKS/III/2019','2019-03-29',NULL,NULL,NULL,14,'tunai',-1020000,'0','2019-03-01',1,NULL),
-(31,'10/PKS/III/2019','2019-03-29',NULL,NULL,NULL,NULL,'Transfer  BCA # 8220128599 a.n. Tan Amelia',-400000,'1','2019-03-01',1,NULL);
+(31,'10/PKS/III/2019','2019-03-29',NULL,NULL,NULL,0,'Transfer  BCA # 8220128599 a.n. Tan Amelia',-400000,'1','2019-03-01',1,2),
+(32,'11/PKS/III/2019','2019-03-29',NULL,NULL,NULL,0,'',-200000,'1','2019-03-01',1,3),
+(33,'12/PKS/VIII/2019','2019-03-29',NULL,NULL,NULL,NULL,'',-115287,'0','2019-03-01',1,NULL),
+(34,'13/PKS/III/2019','2019-08-14',NULL,NULL,NULL,1,'',-130000,'0','2019-03-01',1,NULL),
+(35,'14/PKS/II/2019','2019-08-14',NULL,NULL,NULL,13,'Debet Memo AU',-833313,'0','2019-02-01',1,NULL),
+(36,'15/PKS/IV/2019','2019-08-14',NULL,NULL,NULL,0,'',-400000,'1','2019-04-01',1,2),
+(37,'16/PKS/VIII/2019','2019-08-14',NULL,NULL,NULL,0,'',-200000,'1','2019-08-01',1,0),
+(38,'1/HAI-UMUM/I/2019','2019-08-14',NULL,3,1,5,'',-30500,'0','2019-01-01',1,NULL),
+(39,'2/HAI-UMUM/I/2019','2019-08-14',NULL,3,1,1,'Tunai',-62500,'0','2019-01-01',1,NULL),
+(40,'3/HAI-UMUM/I/2019','2019-08-14',NULL,3,1,7,'',-15500,'0','2019-01-01',1,NULL),
+(41,'4/HAI-UMUM/II/2019','2019-08-14',NULL,3,1,0,'',-8500,'0','2019-02-01',1,NULL),
+(42,'5/HAI-UMUM/IV/2019','2019-08-14',NULL,3,1,5,'',-14500,'0','2019-08-01',1,NULL),
+(43,'6/HAI-UMUM/IV/2019','2019-08-14',NULL,3,1,1,'Tunai',-42000,'0','2019-04-01',1,NULL),
+(45,'7/HAI-UMUM/V/2019','2019-08-14',NULL,3,1,5,'tunai',-14500,'0','2019-05-01',1,NULL),
+(46,'8/HAI-UMUM/VII/2019','2019-08-14',NULL,3,1,1,'tunai',-25000,'0','2019-07-01',1,NULL),
+(47,'1/SSI-RSMLMG/I/2019','2019-08-14',NULL,1,23,4,' PARIS RS Muhammadiyah Lamongan',42793000,'0','2019-01-01',1,NULL),
+(48,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-01-01',1,NULL),
+(49,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-01-01',1,NULL),
+(50,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
+(51,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
+(52,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
+(53,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
+(54,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
+(55,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
+(56,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
+(57,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL);
 
 /*Table structure for table `bagian` */
 
@@ -157,15 +182,11 @@ CREATE TABLE `detail_arus_dana` (
   PRIMARY KEY (`id_detail_arus`),
   KEY `fk_reference_15` (`id_arus_dana`),
   CONSTRAINT `detail_arus_dana_ibfk_1` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_arus_dana` */
 
 insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`penerimaan`,`pengeluaran`,`keterangan`) values 
-(11,10,'Transportasi BBM Kabag PKS bulan Desember 2018',0,400000,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
-(12,11,'Transportasi BBM Kanit SSI bulan Desember 2018',0,200000,'Transfer BCA # 6720 4178 29 an Jimmy'),
-(13,12,'Transportasi Kepala PKS bulan Januari 2019',0,400000,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
-(14,13,'Transportasi Kanit SSI bulan Januari 2019',0,200000,'Transfer BCA a.n Jimmy | BCA, No. Rek : 6720 4178 29'),
 (15,14,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
 (16,15,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
 (17,16,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
@@ -175,18 +196,63 @@ insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`peneri
 (21,20,'10 Lembar kertas Sertifikat untuk STAAL',0,18000,'Debet Memo'),
 (26,22,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
 (27,23,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
-(50,24,'Pembelian sovenir',0,80000,'0'),
-(51,24,'Konsumsi',0,12000,'0'),
-(52,24,'Binder buku untuk materi peserta pelatihan',0,29900,'0'),
-(53,24,'Coffee untuk minuman peserta',0,13500,'0'),
-(54,24,'Kue untuk konsumsi peserta dan pemateri pelatihan',0,128000,'0'),
 (55,25,'Transportasi ke DKRTH Surabaya dan pelatihan scrum',0,200000,'Ke DKRTH 3x, pelatihan scrum 3 hari'),
-(59,26,'Biaya Transportasi Kanit SSI bulan Februari 2019',0,200000,'Transfer  BCA # 6720 4178 29 a.n Jimmy'),
-(61,27,'Biaya Transporsi Kepala Pusat PKS bulan Februari 2019',0,400000,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
-(65,29,'Pembelian Audio Splitter untuk Microphone Laptop',0,37000,''),
-(66,28,'Pembelian Condenser Microphone Mic untuk Laptop',0,114285,'tunai'),
-(68,31,'Biaya BBM Kepala Pusat PKS bulan Maret 2019',0,400000,''),
-(69,30,'Pembelian 12 kaos PKS',0,1020000,'');
+(72,33,'Pembelian kabel HDMI v2.0 Ultra HD ',0,115287,'tunai'),
+(74,11,'Transportasi BBM Kanit SSI bulan Desember 2018',0,200000,'Transfer BCA # 6720 4178 29 an Jimmy'),
+(75,24,'Pembelian sovenir',0,80000,'0'),
+(76,24,'Konsumsi',0,12000,'0'),
+(77,24,'Binder buku untuk materi peserta pelatihan',0,29900,'0'),
+(78,24,'Coffee untuk minuman peserta',0,13500,'0'),
+(79,24,'Kue untuk konsumsi peserta dan pemateri pelatihan',0,128000,'0'),
+(81,13,'Transportasi Kanit SSI bulan Januari 2019',0,200000,'Transfer BCA a.n Jimmy | BCA, No. Rek : 6720 4178 29'),
+(82,12,'Transportasi Kepala PKS bulan Januari 2019',0,400000,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
+(83,26,'Biaya Transportasi Kanit SSI bulan Februari 2019',0,200000,'Transfer  BCA # 6720 4178 29 a.n Jimmy'),
+(84,27,'Biaya Transporsi Kepala Pusat PKS bulan Februari 2019',0,400000,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
+(85,28,'Pembelian Condenser Microphone Mic untuk Laptop',0,114285,'tunai'),
+(86,29,'Pembelian Audio Splitter untuk Microphone Laptop',0,37000,''),
+(87,30,'Pembelian 12 kaos PKS',0,1020000,''),
+(89,34,'Pembelian Post It untuk kegiatan PKS',0,130000,'Tunai'),
+(90,35,'9 PCS MOUSE REXUS',0,833313,''),
+(93,36,'Transportasi BBM Kepala PKS bulan April 2019',0,400000,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
+(94,37,'Transportasi BBM Kanit SSI bulan April 2019',0,200000,'Transfer BCA # 6720 4178 29 a.n Jimmy'),
+(95,38,'Pengiriman dokumen MOU ke UIN Raden Patah Palembang',0,30500,'Tunai'),
+(96,39,'Pengiriman Kalender untuk rekanan ke RS Muhammdiyah Lamongan',0,8500,''),
+(97,39,'Pengiriman Kalender untuk rekanan ke RSUD Aisyiyah Siti fatimah Sidoarjo',0,7000,''),
+(98,39,'Pengiriman Kalender untuk rekanan ke RSUD Syafiyah Bangkalan',0,8500,''),
+(99,39,'Pengiriman Kalender untuk rekanan ke JATIMPARK 2 MALANG',0,8500,'Bapak Jemmy'),
+(100,39,'Pengiriman Kalender untuk rekanan ke PT Pegadaian Jakarta (Hukum)',0,15000,'Divisi Hukum'),
+(101,39,'Pengiriman Kalender untuk rekanan ke PT Pegadaian Jakarta (SPI) ',0,15000,'Divisi IT'),
+(103,41,'Pengiriman Kalender ke DIKOMINFO Gresik',0,8500,'Tunai'),
+(104,42,'Pengiriman Dokumen MOU ke PT Cyberindo Aditama Jakarta',0,14500,'tunai'),
+(107,43,'Transportasi ke IKPI',0,32000,''),
+(108,43,'Parkir',0,10000,''),
+(110,45,'Pengiriman Dokumen ke Universitas Bina Sarana Informatika Jakarta',0,14500,''),
+(111,46,'Pengiriman Dokumen ke Universitas Bina Sarana Informatika Jakarta',0,25000,''),
+(112,47,'Penerimaan Pembayaran Pengadaan Grounding System dan Perbaikan Peralatan PARIS Manless RS Muhammadiyah Lamongan',42793000,0,'Transfer tgl 21 Desember 2018'),
+(113,48,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(114,48,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
+(115,49,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(116,49,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
+(117,50,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(118,50,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
+(119,51,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(120,51,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
+(121,40,'Pengiriman Dokumen MOU PT Anabatic Digital',0,15500,''),
+(122,52,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(123,52,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
+(124,53,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(125,53,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
+(126,54,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(127,54,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
+(128,55,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(129,55,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
+(130,56,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(131,56,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
+(132,32,'Biaya BBM Kanit SSI bulan Maret 2019',0,200000,'Transfer BCA # 6720 4178 29 a.n Jimmy'),
+(133,31,'Biaya BBM Kepala Pusat PKS bulan Maret 2019',0,400000,''),
+(135,10,'Transportasi BBM Kabag PKS bulan Desember 2018',0,400000,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
+(136,57,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
+(137,57,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019');
 
 /*Table structure for table `detail_permintaan_anggaran` */
 
@@ -201,12 +267,14 @@ CREATE TABLE `detail_permintaan_anggaran` (
   PRIMARY KEY (`id_detail_permintaan`),
   KEY `fk_reference_10` (`id_permintaan`),
   CONSTRAINT `detail_permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_permintaan_anggaran` */
 
 insert  into `detail_permintaan_anggaran`(`id_detail_permintaan`,`id_permintaan`,`uraian`,`nominal`,`keterangan`) values 
-(17,11,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,'Pelatihan dilaksanakan mulai 13 Desember 2018 - 23 Januari 2019');
+(17,11,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,'Pelatihan dilaksanakan mulai 13 Desember 2018 - 23 Januari 2019'),
+(18,12,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',12430000,'Kwitansi no: K/10104/WL/XII/2018'),
+(19,12,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',26122920,'Kwitansi no: K/10106/WL/XII/2018');
 
 /*Table structure for table `kategori` */
 
@@ -221,7 +289,7 @@ CREATE TABLE `kategori` (
   PRIMARY KEY (`id_kategori`),
   KEY `fk_reference_3` (`id_bagian`),
   CONSTRAINT `kategori_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kategori` */
 
@@ -312,12 +380,13 @@ CREATE TABLE `permintaan_anggaran` (
   CONSTRAINT `permintaan_anggaran_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `permintaan_anggaran_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
   CONSTRAINT `permintaan_anggaran_ibfk_4` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 /*Data for the table `permintaan_anggaran` */
 
 insert  into `permintaan_anggaran`(`id_permintaan`,`no_anggaran`,`id_bagian`,`id_unit_kerja`,`id_kategori`,`id_anggaran`,`tanggal`,`tanggal_kebutuhan`,`catatan`,`total`,`status_realisasi`) values 
-(11,'1/PS-UMUM/I/2019',1,2,1,6,'2019-01-30','2019-02-05','Tunai',2400000,'W');
+(11,'1/PS-UMUM/I/2019',1,2,1,6,'2019-01-30','2019-02-05','Tunai',2400000,'W'),
+(12,'2/SSI-RSMLMG/I/2019',1,1,23,4,'2019-01-17','2019-01-22','Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',38552920,'W');
 
 /*Table structure for table `tanda_tangan` */
 
@@ -360,7 +429,7 @@ CREATE TABLE `unit_kerja` (
   PRIMARY KEY (`id_unit_kerja`),
   KEY `fk_reference_2` (`id_bagian`),
   CONSTRAINT `unit_kerja_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `unit_kerja` */
 

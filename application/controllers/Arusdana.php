@@ -225,11 +225,11 @@ class Arusdana extends CI_Controller
 		$html.=		'<thead>
 						<tr">
 							<th class="data-center" style="width:5%">No.</th>
-							<th class="data-center" style="width:35%">Uraian</th>
-							<th class="data-center" style="width:25%">Penerimaan Anggaran (Rp)</th>
-							<th class="data-center" style="width:25%">Pengeluaran Realisasi (Rp)</th>
+							<th class="data-center" style="width:55%">Uraian</th>
+							<th class="data-center" style="width:15%">Penerimaan Anggaran (Rp)</th>
+							<th class="data-center" style="width:15%">Pengeluaran Realisasi (Rp)</th>
 							<th class="data-center" style="width:25%">Anggaran-Realisasi<br>Retur/(Kurang) (Rp)</th>
-							<th class="data-center" style="width:35%">Keterangan</th>
+							<th class="data-center" style="width:15%">Keterangan</th>
 						</tr>
 					</thead>';
 		$html.= 	'<tbody>';
