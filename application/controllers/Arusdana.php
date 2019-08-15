@@ -222,14 +222,22 @@ class Arusdana extends CI_Controller
 		$html .= '<p style="text-align:center;">Periode Pelaksanaan: '.bulan_tahun($arus_dana->periode_pelaksanaan).'</p><br>';
 
 		$html.= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">';
+		if ($arus_dana->bbm == 1) {
+			$kolom = '<th class="data-center" style="width:5%">No.</th>
+						<th class="data-center" style="width:55%">Uraian</th>
+						<th class="data-center" style="width:15%">Realisasi (Rp)<br>Pengeluaran</th>
+						<th class="data-center" style="width:25%">Keterangan</th>';
+		}else{
+			$kolom = '<th class="data-center" style="width:5%">No.</th>
+						<th class="data-center" style="width:55%">Uraian</th>
+						<th class="data-center" style="width:15%">Penerimaan Anggaran (Rp)</th>
+						<th class="data-center" style="width:15%">Pengeluaran Realisasi (Rp)</th>
+						<th class="data-center" style="width:25%">Anggaran-Realisasi<br>Retur/(Kurang) (Rp)</th>
+						<th class="data-center" style="width:15%">Keterangan</th>';
+		}
 		$html.=		'<thead>
 						<tr">
-							<th class="data-center" style="width:5%">No.</th>
-							<th class="data-center" style="width:55%">Uraian</th>
-							<th class="data-center" style="width:15%">Penerimaan Anggaran (Rp)</th>
-							<th class="data-center" style="width:15%">Pengeluaran Realisasi (Rp)</th>
-							<th class="data-center" style="width:25%">Anggaran-Realisasi<br>Retur/(Kurang) (Rp)</th>
-							<th class="data-center" style="width:15%">Keterangan</th>
+							'.$kolom.'
 						</tr>
 					</thead>';
 		$html.= 	'<tbody>';
@@ -237,27 +245,48 @@ class Arusdana extends CI_Controller
 		$sumterima = 0;
 		$sumkeluar = 0;
 		foreach ($detail_arus_dana as $key => $value) {
-			$html .= '<tr>
-				<td class="data-center">'.($key+1).'</td>
-				<td class="data-left">'.$value['uraian'].'</td>
-				<td class="data-right">'.minus_kurung($value['penerimaan']).'</td>
-				<td class="data-right">'.minus_kurung($value['pengeluaran']).'</td>
-				<td class="data-right">'.minus_kurung($value['penerimaan'] - $value['pengeluaran']).'</td>
-				<td class="data-left">'.$value['keterangan'].'</td>
-			</tr>';
+			if ($arus_dana->bbm == 1) {
+				$html .= '<tr>
+					<td class="data-center">'.($key+1).'</td>
+					<td class="data-left">'.$value['uraian'].'</td>
+					<td class="data-right">'.minus_kurung($value['penerimaan'] - $value['pengeluaran']).'</td>
+					<td class="data-left">'.$value['keterangan'].'</td>
+				</tr>';
+			}else{
+				$html .= '<tr>
+					<td class="data-center">'.($key+1).'</td>
+					<td class="data-left">'.$value['uraian'].'</td>
+					<td class="data-right">'.minus_kurung($value['penerimaan']).'</td>
+					<td class="data-right">'.minus_kurung($value['pengeluaran']).'</td>
+					<td class="data-right">'.minus_kurung($value['penerimaan'] - $value['pengeluaran']).'</td>
+					<td class="data-left">'.$value['keterangan'].'</td>
+				</tr>';
+			}
 			$sumterima += $value['penerimaan'];
 			$sumkeluar += $value['pengeluaran'];
 			$sum += $value['penerimaan'] - $value['pengeluaran'];
 		}
-		$html .= '<tfoot>
-				<tr>
-					<th colspan="2" class="data-center">TOTAL:</th>
-					<th class="data-right">'.minus_kurung($sumterima).'</th>
-					<th class="data-right">'.minus_kurung($sumkeluar).'</th>
-					<th class="data-right">'.minus_kurung($arus_dana->total).'</th>
-					<th></th>
-				</tr>
-		</tfoot>';
+		if ($arus_dana->bbm == 1) {
+			$html .= '<tfoot>
+					<tr>
+						<th colspan="2" class="data-center">TOTAL:</th>
+						<th class="data-right">'.minus_kurung($arus_dana->total).'</th>
+						<th class="data-right"></th>
+						<th></th>
+					</tr>
+			</tfoot>';
+		}else{
+			$html .= '<tfoot>
+					<tr>
+						<th colspan="2" class="data-center">TOTAL:</th>
+						<th class="data-right">'.minus_kurung($sumterima).'</th>
+						<th class="data-right">'.minus_kurung($sumkeluar).'</th>
+						<th class="data-right">'.minus_kurung($arus_dana->total).'</th>
+						<th></th>
+					</tr>
+			</tfoot>';
+
+		}
 		$html.='</tbody></table>';
 		$html.= '<p>Catatan: '.$arus_dana->catatan.' </p><br>';
 		$ttd = $this->adm->get_list_ttd($arus_dana->bbm);
@@ -278,8 +307,8 @@ class Arusdana extends CI_Controller
 					<span style="font-weight:bold;text-decoration:underline">'.$ttd->disetujui.'</span><br>
 					<span>'.$ttd->jabatan_penyetuju.'</span>
 				</td>';
-// var_dump($arus_dana);
-			if(isset($arus_dana->id_pj)){
+
+			if(isset($arus_dana->id_pj) && isset($pembuat)){
 				$html .='<td style="width:50%" class="data-center">
 					<br><br><br><br>
 					<span style="font-weight:bold;text-decoration:underline">'.$pembuat->nama.'</span><br>

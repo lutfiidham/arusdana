@@ -170,10 +170,11 @@
                             <thead>
                                 <tr>
                                     <th data-width="2%">No.</th>
-                                    <th data-width="16%">Uraian</th>
-                                    <th data-width="8%">Penerimaan</th>
-                                    <th data-width="8%">Pengeluaran</th>
-                                    <th data-width="15%">Keterangan</th>
+                                    <th data-width="30%">Uraian</th>
+                                    <th data-width="10%">Penerimaan</th>
+                                    <th data-width="10%">Pengeluaran</th>
+                                    <th data-width="10%">Keterangan</th>
+                                    <th data-width="10%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -322,13 +323,13 @@
                 },
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control penerimaan autonumeric" required>';
+                        return '<input type="text" align="right" value="'+(data? data : 0)+'" class="form-control penerimaan autonumeric" style="text-align: right;" required>';
                     },
                     targets: [2]
                 },
                 {
                     render: function ( data, type, row ) {
-                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control pengeluaran autonumeric" required>';
+                        return '<input type="text" value="'+(data? data : 0)+'" class="form-control pengeluaran autonumeric" style="text-align: right;" required>';
                     },
                     targets: [3]
                 },
@@ -337,6 +338,12 @@
                         return '<input type="text" value="'+(data? data : '')+'" class="form-control keterangan">';
                     },
                     targets: [4]
+                },
+                {
+                    render: function ( data, type, row ) {
+                        return '<button type="button" class="btn btn-default">button</button>';
+                    },
+                    targets: [5]
                 },
             ],
             data: data_detil_permintaan,
@@ -1054,8 +1061,8 @@
                 </form>
             </div>
             <div class="modal-footer ">
-                    <button type="button" class="btn btn-primary" id="btn_insert_det_permintaan">(+) Tambahkan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="btn_insert_det_permintaan">(+) Tambahkan</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
             </div>
         </div>
     </div>
