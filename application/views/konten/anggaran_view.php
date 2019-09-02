@@ -151,7 +151,8 @@
             {"sWidth": "5%" },
             {"sWidth": "45%"},
             {"sWidth": "18%"},
-            {"sWidth": "15%", "bSortable" : false}
+            {"sWidth": "5%"},
+            {"sWidth": "20%", "bSortable" : false}
             ],
             "order" : [
             [0, "asc"],

@@ -285,7 +285,8 @@
                        <button type="button" title="Cetak" data-toggle="tooltip" class="btn btn-success cetak"><span class="fa fa-print"></span></button>\
                        <button type="button" title="Hapus" data-toggle="tooltip" class="btn btn-danger hapus"><span class="fa fa-trash"></span></button>';
                     },
-                    "targets": [-1]
+                    "targets": [-1],
+                    "sWidth": "17%"
                 },
             ],
             order : [

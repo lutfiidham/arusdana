@@ -238,14 +238,14 @@
             ],
             "columns": [
             {"width": "2%" },
-            {"width": "15%"},
-            {"width": "15%"},
-            {"width": "15%"},
-            {"width": "10%"},
-            {"width": "10%"},
-            {"width": "10%"},
-            {"width": "10%"},
-            {"width": "15%", "orderable": false}
+            {"width": "8%"},
+            {"width": "8%"},
+            {"width": "8%"},
+            {"width": "8%"},
+            {"width": "8%"},
+            {"width": "8%"},
+            {"width": "8%"},
+            {"width": "30%", "orderable": false}
             ],
             "order" : [
             [0, "asc"],

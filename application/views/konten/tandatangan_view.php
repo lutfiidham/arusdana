@@ -149,7 +149,7 @@
                             </div> -->
                             <div class="card-body">
                                 <div class="row clearfix">
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                     <?php if ($ha['insert']): ?>
                                         <button id="btnAdd" class="btn btn-primary btn-block">(+) Tambah</button>
                                     <?php endif ?>
@@ -334,8 +334,8 @@
             "aoColumns": [
             {"sWidth": "2%" },
             {"sWidth": "40%"},
-            {"sWidth": "18%"},
-            {"sWidth": "15%", "bSortable" : false}
+            {"sWidth": "10%"},
+            {"sWidth": "40%", "bSortable" : false}
             ],
             "order" : [
             [0, "asc"],
