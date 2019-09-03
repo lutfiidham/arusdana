@@ -222,7 +222,7 @@
                     if (type=='sort') {
                         return data;
                     } else{
-                        return mys.formatMoney(data,0,',','.');
+                        return '<p class="text-right">'+mys.formatMoney(data,0,',','.')+'</p>';
                     }
                 },
                 targets: [7]
@@ -272,7 +272,7 @@
                     if (type=='sort') {
                         return data;
                     } else{
-                        return mys.formatMoney(data,0,',','.');
+                        return '<p class="text-right">'+mys.formatMoney(data,0,',','.')+'</p>';
                     }
                 },
                 targets: [2]
@@ -325,7 +325,7 @@
                 }, 0 );
 
 
-                $( api.column( 2 ).footer() ).html(mys.formatMoney(total,0,',','.'));
+                $( api.column( 2 ).footer() ).html('<p class="text-right">'+mys.formatMoney(total,0,',','.')+'</p>');
             }
         });
 
