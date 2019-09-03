@@ -30,6 +30,16 @@
 
                 </div>
             </div> -->
+            <div class="card-header d-block">
+                <!-- <h6 style="font-weight: bold;">Filter Berdasarkan:</h6> -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="fl_tanggal">Tanggal</label>
+                        <input type="text" class="form-control tgl_range" name="fl_tanggal" value="" id="fl_tanggal">
+                    </div>
+                </div>
+            </div>
+
             <div class="card-body">
                 <div class="row clearfix">
                     <div class="col-lg-2">
@@ -192,6 +202,11 @@
         load_unit_kerja();
         load_anggaran();
         load_kategori();
+
+        // $('#fl_tanggal').val(moment().format('01-MM-YYYY')+' s.d. '+moment().format(moment().daysInMonth()+'-MM-YYYY'));
+        $('#fl_tanggal').data('daterangepicker').setStartDate(moment().format('01-MM-YYYY'));
+        $('#fl_tanggal').data('daterangepicker').setEndDate(moment().format(moment().daysInMonth()+'-MM-YYYY'));
+        $('#fl_tanggal').change();
 
         $('#tabel').DataTable({
             "scrollCollapse": true,
@@ -368,6 +383,11 @@
             }
         });
 
+        $('#fl_tanggal').on('change', function(event) {
+            mys.blok();
+            $('#tabel').DataTable().ajax.url(mys.base_url + 'permintaan_anggaran/get_data?tanggal=' + $(this).val()).load();
+            mys.unblok();
+        });
         
         $("#form").submit(function(event) {
             if (form_validator.form()) {
