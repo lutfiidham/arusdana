@@ -5,11 +5,12 @@ class Permintaan_anggaran_model extends CI_Model {
 
 	private $table= 'permintaan_anggaran';
 
-	function get_data($start, $end)
+	function get_data($start, $end, $id_unit_kerja)
 	{
 		
 		if (is_null($start)) $start = date('Y/m/01');
 		if (is_null($end)) $end = date('Y/m/t');
+
 		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori');
 		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja', 'left');
 		$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
@@ -20,6 +21,9 @@ class Permintaan_anggaran_model extends CI_Model {
 		// 	$this->db->where('tanggal >=', $date_arr[0]);
 		// 	$this->db->where('tanggal <=', $date_arr[1]);
 		// }
+		if ($id_unit_kerja != '') {
+			$this->db->where('pa.id_unit_kerja', $id_unit_kerja);
+		}
 		$this->db->where('tanggal >=', $start);
 		$this->db->where('tanggal <=', $end);
 		$this->db->order_by('id_permintaan', 'desc');

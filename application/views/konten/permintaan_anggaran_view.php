@@ -37,6 +37,17 @@
                         <label for="fl_tanggal">Tanggal</label>
                         <input type="text" class="form-control tgl_range" name="fl_tanggal" value="" id="fl_tanggal">
                     </div>
+
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            <label for="id_unit_kerja_fil">Unit Kerja</label>
+                            <select name="id_unit_kerja_fil" id="id_unit_kerja_fil" class="form-control cmb_select2">
+                                <option ></option>
+                            </select>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -383,17 +394,17 @@
             }
         });
 
-        $('#fl_tanggal').on('change', function(event) {
+        $('#fl_tanggal, #id_unit_kerja_fil').on('change', function(event) {
             mys.blok();
 
             var tgl = $('#fl_tanggal').val().split(' s.d. ');
-            console.log(tgl);
+            var id_unit_kerja = $('#id_unit_kerja_fil').val();
             var sDate = mys.toDate(tgl[0]);
             var eDate = mys.toDate(tgl[1]);
-            $('#tabel').DataTable().ajax.url(mys.base_url + 'permintaan_anggaran/get_data?start=' +sDate+'&end='+eDate).load();
+            $('#tabel').DataTable().ajax.url(mys.base_url + 'permintaan_anggaran/get_data?start=' +sDate+'&end='+eDate+'&id_unit_kerja='+id_unit_kerja).load();
             mys.unblok();
         });
-        
+
         $("#form").submit(function(event) {
             if (form_validator.form()) {
                 if (data_detil_permintaan.length == 0) {
@@ -711,8 +722,12 @@
             success: function(data){
                 $('#id_unit_kerja').empty();
                 $('#id_unit_kerja').append('<option></option>');
+
+                $('#id_unit_kerja_fil').empty();
+                $('#id_unit_kerja_fil').append('<option></option>');
                 $.each(data, function(index, val) {
                     $('#id_unit_kerja').append('<option value="'+val.id+'">'+ val.name+'</option>');
+                    $('#id_unit_kerja_fil').append('<option value="'+val.id+'">'+ val.name+'</option>');
                 });
             },
             error:function(data){

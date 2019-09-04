@@ -19,8 +19,9 @@ class Permintaan_anggaran extends CI_Controller {
 		if(!$this->input->is_ajax_request()) redirect();
 		$start = $this->input->get('start');
 		$end = $this->input->get('end');
+		$id_unit_kerja = $this->input->get('id_unit_kerja');
 		
-		$list = $this->model->get_data($start, $end);
+		$list = $this->model->get_data($start, $end, $id_unit_kerja);
 
 		$data['data']    = [];
 		$data['total']   = 0;
