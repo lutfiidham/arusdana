@@ -10,7 +10,7 @@ var myscript_js = {
     	var title = {}
     	title.success = 'Sukses';
     	title.info = 'Info';
-    	title.error = 'Error';
+    	title.error = 'Gagal';
     	title.warning = 'Peringatan';
 
 	    $.toast({
