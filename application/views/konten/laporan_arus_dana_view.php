@@ -174,7 +174,7 @@
                                     <th data-width="10%">Penerimaan</th>
                                     <th data-width="10%">Pengeluaran</th>
                                     <th data-width="10%">Keterangan</th>
-                                    <th data-width="10%">Aksi</th>
+                                    <!-- <th data-width="10%">Aksi</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -340,12 +340,12 @@
                     },
                     targets: [4]
                 },
-                {
-                    render: function ( data, type, row ) {
-                        return '<button type="button" class="btn btn-default">button</button>';
-                    },
-                    targets: [5]
-                },
+                // {
+                //     render: function ( data, type, row ) {
+                //         return '<button type="button" class="btn btn-default">button</button>';
+                //     },
+                //     targets: [5]
+                // },
             ],
             data: data_detil_permintaan,
             columns : [
@@ -1039,14 +1039,14 @@
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label for="penerimaan">Penerimaan</label>
-                                <input type="text" class="form-control autonumeric" name="penerimaan" id="penerimaan" required>
+                                <input type="text" style="text-align:right;" class="form-control autonumeric" name="penerimaan" id="penerimaan" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label for="pengeluaran">Pengeluaran</label>
-                                <input type="text" class="form-control autonumeric" name="pengeluaran" id="pengeluaran" required>
+                                <input type="text" style="text-align:right;" class="form-control autonumeric" name="pengeluaran" id="pengeluaran" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>

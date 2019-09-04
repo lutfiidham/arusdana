@@ -385,6 +385,7 @@
 
         $('#fl_tanggal').on('change', function(event) {
             mys.blok();
+
             $('#tabel').DataTable().ajax.url(mys.base_url + 'permintaan_anggaran/get_data?tanggal=' + $(this).val()).load();
             mys.unblok();
         });
@@ -842,7 +843,7 @@
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="nominal">Nominal</label>
-                                <input type="text" class="form-control autonumeric" name="nominal" id="nominal" required>
+                                <input type="text" class="form-control autonumeric" style="text-align:right;" name="nominal" id="nominal" required>
                                 <span class="help-block"></span>
                             </div>
                         </div>
