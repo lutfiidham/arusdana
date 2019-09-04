@@ -17,8 +17,10 @@ class Permintaan_anggaran extends CI_Controller {
 	function get_data()
 	{
 		if(!$this->input->is_ajax_request()) redirect();
-
-		$list = $this->model->get_data();
+		$start = $this->input->get('start');
+		$end = $this->input->get('end');
+		
+		$list = $this->model->get_data($start, $end);
 
 		$data['data']    = [];
 		$data['total']   = 0;

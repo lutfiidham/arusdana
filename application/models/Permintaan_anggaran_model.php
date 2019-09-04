@@ -5,20 +5,26 @@ class Permintaan_anggaran_model extends CI_Model {
 
 	private $table= 'permintaan_anggaran';
 
-	function get_data($tanggal = "")
+	function get_data($start, $end)
 	{
+		
+		if (is_null($start)) $start = date('Y/m/01');
+		if (is_null($end)) $end = date('Y/m/t');
 		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori');
 		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja', 'left');
 		$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
 		$this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori', 'left');
 		$this->db->where('pa.id_bagian', $this->session->userdata('id_bagian'));
-		if ($tanggal!="") {
-			$date_arr = $this->pecah_daterange($tanggal);
-			$this->db->where('tanggal >=', $date_arr[0]);
-			$this->db->where('tanggal <=', $date_arr[1]);
-		}
-		$this->db->order_by('id_permintaan', 'asc');
+		// if ($tanggal!="") {
+		// 	$date_arr = $this->pecah_daterange($tanggal);
+		// 	$this->db->where('tanggal >=', $date_arr[0]);
+		// 	$this->db->where('tanggal <=', $date_arr[1]);
+		// }
+		$this->db->where('tanggal >=', $start);
+		$this->db->where('tanggal <=', $end);
+		$this->db->order_by('id_permintaan', 'desc');
 		return $this->db->get($this->table.' pa');
+		// var_dump($this->db->last_query());
 	}
 
 	function get_data_laporan($tanggal = "")

@@ -206,7 +206,7 @@
         // $('#fl_tanggal').val(moment().format('01-MM-YYYY')+' s.d. '+moment().format(moment().daysInMonth()+'-MM-YYYY'));
         $('#fl_tanggal').data('daterangepicker').setStartDate(moment().format('01-MM-YYYY'));
         $('#fl_tanggal').data('daterangepicker').setEndDate(moment().format(moment().daysInMonth()+'-MM-YYYY'));
-        $('#fl_tanggal').change();
+        $('#fl_tanggal').trigger('change');
 
         $('#tabel').DataTable({
             "scrollCollapse": true,
@@ -386,7 +386,11 @@
         $('#fl_tanggal').on('change', function(event) {
             mys.blok();
 
-            $('#tabel').DataTable().ajax.url(mys.base_url + 'permintaan_anggaran/get_data?tanggal=' + $(this).val()).load();
+            var tgl = $('#fl_tanggal').val().split(' s.d. ');
+            console.log(tgl);
+            var sDate = mys.toDate(tgl[0]);
+            var eDate = mys.toDate(tgl[1]);
+            $('#tabel').DataTable().ajax.url(mys.base_url + 'permintaan_anggaran/get_data?start=' +sDate+'&end='+eDate).load();
             mys.unblok();
         });
         
