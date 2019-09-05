@@ -103,8 +103,7 @@
                                 </select>
                                 <span class="help-block"></span>
                             </div>
-                            
-                            
+                                                        
                             <div class="form-group">
                                 <label for="tanggal">Tanggal</label>
                                 <input type="text" class="form-control tgl" data-target="#tanggal" name="tanggal" id="tanggal" required>
@@ -215,8 +214,8 @@
         load_kategori();
 
         // $('#fl_tanggal').val(moment().format('01-MM-YYYY')+' s.d. '+moment().format(moment().daysInMonth()+'-MM-YYYY'));
-        $('#fl_tanggal').data('daterangepicker').setStartDate(moment().format('01-MM-YYYY'));
-        $('#fl_tanggal').data('daterangepicker').setEndDate(moment().format(moment().daysInMonth()+'-MM-YYYY'));
+        $('#fl_tanggal').data('daterangepicker').setStartDate(moment().subtract(30, "days").format('DD-MM-YYYY'));
+        $('#fl_tanggal').data('daterangepicker').setEndDate(moment().format('DD-MM-YYYY'));
         $('#fl_tanggal').trigger('change');
 
         $('#tabel').DataTable({

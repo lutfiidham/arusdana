@@ -8,8 +8,8 @@ class Permintaan_anggaran_model extends CI_Model {
 	function get_data($start, $end, $id_unit_kerja)
 	{
 		
-		if (is_null($start)) $start = date('Y/m/01');
-		if (is_null($end)) $end = date('Y/m/t');
+		if (is_null($start)) $start = date_create(date('Y/m/d'))->modify('-30 days')->format('Y-m-d');
+		if (is_null($end)) $end = date('Y/m/d');
 
 		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori');
 		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja', 'left');
