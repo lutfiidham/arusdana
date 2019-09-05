@@ -153,7 +153,7 @@ class Arusdana extends CI_Controller
 						$this->adm->storeChildArusDana($da);
 					}
 				}
-				echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
+				// echo json_encode(['status' => true, 'id_arus_dana' => $id_realisasi]);
 			} else {
 				$realisasi->tanggal = date('Y-m-d');
 				
