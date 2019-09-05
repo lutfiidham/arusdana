@@ -21,8 +21,10 @@ class Permintaan_anggaran_model extends CI_Model {
 		// 	$this->db->where('tanggal >=', $date_arr[0]);
 		// 	$this->db->where('tanggal <=', $date_arr[1]);
 		// }
-		if ($id_unit_kerja != '') {
-			$this->db->where('pa.id_unit_kerja', $id_unit_kerja);
+		if ($id_unit_kerja != 'semua') {
+			if ($id_unit_kerja != '') {
+				$this->db->where('pa.id_unit_kerja', $id_unit_kerja);
+			}
 		}
 		$this->db->where('tanggal >=', $start);
 		$this->db->where('tanggal <=', $end);
