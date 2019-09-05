@@ -52,7 +52,7 @@ CREATE TABLE `anggaran` (
   PRIMARY KEY (`id_anggaran`),
   KEY `fk_reference_4` (`id_bagian`),
   CONSTRAINT `anggaran_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 /*Data for the table `anggaran` */
 
@@ -70,7 +70,8 @@ insert  into `anggaran`(`id_anggaran`,`kode_anggaran`,`nama_anggaran`,`id_bagian
 (11,'B.6','Training Flutter',1,'A',NULL),
 (12,'B.7','Pelatihan Sertifikasi Professional Scrum Master',1,'A',NULL),
 (13,'C.1','9 Mouse Rexus Sierra GT3',1,'A',NULL),
-(14,'C.2','1 Lusin Kaos PKS',1,'A',NULL);
+(14,'C.2','1 Lusin Kaos PKS',1,'A',NULL),
+(15,'C.3','mencetak Manual Book',1,'A',NULL);
 
 /*Table structure for table `arus_dana` */
 
@@ -98,7 +99,7 @@ CREATE TABLE `arus_dana` (
   CONSTRAINT `arus_dana_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
   CONSTRAINT `arus_dana_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `arus_dana_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=latin1;
 
 /*Data for the table `arus_dana` */
 
@@ -108,13 +109,6 @@ insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`
 (12,'3/PKS/I/2019','2019-01-31',NULL,NULL,NULL,0,'Bukti terlampir',-400000,'1','2019-01-01',1,NULL),
 (13,'4/PKS/I/2019','2019-01-31',NULL,NULL,NULL,NULL,'Bukti terlampir',-200000,'1','2019-01-01',1,0),
 (14,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti Terlampir',0,'0','2019-01-01',1,NULL),
-(15,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti Terlampir',0,'0','2019-01-01',1,NULL),
-(16,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1,NULL),
-(17,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti terlampir',0,'0','2019-07-01',1,NULL),
-(19,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Bukti terlampir',0,'0','2019-07-01',1,NULL),
-(20,'1/PS-STAAL/I/2019','2019-07-26',NULL,2,30,6,'',-18000,'0','2019-07-01',1,NULL),
-(22,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1,NULL),
-(23,'1/PS-UMUM/I/2019','2019-07-26',11,2,1,6,'Tunai',0,'0','2019-07-01',1,NULL),
 (24,'2/PS-UMUM/I/2019','2019-01-31',NULL,2,1,6,'Pelatihan dilaksanakan selama 8 kali pertemuan',-263400,'0','2019-01-01',1,NULL),
 (25,'1/SSI-DKRTHSBY/I/2019','2019-07-26',NULL,1,18,4,'Tunai',-200000,'0','2019-01-01',1,NULL),
 (26,'5/PKS/II/2019','2019-02-28',NULL,NULL,NULL,NULL,'',-200000,'1','2019-02-01',1,0),
@@ -139,15 +133,6 @@ insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`
 (46,'8/HAI-UMUM/VII/2019','2019-08-14',NULL,3,1,1,'tunai',-25000,'0','2019-07-01',1,NULL),
 (47,'1/SSI-RSMLMG/I/2019','2019-08-14',NULL,1,23,4,' PARIS RS Muhammadiyah Lamongan',42793000,'0','2019-01-01',1,NULL),
 (48,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-01-01',1,NULL),
-(49,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-01-01',1,NULL),
-(50,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
-(51,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
-(52,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
-(53,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
-(54,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
-(55,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
-(56,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
-(57,'2/SSI-RSMLMG/I/2019','2019-08-14',12,1,23,4,'Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',0,'0','2019-08-01',1,NULL),
 (58,'17/PKS/V/2019','2019-08-30',NULL,NULL,NULL,3,'Tunai',-900000,'0','2019-05-01',1,NULL),
 (59,'18/PKS/V/2019','2019-08-30',NULL,NULL,NULL,0,'Bukti terlampir',-200000,'1','2019-05-01',1,3),
 (60,'19/PKS/V/2019','2019-08-30',NULL,NULL,NULL,NULL,'Bukti terlampir',-400000,'1','2019-05-01',1,2),
@@ -166,7 +151,6 @@ insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`
 (73,'2/HAI-STIKES/IV/2019','2019-08-30',NULL,3,5,5,'sudah di cek oleh bagian keuangan',7060000,'0','2019-04-01',1,NULL),
 (74,'3/HAI-STIKES/IV/2019','2019-08-30',NULL,3,5,1,'Tunai',-128000,'0','2019-08-01',1,NULL),
 (75,'4/HAI-STIKES/V/2019','2019-08-30',13,3,5,5,'Bukti Terlampir',0,'0','2019-08-01',1,NULL),
-(76,'4/HAI-STIKES/V/2019','2019-08-30',13,3,5,5,'Bukti Terlampir',0,'0','2019-08-01',1,NULL),
 (77,'5/HAI-STIKES/VIII/2019','2019-08-30',NULL,3,5,5,'Bukti terlampir',7060000,'0','2019-08-01',1,NULL),
 (78,'6/HAI-STIKES/VIII/2019','2019-08-30',14,3,5,5,'Tunai',0,'0','2019-08-01',1,NULL),
 (79,'1/HAI-STAAL/III/2019','2019-08-30',NULL,3,30,7,'Tunai',-619500,'0','2019-03-01',1,NULL),
@@ -185,7 +169,6 @@ insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`
 (92,'3/SSI-PPGI/II/2019','2019-08-30',NULL,1,34,4,'tunai',-15500,'0','2019-02-01',1,NULL),
 (93,'4/SSI-PPGI/II/2019','2019-08-30',NULL,1,34,4,'',-730848,'0','2019-02-01',1,NULL),
 (94,'5/SSI-PPGI/III/2019','2019-08-30',15,1,34,4,'Bukti terlampir',0,'0','2019-03-01',1,NULL),
-(95,'5/SSI-PPGI/III/2019','2019-08-30',15,1,34,4,'Bukti terlampir',0,'0','2019-03-01',1,NULL),
 (96,'6/SSI-PPGI/VI/2019','2019-08-30',NULL,1,34,4,'Tunai',-14500,'0','2019-06-01',1,NULL),
 (97,'7/SSI-PPGI/VII/2019','2019-08-30',NULL,1,34,4,'Sudah di cek oleh keuangan',12250000,'0','2019-07-01',1,NULL),
 (99,'1/SSI-TPS/I/2019','2019-08-30',NULL,1,33,4,'Tunai',-450000,'0','2019-01-01',1,NULL),
@@ -271,19 +254,12 @@ CREATE TABLE `detail_arus_dana` (
   PRIMARY KEY (`id_detail_arus`),
   KEY `fk_reference_15` (`id_arus_dana`),
   CONSTRAINT `detail_arus_dana_ibfk_1` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`)
-) ENGINE=InnoDB AUTO_INCREMENT=292 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_arus_dana` */
 
 insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`penerimaan`,`pengeluaran`,`keterangan`) values 
 (15,14,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
-(16,15,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
-(17,16,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
-(18,17,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
-(20,19,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
-(21,20,'10 Lembar kertas Sertifikat untuk STAAL',0,18000,'Debet Memo'),
-(26,22,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
-(27,23,'HR Pemateri Pelatihan Desain Grafis untuk Usaha Percetakan',2400000,2400000,'0'),
 (55,25,'Transportasi ke DKRTH Surabaya dan pelatihan scrum',0,200000,'Ke DKRTH 3x, pelatihan scrum 3 hari'),
 (72,33,'Pembelian kabel HDMI v2.0 Ultra HD ',0,115287,'tunai'),
 (74,11,'Transportasi BBM Kanit SSI bulan Desember 2018',0,200000,'Transfer BCA # 6720 4178 29 an Jimmy'),
@@ -319,28 +295,10 @@ insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`peneri
 (112,47,'Penerimaan Pembayaran Pengadaan Grounding System dan Perbaikan Peralatan PARIS Manless RS Muhammadiyah Lamongan',42793000,0,'Transfer tgl 21 Desember 2018'),
 (113,48,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
 (114,48,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
-(115,49,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
-(116,49,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
-(117,50,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
-(118,50,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
-(119,51,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
-(120,51,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
 (121,40,'Pengiriman Dokumen MOU PT Anabatic Digital',0,15500,''),
-(122,52,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
-(123,52,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
-(124,53,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
-(125,53,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
-(126,54,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
-(127,54,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
-(128,55,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
-(129,55,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
-(130,56,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
-(131,56,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
 (132,32,'Biaya BBM Kanit SSI bulan Maret 2019',0,200000,'Transfer BCA # 6720 4178 29 a.n Jimmy'),
 (133,31,'Biaya BBM Kepala Pusat PKS bulan Maret 2019',0,400000,''),
 (135,10,'Transportasi BBM Kabag PKS bulan Desember 2018',0,400000,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
-(136,57,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',26122920,26122920,'sudah ditransfer tgl 23 Jan 2019'),
-(137,57,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',12430000,12430000,'sudah ditransfer tgl 23 Jan 2019'),
 (138,58,'Gathering karyawan bagian PKS (9 orang x Rp.100.000,-)',0,900000,'Anggaran untuk gathering 900.000'),
 (139,59,'Biaya Transportasi Kanit SSI bulan Mei 2019',0,200000,'Transfer BCA # 6720 4178 29 a.n Jimmy'),
 (141,61,'Biaya transportasi Kanit SSI bln Juni 2019',0,200000,'Transfer  BCA # 6720 4178 29 a.n. Jimmy'),
@@ -361,7 +319,6 @@ insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`peneri
 (156,73,'Penerimaan pembayaran termin I sebesar 50 % dari Rp.14.120.000,- untuk Biaya Partisipasi srIKoM Academic partnership semester Genap Tahun Ajaran 2018/2019 di STIKES yayasan Rumah Sakit Dr. Soetomo Surabaya',7060000,0,''),
 (157,74,'Transportasi ke Stikes Dr.Soetomo',0,128000,''),
 (158,75,'HR Dosen Pengajar di Stikes Dr. Soetomo setengah smester',636000,636000,'Bu Sulistiowati dan Pak Moh.Arifin'),
-(159,76,'HR Dosen Pengajar di Stikes Dr. Soetomo setengah smester',636000,636000,'Bu Sulistiowati dan Pak Moh.Arifin'),
 (160,77,'Penerimaan Pelunasan pembayaran  sebesar 50 % dari Rp.14.120.000,- untuk Biaya Partisipasi srIKoM Academic partnership semester Genap Tahun Ajaran 2018/2019 di STIKES yayasan Rumah Sakit Dr. Soetomo Surabaya',7060000,0,'Transfer 6 Agustus 2019 dan sudah dicek oleh Bag.Keuangan'),
 (161,78,'HR Dosen Pengajar di Stikes Dr. Soetomo setengah smester  th ajaran 2018/2019',636000,636000,'Bu Sulistiowati dan Pak Moh.Arifin'),
 (163,80,'Transportasi ke DKRTH Surabaya (3x)',0,100000,''),
@@ -386,7 +343,6 @@ insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`peneri
 (185,92,'Pengiriman Dokumen Perjanjian Kerjasama dengan PPGI Jakarta',0,15500,''),
 (186,93,'Pembelian template untuk Jasa Pembuatan Website Perkumpulan Perusahaan Gadai Indonesia',0,730848,'Transfer  BCA # 8220128599 a.n. Tan Amelia'),
 (187,94,' Pembayaran fee programmer untuk proyek Pembuatan Website PPGI',7500000,7500000,''),
-(188,95,' Pembayaran fee programmer untuk proyek Pembuatan Website PPGI',7500000,7500000,''),
 (189,96,'Pengiriman dokumen ke PPGI Jakarta',0,14500,''),
 (190,97,'Penerimaan Pelunasan Pembayaran termin II, sebesar 50% dari Rp.25.000.000,- tentang Jasa Pembuatan Website Perkumpulan Perusahaan Gadai Indonesia',12500000,0,''),
 (191,97,'Pph 23 sebesar 2% ',0,250000,''),
@@ -489,7 +445,7 @@ CREATE TABLE `detail_permintaan_anggaran` (
   PRIMARY KEY (`id_detail_permintaan`),
   KEY `fk_reference_10` (`id_permintaan`),
   CONSTRAINT `detail_permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_permintaan_anggaran` */
 
@@ -516,7 +472,7 @@ CREATE TABLE `kategori` (
   PRIMARY KEY (`id_kategori`),
   KEY `fk_reference_3` (`id_bagian`),
   CONSTRAINT `kategori_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 
 /*Data for the table `kategori` */
 
@@ -555,7 +511,9 @@ insert  into `kategori`(`id_kategori`,`kode_kategori`,`nama_kategori`,`id_bagian
 (33,'TPS','Terminal Peti Kemas Surabaya',1,'A'),
 (34,'PPGI','Persatuan Perusahaan Gadai Indonesia',1,'A'),
 (35,'SILABA','PT PEGADAIAN PERSERO SILABA',1,'A'),
-(36,'DRMGLF','Darmo Golf',1,'A');
+(36,'DRMGLF','Darmo Golf',1,'A'),
+(37,'FMIPAUNESA','FMIPA Universitas Negeri Surabaya',1,'A'),
+(38,'KTNG','Perusahaan KTNG Purwosari',1,'A');
 
 /*Table structure for table `pemegang_jabatan` */
 
@@ -569,17 +527,13 @@ CREATE TABLE `pemegang_jabatan` (
   PRIMARY KEY (`id_pj`),
   KEY `fk_reference_17` (`id_bagian`),
   CONSTRAINT `pemegang_jabatan_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `pemegang_jabatan` */
 
 insert  into `pemegang_jabatan`(`id_pj`,`id_bagian`,`nama`,`jabatan`) values 
-(1,1,'Lulut Fitriyaningrum, S.Kom.','Admin'),
 (2,1,'Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat'),
-(3,1,'Jimmy, S.Kom.','Kepala Unit SSI'),
-(4,1,'Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya '),
-(5,1,'Prof. Dr. Budi Jatmiko, M.Pd','Rektor'),
-(6,1,'Pantjawati Sudarmaningtyas, S.Kom., M.Eng','Wakil Rektor Bidang Akademik');
+(7,1,'Jimmy, S.Kom.','Kepala Unit SSI');
 
 /*Table structure for table `permintaan_anggaran` */
 
@@ -607,7 +561,7 @@ CREATE TABLE `permintaan_anggaran` (
   CONSTRAINT `permintaan_anggaran_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `permintaan_anggaran_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
   CONSTRAINT `permintaan_anggaran_ibfk_4` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
 /*Data for the table `permintaan_anggaran` */
 
@@ -661,7 +615,7 @@ CREATE TABLE `unit_kerja` (
   PRIMARY KEY (`id_unit_kerja`),
   KEY `fk_reference_2` (`id_bagian`),
   CONSTRAINT `unit_kerja_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `unit_kerja` */
 
