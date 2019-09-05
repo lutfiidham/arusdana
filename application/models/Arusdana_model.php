@@ -13,22 +13,39 @@ class Arusdana_model extends CI_Model {
 	public function getData($idBagian)
 	{
 		$query = "
-			select 'arus_dana' as jenis, id_arus_dana as id, tanggal, no_arus_dana as nomor, uk.nama_unit_kerja, kt.nama_kategori,an.kode_anggaran, an.nama_anggaran, periode_pelaksanaan, 'W' as status_realisasi
-			from arus_dana a
-			left join unit_kerja uk on a.id_unit_kerja = uk.id_unit_kerja
-			left join anggaran an on a.id_anggaran = an.id_anggaran
-			left join kategori kt on a.id_kategori = kt.id_kategori
-			where a.id_bagian = ? and id_permintaan is null
-			UNION
-			select 'permintaan' as jenis, id_permintaan as id, tanggal, no_anggaran as nomor,  uk.nama_unit_kerja, kt.nama_kategori,an.kode_anggaran, an.nama_anggaran, NULL as periode_pelaksanaan, status_realisasi
-			from permintaan_anggaran pa
-			left join unit_kerja uk on pa.id_unit_kerja = uk.id_unit_kerja
-			join anggaran an on pa.id_anggaran = an.id_anggaran
-			left join kategori kt on pa.id_kategori = kt.id_kategori
-			where pa.id_bagian = ?
-			order by 2
+			SELECT 'permintaan' AS jenis, id_permintaan AS id, tanggal, no_anggaran AS nomor,  uk.nama_unit_kerja, kt.nama_kategori,an.kode_anggaran, an.nama_anggaran, NULL AS periode_pelaksanaan, status_realisasi
+			FROM permintaan_anggaran pa
+			LEFT JOIN unit_kerja uk ON pa.id_unit_kerja = uk.id_unit_kerja
+			JOIN anggaran an ON pa.id_anggaran = an.id_anggaran
+			LEFT JOIN kategori kt ON pa.id_kategori = kt.id_kategori
+			WHERE pa.id_bagian = ? and status_realisasi = 'D'
+			ORDER BY 2
 		";
-		return $this->db->query($query,[$idBagian,$idBagian]);
+		return $this->db->query($query,[$idBagian]);
+		// $this->db->select('pa.*,uk.nama_unit_kerja,an.kode_anggaran, an.nama_anggaran,kt.nama_kategori');
+		// $this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
+		// $this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
+		// $this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
+		// $this->db->where('pa.id_bagian', $idBagian);
+		// return $this->db->get('permintaan_anggaran pa');
+	}
+
+	public function getDataRekap($idBagian, $start, $end)
+	{
+		if (is_null($start)) $start = date_create(date('Y/m/d'))->modify('-30 days')->format('Y-m-d');
+		if (is_null($end)) $end = date('Y/m/d');
+		$query = "
+			SELECT 'arus_dana' AS jenis, id_arus_dana AS id, tanggal, no_arus_dana AS nomor, uk.nama_unit_kerja, kt.nama_kategori,an.kode_anggaran, an.nama_anggaran, periode_pelaksanaan, 'W' AS status_realisasi
+			FROM arus_dana a
+			LEFT JOIN unit_kerja uk ON a.id_unit_kerja = uk.id_unit_kerja
+			LEFT JOIN anggaran an ON a.id_anggaran = an.id_anggaran
+			LEFT JOIN kategori kt ON a.id_kategori = kt.id_kategori
+			WHERE a.id_bagian = ?
+			AND tanggal >='$start'
+			AND tanggal <= '$end'
+			ORDER BY id desc
+		";
+		return $this->db->query($query,[$idBagian]);
 		// $this->db->select('pa.*,uk.nama_unit_kerja,an.kode_anggaran, an.nama_anggaran,kt.nama_kategori');
 		// $this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
 		// $this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');

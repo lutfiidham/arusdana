@@ -37,15 +37,49 @@
                         <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button>
                     <?php endif ?>
                     </div>
-                    <div class="col-lg-1" style="text-align:right;padding-top:7px">
+                    <!-- <div class="col-lg-1" style="text-align:right;padding-top:7px">
                         Cari :
                     </div>
                     <div class="col-lg-9">
                         <input type="text" id="input_pencarian" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
-                    </div>
+                    </div> -->
                 </div>
+                
                 <div style="padding: 1%">
                     <table id="tabel" class="table table-inverse table-hover" width="100%">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>No. Permintaan</th>
+                                <th>Unit Kerja</th>
+                                <th>Kategori</th>
+                                <th>No Anggaran</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+<h5>Sudah direalisasi</h5>
+
+            <div class="row clearfix">
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control tgl_range" name="fl_tanggal" value="" id="fl_tanggal">
+                    </div>
+
+                    <div class="col-lg-1" style="text-align:right;padding-top:7px">
+                        Cari :
+                    </div>
+                    <div class="col-lg-8">
+                        <input type="text" id="input_pencarian2" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
+                    </div>
+                </div>
+
+                <div style="padding: 1%">
+                    <table id="tabel_rekap" class="table table-inverse table-hover" width="100%">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -230,6 +264,7 @@
     var form_validator_detil;
     var tabel_detail_permintaan;
     var tabel;
+    var tabel_rekap;
     var save_method;
     var data_detil_permintaan = [];
     var mustGenerateNumberFuckingCunts = true;
@@ -243,7 +278,72 @@
         load_kategori();
         load_pj();
 
+        $('#fl_tanggal').data('daterangepicker').setStartDate(moment().subtract(30, "days").format('DD-MM-YYYY'));
+        $('#fl_tanggal').data('daterangepicker').setEndDate(moment().format('DD-MM-YYYY'));
+        $('#fl_tanggal').trigger('change');
+
         tabel = $('#tabel').DataTable({
+            scrollCollapse: true,
+            sDom: "t<'row'<'col-md-4'i><'col-md-8'p>>",
+            processing: true,
+            iDisplayLength: 10,
+            paging:false,
+            scrollX:true,
+            bInfo : false,
+            language: {
+                url: mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
+            },
+            ajax: mys.base_url + "arusdana",
+            columnDefs: [
+            {visible : false, targets : []},
+                {
+                    render: function ( data, type, row ) {
+                        if (type == 'sort') {
+                            return data;
+                        }
+                        return moment(data).format('DD MMM YYYY');
+                    },
+                    targets: [5]
+                },
+                {
+                    render: function ( data, type, row ) {
+                        // var status = data == 'W' ? "" : "";
+                        // var status = data == 'W' ? "" : "";
+                        // return '<span class="badge badge-pill badge-success">'+status+'</span>';
+
+                        if (data == 'W') {
+                            return '<span class="badge badge-pill badge-success">Sudah direalisasi</span>';
+                        }else if (data == 'D') {
+                            return '<span class="badge badge-pill badge-danger">Belum direalisasi</span>';
+                        };
+                    },
+                    targets: [6]
+                },
+                {
+                    "render": function ( data, type, row ) {
+                       return '<button type="button" title="Realisasi" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button>\
+                       <button type="button" title="Cetak" data-toggle="tooltip" class="btn btn-success cetak"><span class="fa fa-print"></span></button>\
+                       ';
+                    },
+                    "targets": [-1],
+                    "sWidth": "17%"
+                },
+            ],
+            order : [
+            [1, "asc"],
+            ],
+            fnRowCallback : function(nRow, aData, iDisplayIndex){
+                $("td:first", nRow).html((iDisplayIndex +1)+'.');
+                return nRow;
+            },
+            fnDrawCallback : function(oSettings){
+                $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
+            },
+            footerCallback: function(row, data, start, end, display){
+            }
+        });
+
+        tabel_rekap = $('#tabel_rekap').DataTable({
             scrollCollapse: true,
             sDom: "t<'row'<'col-md-4'i><'col-md-8'p>>",
             processing: true,
@@ -253,7 +353,7 @@
             language: {
                 url: mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
             },
-            ajax: mys.base_url + "arusdana",
+            ajax: mys.base_url + "arusdana/getRekap",
             columnDefs: [
             {visible : false, targets : []},
                 {
@@ -412,6 +512,17 @@
             }
         });
 
+        $('#fl_tanggal, #id_unit_kerja_fil').on('change', function(event) {
+            mys.blok();
+
+            var tgl = $('#fl_tanggal').val().split(' s.d. ');
+            var id_unit_kerja = $('#id_unit_kerja_fil').val();
+            var sDate = mys.toDate(tgl[0]);
+            var eDate = mys.toDate(tgl[1]);
+            $('#tabel_rekap').DataTable().ajax.url(mys.base_url + 'arusdana/getRekap?start=' +sDate+'&end='+eDate+'&id_unit_kerja='+id_unit_kerja).load();
+            mys.unblok();
+        });
+
         
         $("#form").submit(function(event) {
             if (data_detil_permintaan.length == 0) {
@@ -480,6 +591,13 @@
             mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[7]);
         });
 
+        $('#tabel_rekap tbody').on( 'click', '.hapus', function () {
+            var row = $(this);
+            var table = $('#tabel_rekap').DataTable();
+            var data = table.row( row.parents('tr') ).data();
+            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[7]);
+        });
+
         $('#tabel_detail_permintaan tbody').on( 'click', '.ubah_detail', function () {
             var row = $(this);
             var table = $('#tabel_detail_permintaan').DataTable();
@@ -508,9 +626,9 @@
         });
 
 
-        $('#tabel tbody').on( 'click', '.cetak', function () {
+        $('#tabel_rekap tbody').on( 'click', '.cetak', function () {
             var row = $(this);
-            var table = $('#tabel').DataTable();
+            var table = $('#tabel_rekap').DataTable();
             var data = table.row( row.parents('tr') ).data();
 
             if(data[8] =='arus_dana'){
@@ -544,6 +662,11 @@
         $('#input_pencarian').on('keyup', function(event) {
             var tabel = $('#tabel');
             tabel.dataTable().fnFilter($(this).val());
+        });
+
+        $('#input_pencarian2').on('keyup', function(event) {
+            var tabel_rekap = $('#tabel_rekap');
+            tabel_rekap.dataTable().fnFilter($(this).val());
         });
         
         $('#input_pencarian_detail').on('keyup', function(event) {
@@ -766,6 +889,7 @@
         .always(function() {
             mys.unblok();
             reload();
+            reload_rekap();
         });
     }
 
@@ -803,6 +927,11 @@
 
     function reload() {
         var t = $('#tabel').DataTable();
+        t.ajax.reload();
+    }
+
+    function reload_rekap() {
+        var t = $('#tabel_rekap').DataTable();
         t.ajax.reload();
     }
 

@@ -39,6 +39,39 @@ class Arusdana extends CI_Controller
 		echo json_encode($data);
 	}
 
+	public function getRekap()
+	{
+		if (!$this->input->is_ajax_request()) redirect();
+
+		$start = $this->input->get('start');
+		$end = $this->input->get('end');
+		$id_unit_kerja = $this->input->get('id_unit_kerja');
+		$list = $this->adm->getDataRekap($this->session->id_bagian, $start, $end);
+
+		$data['data']    = [];
+		$data['total']   = 0;
+		$data['success'] = false;
+
+		if ($list->num_rows() > 0) {
+			foreach ($list->result_array() as $key => $value) {
+				$data['data'][$key][] = ($key + 1) . '.';
+				$data['data'][$key][] = $value['nomor'];
+				$data['data'][$key][] = $value['nama_unit_kerja'];
+				$data['data'][$key][] = $value['nama_kategori'];
+				$data['data'][$key][] = $value['kode_anggaran'].' - '.$value['nama_anggaran'];
+				$data['data'][$key][] = $value['tanggal'];
+				$data['data'][$key][] = $value['status_realisasi'];
+				$data['data'][$key][] = $value['id'];
+				$data['data'][$key][] = $value['jenis'];
+				$data['data'][$key][] = $value['periode_pelaksanaan'];
+				$data['total'] = $key + 1;
+			}
+
+			$data['success'] = true;
+		}
+		echo json_encode($data);
+	}
+
 	function get_data_by_id()
 	{
 		if(!$this->input->is_ajax_request()) redirect();
