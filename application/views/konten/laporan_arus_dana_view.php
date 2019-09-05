@@ -66,10 +66,21 @@
 <h5>Sudah direalisasi</h5>
 
             <div class="row clearfix">
-                    <div class="col-lg-3">
-                        <input type="text" class="form-control tgl_range" name="fl_tanggal" value="" id="fl_tanggal">
-                    </div>
-
+            <div class="col-lg-2">
+                    <label for="id_unit_kerja_fil">Tanggal</label>
+                <input type="text" class="form-control tgl_range" name="fl_tanggal" value="" id="fl_tanggal">
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <label for="id_unit_kerja_fil">Unit Kerja</label>
+                    <select name="id_unit_kerja_fil" id="id_unit_kerja_fil" class="form-control cmb_select2">
+                        <option ></option>
+                    </select>
+                    <span class="help-block"></span>
+                </div>
+                </div>
+            </div>
+            <div class="row clearfix">
                     <div class="col-lg-1" style="text-align:right;padding-top:7px">
                         Cari :
                     </div>
