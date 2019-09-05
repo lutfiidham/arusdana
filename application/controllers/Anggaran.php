@@ -56,6 +56,7 @@ class Anggaran extends CI_Controller {
 			'id_anggaran' => $this->input->post('id_anggaran') ? $this->input->post('id_anggaran') : null,
 			'kode_anggaran' => $this->input->post('kode_anggaran'),
 			'nama_anggaran' => $this->input->post('nama_anggaran'),
+			'tahun' => $this->input->post('tahun'),
 			'status' => $this->input->post('status'),
 		);
 
