@@ -62,7 +62,7 @@ class Tandatangan_model extends CI_Model {
 	{
 		$this->db->where($where);
 		$delete = $this->db->delete('pemegang_jabatan');
-		var_dump($this->db->last_query());
+		// var_dump($this->db->last_query());
 		return $delete;
 	}
 
