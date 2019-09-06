@@ -297,8 +297,8 @@
             scrollCollapse: true,
             sDom: "t<'row'<'col-md-4'i><'col-md-8'p>>",
             processing: true,
-            iDisplayLength: 10,
-            paging:false,
+            iDisplayLength: 25,
+            paging:true,
             scrollX:true,
             bInfo : false,
             language: {
@@ -358,8 +358,8 @@
             scrollCollapse: true,
             sDom: "t<'row'<'col-md-4'i><'col-md-8'p>>",
             processing: true,
-            iDisplayLength: 10,
-            paging:false,
+            iDisplayLength: 25,
+            paging:true,
             scrollX:true,
             language: {
                 url: mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
