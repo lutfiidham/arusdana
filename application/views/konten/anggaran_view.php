@@ -23,13 +23,21 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card" id="tabel_card">
-<!--             <div class="card-header d-block">
-                <h3>Filter Berdasarkan:</h3>
 
-                <div class="row clearfix">
+            <div class="card-header d-block">
+                <!-- <h6 style="font-weight: bold;">Filter Berdasarkan:</h6> -->
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="form-group">
+                        <label for="fl_tahun">Tahun Anggaran</label>
+                        <input type="text" class="form-control tahun" data-target="#fl_tahun" name="fl_tahun" id="fl_tahun" required>
+                        <!-- <span class="help-block"></span> -->
+                    </div>
+                    </div>
 
                 </div>
-            </div> -->
+            </div>
+
             <div class="card-body">
                 <div class="row clearfix">
                     <div class="col-lg-2">
@@ -110,6 +118,7 @@
         mys = Object.create(myscript_js);
         mys.init('<?= base_url() ?>');
 
+        $('#fl_tahun').val(moment().format('YYYY'));
 
         $('#tabel').dataTable({
             "scrollCollapse": true,
@@ -328,5 +337,11 @@
         t.ajax.reload();
     }
 
+    $('#fl_tahun').on('change.datetimepicker', function(event) {
+        mys.blok();
+        var tahun = $('#fl_tahun').val();
+        $('#tabel').DataTable().ajax.url(mys.base_url + 'anggaran/get_data?tahun=' +tahun).load();
+        mys.unblok();
+    });
 
 </script>  

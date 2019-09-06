@@ -6,9 +6,13 @@ class Anggaran_model extends CI_Model {
 	private $table= 'anggaran';
 	private $primary_key= 'id_anggaran';
 
-	function get_data()
+	function get_data($tahun)
 	{
+		if ($tahun == '') {
+			$tahun = date('Y');
+		}
 		$this->db->where('id_bagian', $this->session->userdata('id_bagian'), FALSE);
+		$this->db->where('tahun', $tahun, FALSE);
 		$this->db->order_by('kode_anggaran', 'asc');
 		return $this->db->get($this->table);
 	}

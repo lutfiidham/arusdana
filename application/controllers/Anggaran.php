@@ -13,8 +13,8 @@ class Anggaran extends CI_Controller {
 	function get_data()
 	{
 		if(!$this->input->is_ajax_request()) redirect();
-
-		$list = $this->model->get_data();
+		$tahun = $this->input->get('tahun');
+		$list = $this->model->get_data($tahun);
 
 		$data['data']    = [];
 		$data['total']   = 0;
