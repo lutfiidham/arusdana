@@ -30,7 +30,7 @@ class Arusdana_model extends CI_Model {
 		// return $this->db->get('permintaan_anggaran pa');
 	}
 
-	public function getDataRekap($idBagian, $start, $end)
+	public function getDataRekap($idBagian, $start, $end, $id_unit_kerja)
 	{
 		if (is_null($start)) $start = date_create(date('Y/m/d'))->modify('-30 days')->format('Y-m-d');
 		if (is_null($end)) $end = date('Y/m/d');
@@ -43,8 +43,14 @@ class Arusdana_model extends CI_Model {
 			WHERE a.id_bagian = ?
 			AND tanggal >='$start'
 			AND tanggal <= '$end'
-			ORDER BY id desc
+			
 		";
+		if ($id_unit_kerja != 'semua') {
+			if ($id_unit_kerja != '') {
+				$query .= "AND a.id_unit_kerja = '$id_unit_kerja'";
+			}
+		}
+		$query .= " ORDER BY id desc";
 		return $this->db->query($query,[$idBagian]);
 		// $this->db->select('pa.*,uk.nama_unit_kerja,an.kode_anggaran, an.nama_anggaran,kt.nama_kategori');
 		// $this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');

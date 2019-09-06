@@ -46,7 +46,7 @@ class Arusdana extends CI_Controller
 		$start = $this->input->get('start');
 		$end = $this->input->get('end');
 		$id_unit_kerja = $this->input->get('id_unit_kerja');
-		$list = $this->adm->getDataRekap($this->session->id_bagian, $start, $end);
+		$list = $this->adm->getDataRekap($this->session->id_bagian, $start, $end, $id_unit_kerja);
 
 		$data['data']    = [];
 		$data['total']   = 0;

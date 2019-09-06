@@ -955,8 +955,12 @@
             success: function(data){
                 $('#id_unit_kerja').empty();
                 $('#id_unit_kerja').append('<option></option>');
+
+                $('#id_unit_kerja_fil').empty();
+                $('#id_unit_kerja_fil').append('<option value="semua">Semua</option>');
                 $.each(data, function(index, val) {
                     $('#id_unit_kerja').append('<option value="'+val.id+'">'+ val.name+'</option>');
+                    $('#id_unit_kerja_fil').append('<option value="'+val.id+'">'+ val.name+'</option>');
                 });
             },
             error:function(data){
