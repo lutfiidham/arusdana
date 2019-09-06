@@ -24,8 +24,33 @@ class Anggaran_model extends CI_Model {
 	}
 
 	function save($data){
-		$insert = $this->db->insert($this->table, $data);
-		return $insert;
+		$ada = $this->check_kode_anggaran($data)->num_rows();
+		if ($ada) {
+			return 0;
+		}else {
+			return $this->db->insert($this->table, $data);
+		}
+	}
+
+	function check_kode_anggaran($data)
+	{
+		$this->db->where('kode_anggaran', $data['kode_anggaran']);
+		$this->db->where('id_bagian', $data['id_bagian']);
+		$this->db->where('tahun', $data['tahun']);
+		return $this->db->get($this->table);
+	}
+
+	function cek_kode_anggaran($kode_anggaran,$tahun)
+	{		
+		$this->db->where('kode_anggaran', $kode_anggaran);
+		$this->db->where('id_bagian', $this->session->userdata('id_bagian'));
+		$this->db->where('tahun', $tahun);
+		$cek = $this->db->get($this->table)->num_rows();
+		// echo $this->db->last_query();
+		if ($cek>0) {
+			return "Kode sudah dipakai data lain di tahun yang sama";
+		}
+		return "true";
 	}
 
 	function update($where,$data){

@@ -187,8 +187,25 @@
             },
             submitHandler: function(form) {
                 form.submit();
-            }
+            },
+            rules: {
+                kode_anggaran: {    
+                    required: true,
+                    remote: {
+                        url: mys.base_url+"Anggaran/cek_kode_anggaran",
+                        type: "POST",
+                        data: {
+                            kode_anggaran: function() {
+                                return $( "#kode_anggaran" ).val();
+                            },
+                            tahun: function() {
+                                return $( "#tahun" ).val();
+                            }}
+                        }
+                    }
+                }
         });
+        
         
         $("#form").submit(function(event) {
             if (form_validator.form()) {
@@ -218,6 +235,11 @@
         $('#btnAdd').on('click', function(event) {
             buka_form();
             $('#kode_bagian').prop('readonly', false);
+        });
+
+        $('#tahun').on('change.datetimepicker', function(event) {
+            $("#kode_anggaran").focus();
+            $("#kode_anggaran").blur();
         });
 
         $('#btnBack').on('click', function(event) {
@@ -273,10 +295,13 @@
             dataType: 'JSON',
             data: $('#form').serialize(),
             success: function(data){
-                if (data.status) {
+                console.log(data);
+                if (data.status == true) {
                     mys.notifikasi("Data Berhasil Disimpan","success");
                     tutup_form();
-                } else{
+                } else if(data.status == 'ada'){
+                    mys.notifikasi
+                }else{
                     mys.notifikasi("Data Gagal Disimpan, Coba Beberapa Saat Lagi.","error");
                 }
             },

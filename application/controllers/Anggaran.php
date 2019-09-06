@@ -74,6 +74,16 @@ class Anggaran extends CI_Controller {
 		);
 	}
 
+	function cek_kode_anggaran()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+		$kode_anggaran = $this->input->post('kode_anggaran');
+		$tahun = $this->input->post('tahun');
+		// var_dump($_POST);
+		echo json_encode($this->model->cek_kode_anggaran($kode_anggaran,$tahun));
+	}
+
 	function delete()
 	{
 		if(!$this->input->is_ajax_request()) redirect();
