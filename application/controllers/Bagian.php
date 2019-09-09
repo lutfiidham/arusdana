@@ -82,7 +82,15 @@ class Bagian extends CI_Controller {
 		);
 		
 	}
+
+	function cek_kode_bagian()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+		$kode_bagian = $this->input->post('kode_bagian');
+		echo json_encode($this->model->cek_kode_bagian($kode_bagian));
+	}
 }
 
-/* End of file Jenis_lampiran.php */
-/* Location: ./application/controllers/Jenis_lampiran.php */
+/* End of file Bagian.php */
+/* Location: ./application/controllers/Bagian.php */

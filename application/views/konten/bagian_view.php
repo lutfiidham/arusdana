@@ -169,7 +169,23 @@
             },
             submitHandler: function(form) {
                 form.submit();
-            }
+            },
+            rules: {
+                kode_bagian: {    
+                    required: true,
+                    remote: {
+                        url: mys.base_url+"Bagian/cek_kode_bagian",
+                        type: "POST",
+                        data: {
+                            kode_bagian: function() {
+                                return $( "#kode_bagian" ).val();
+                            },
+                            tahun: function() {
+                                return $( "#tahun" ).val();
+                            }}
+                        }
+                    }
+                }
         });
         
         $("#form").submit(function(event) {
