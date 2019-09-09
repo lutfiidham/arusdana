@@ -8,6 +8,7 @@ class Admin_model extends CI_Model {
 
 	function get_data()
 	{
+		$this->db->join('bagian', $this->table.'.id_bagian = bagian.id_bagian');
 		$this->db->order_by('nama_admin', 'asc');
 		return $this->db->get($this->table);
 	}

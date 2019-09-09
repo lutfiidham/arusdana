@@ -51,7 +51,7 @@
                                 <th>No.</th>
                                 <th>Username</th>
                                 <th>Nama Lengkap</th>
-                                <th>Level</th>
+                                <th>Nama Bagian</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -72,16 +72,6 @@
                     <div class="form-group">
                         <label for="nama_admin">Nama Admin</label>
                         <input type="text" class="form-control" name="nama_admin" id="nama_admin" required>
-                        <span class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="level_admin">Level Admin</label>
-                        <select name="level_admin" id="level_admin" class="form-control cmb_select2" required="required">
-                            <option ></option>
-                            <option value="ADR">Administrator</option>
-                            <option value="ADM">Admin Bagian</option>
-                            <option value="MNG">Kepala</option>
-                        </select>
                         <span class="help-block"></span>
                     </div>
                     <div class="form-group">
@@ -147,22 +137,7 @@
             },
             "columnDefs": [
             {"visible" : false, "targets" : []},
-            {
-                "render": function ( data, type, row ) {
-                    if (data=='ADR') {
-                        return '<span class="badge badge-pill badge-danger">Administrator</span>';
-                    } else if(data=='ADM'){
-                        return '<span class="badge badge-pill badge-success">Admin Bagian</span>';
-                    } else if (data=='MNG'){
-                        return '<span class="badge badge-pill badge-info">Kepala</span>';
-                    } else{
-                        return '<span class="badge badge-pill badge-info">Level Tidak Ditemukan</span>';
-                    }
-
-
-                },
-                "targets": [3]
-            },
+            
             {
                 "render": function ( data, type, row ) {
                     return data == 'A'? '<span class="badge badge-pill badge-success">Aktif</span>' : '<span class="badge badge-pill badge-danger">Tidak Aktif</span>'

@@ -25,7 +25,7 @@ public function __construct()
 				$data['data'][$key][] = ($key + 1) . '.';
 				$data['data'][$key][] = $value['username'];
 				$data['data'][$key][] = $value['nama_admin'];
-				$data['data'][$key][] = $value['level_admin'];
+				$data['data'][$key][] = $value['nama_bagian'];
 				$data['data'][$key][] = $value['status_admin'];
 				$data['data'][$key][] = $value['user_id'];
 				$data['total'] = $key + 1;
@@ -56,7 +56,7 @@ public function __construct()
 			'user_id' => $this->input->post('user_id') ? $this->input->post('user_id') : null,
 			'nama_admin' => $this->input->post('nama_admin'),
 			'id_bagian' => $this->input->post('id_bagian'),
-			'level_admin' => $this->input->post('level_admin'),
+			'level_admin' => 'ADM',
 			'status_admin' => $this->input->post('status_admin'),
 		);
 
