@@ -591,6 +591,14 @@
             ubah_data(data[7],data[8]);
         });
 
+        $('#tabel_rekap tbody').on( 'click', '.ubah', function () {
+            var row = $(this);
+            save_method= 'update';
+            var table = $('#tabel_rekap').DataTable();
+            var data = table.row( row.parents('tr') ).data();
+            ubah_data(data[7],data[8]);
+        });
+
         $('#tabel_detail_permintaan tbody').on('keyup', '.autonumeric', function(event) {
             calculateAmount();
         });
