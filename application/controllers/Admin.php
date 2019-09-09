@@ -107,6 +107,14 @@ public function __construct()
 		echo json_encode($data);
 	}
 
+	function cek_username()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+		$username = $this->input->post('username');
+		echo json_encode($this->model->cek_username($username));
+	}
+
 }
 
 /* End of file Admin.php */

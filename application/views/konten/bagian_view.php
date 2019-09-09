@@ -179,9 +179,6 @@
                         data: {
                             kode_bagian: function() {
                                 return $( "#kode_bagian" ).val();
-                            },
-                            tahun: function() {
-                                return $( "#tahun" ).val();
                             }}
                         }
                     }

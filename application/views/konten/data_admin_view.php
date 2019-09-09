@@ -184,7 +184,20 @@
             },
             submitHandler: function(form) {
                 form.submit();
-            }
+            },
+            rules: {
+                username: {    
+                    required: true,
+                    remote: {
+                        url: mys.base_url+"Admin/cek_username",
+                        type: "POST",
+                        data: {
+                            username: function() {
+                                return $( "#username" ).val();
+                            }}
+                        }
+                    }
+                }
         });
         
         $("#form").submit(function(event) {
