@@ -23,13 +23,8 @@ class Anggaran_model extends CI_Model {
 		return $this->db->get($this->table);
 	}
 
-	function save($data){
-		$ada = $this->check_kode_anggaran($data)->num_rows();
-		if ($ada) {
-			return 0;
-		}else {
-			return $this->db->insert($this->table, $data);
-		}
+	function save($data){		
+		return $this->db->insert($this->table, $data);
 	}
 
 	function check_kode_anggaran($data)
@@ -40,8 +35,18 @@ class Anggaran_model extends CI_Model {
 		return $this->db->get($this->table);
 	}
 
-	function cek_kode_anggaran($kode_anggaran,$tahun)
-	{		
+	function cek_kode_anggaran($kode_anggaran,$tahun,$id_anggaran)
+	{	
+		if ($id_anggaran=="") {
+			$cek = $this->db->where('kode_anggaran', $kode_anggaran)->where('id_bagian', $this->session->userdata('id_bagian'))->where('tahun', $tahun)->get($this->table)->num_rows();
+			if ($cek>0) {
+				return "Kode sudah dipakai";
+			} else{
+				return "true";
+			}
+		}
+		
+		$this->db->where('id_anggaran !=', $id_anggaran);
 		$this->db->where('kode_anggaran', $kode_anggaran);
 		$this->db->where('id_bagian', $this->session->userdata('id_bagian'));
 		$this->db->where('tahun', $tahun);

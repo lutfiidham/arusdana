@@ -195,6 +195,9 @@
                         url: mys.base_url+"Anggaran/cek_kode_anggaran",
                         type: "POST",
                         data: {
+                            id_anggaran: function() {
+                                return $( "#id_anggaran" ).val();
+                            },
                             kode_anggaran: function() {
                                 return $( "#kode_anggaran" ).val();
                             },

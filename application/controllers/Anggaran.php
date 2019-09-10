@@ -80,8 +80,9 @@ class Anggaran extends CI_Controller {
 
 		$kode_anggaran = $this->input->post('kode_anggaran');
 		$tahun = $this->input->post('tahun');
+		$id_anggaran = $this->input->post('id_anggaran');
 		// var_dump($_POST);
-		echo json_encode($this->model->cek_kode_anggaran($kode_anggaran,$tahun));
+		echo json_encode($this->model->cek_kode_anggaran($kode_anggaran,$tahun,$id_anggaran));
 	}
 
 	function delete()
