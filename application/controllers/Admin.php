@@ -112,7 +112,8 @@ public function __construct()
 		if(!$this->input->is_ajax_request()) redirect();
 
 		$username = $this->input->post('username');
-		echo json_encode($this->model->cek_username($username));
+		$user_id = $this->input->post('user_id');
+		echo json_encode($this->model->cek_username($username, $user_id));
 	}
 
 }

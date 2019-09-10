@@ -50,8 +50,18 @@ class Admin_model extends CI_Model {
 	    return $result[$this->primary_key];
 	}
 
-	function cek_username($username)
-	{		
+	function cek_username($username,$user_id)
+	{	
+		if ($user_id=="") {
+			$cek = $this->db->where('username', $username)->get($this->table)->num_rows();
+			if ($cek>0) {
+				return "Kode sudah dipakai";
+			} else{
+				return "true";
+			}
+		}
+
+		$this->db->where('user_id !=', $user_id);
 		$this->db->where('username', $username);
 		$cek = $this->db->get($this->table)->num_rows();
 		// echo $this->db->last_query();

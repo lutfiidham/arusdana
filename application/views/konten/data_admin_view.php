@@ -194,6 +194,9 @@
                         data: {
                             username: function() {
                                 return $( "#username" ).val();
+                            },
+                            user_id: function() {
+                                return $( "#user_id" ).val();
                             }}
                         }
                     }
