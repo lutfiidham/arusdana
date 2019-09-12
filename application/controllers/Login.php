@@ -34,6 +34,7 @@ class Login extends CI_Controller {
 						'level' => $dt->level_admin,
 						'id_bagian' => $dt->id_bagian,
 						'kode_bagian' => $dt->kode_bagian,
+						'nama_bagian' => $dt->nama_bagian,
 					);
 									
 					$this->session->set_userdata( $array );				

@@ -72,6 +72,20 @@ class Admin_model extends CI_Model {
 		return "true";
 	}
 
+	function cek_username_profil($username)
+	{	
+		if ($username == $this->session->userdata('username')) {
+			return true;
+		}
+		$cek = $this->db->where('username', $username)->get($this->table)->num_rows();
+		if ($cek>0) {
+			return "Username sudah dipakai";
+		} else{
+			return "true";
+		}
+
+	}
+
 }
 
 /* End of file Admin_model.php */

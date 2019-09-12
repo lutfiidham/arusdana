@@ -61,6 +61,7 @@ class Site extends CI_Controller {
 	function laporan_permintaan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/laporan_permintaan_view"); }
 	function laporan_anggaran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/laporan_anggaran_view"); }
 	function laporan_arus_dana($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/laporan_arus_dana_view"); }
+	function profil($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/profil_view"); }
 	
 	private function hak_akses($site_url)
 	{
@@ -191,84 +192,16 @@ class Site extends CI_Controller {
 					'delete' => true,
 					'view' 	=> true,
 				];
+				$ha['profil'] = [
+					'open' => true,
+					'insert' => true,
+					'update' => true,
+					'delete' => true,
+					'view' 	=> true,
+				];
 				return $ha[$page];
 				break;
 
-			case 'MNG':
-				$ha = [];
-				$ha['beranda'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];				
-				$ha['dashboard'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];				
-				$ha['data_admin'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_customer'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_sales'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_vendor'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['data_project'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['jabatan'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['jenis_lampiran'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				$ha['tipe_customer'] = [
-					'open' => true,
-					'insert' => true,
-					'update' => true,
-					'delete' => true,
-					'view' 	=> true,
-				];
-				return $ha[$page];
-				break;
-			
 			default:
 				$ha = [
 					'insert' => false,

@@ -77,6 +77,43 @@ public function __construct()
 		);
 	}
 
+	function save_profil()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+		$exec = false;
+		
+		$data_array = array(
+			'nama_admin' => $this->input->post('nama_admin'),
+			'username' => $this->input->post('username'),
+		);
+
+		if ($this->session->userdata('id')) {
+			if($this->input->post('ubah_password')) 
+				$data_array['password_admin'] = password_hash($this->input->post('password_admin'),PASSWORD_DEFAULT);
+			$exec = $this->model->update(['user_id' => $this->session->userdata('id')],$data_array);
+			if ($exec) {
+				$name = [
+					'id' => $this->session->userdata('id'),
+					'level' => $this->session->userdata('level_admin'),
+					'id_bagian' => $this->session->userdata('id_bagian'),
+					'kode_bagian' => $this->session->userdata('kode_bagian'),
+					'nama_bagian' => $this->session->userdata('nama_bagian'),
+				    'nama' => $data_array['nama_admin'],
+				    'username' => $data_array['username'],
+				];
+				
+				// $this->session->sess_destroy();
+
+				// $this->session->set_userdata($name);
+			}
+		}
+
+		echo json_encode(
+			['status' => $exec]
+		);
+	}
+
 	function delete()
 	{
 		if(!$this->input->is_ajax_request()) redirect();
@@ -114,6 +151,14 @@ public function __construct()
 		$username = $this->input->post('username');
 		$user_id = $this->input->post('user_id');
 		echo json_encode($this->model->cek_username($username, $user_id));
+	}
+
+	function cek_username_profil()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+
+		$username = $this->input->post('username');
+		echo json_encode($this->model->cek_username_profil($username));
 	}
 
 }
