@@ -59,6 +59,7 @@
                                 <th>No.</th>
                                 <th>Kode Anggaran</th>
                                 <th>Nama Anggaran</th>
+                                <th>Nominal</th>
                                 <th>Tahun</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -84,6 +85,12 @@
                     <div class="form-group">
                         <label for="nama_anggaran">Nama Anggaran</label>
                         <input type="text" class="form-control" name="nama_anggaran" id="nama_anggaran" required>
+                        <span class="help-block"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nominal">Nominal</label>
+                        <input type="text" class="form-control autonumeric" name="nominal" id="nominal" required>
                         <span class="help-block"></span>
                     </div>
 
@@ -143,15 +150,21 @@
             },
             {
                 "render": function ( data, type, row ) {
+                    return '<p class="text-right">'+mys.formatMoney(data,0,',','.')+'</p>';
+                },
+                "targets": [3]
+            },
+            {
+                "render": function ( data, type, row ) {
                     return data == 'A'? '<span class="badge badge-pill badge-success">Aktif</span>' : '<span class="badge badge-pill badge-danger">Tidak Aktif</span>';
                 },
-                "targets": [4]
+                "targets": [5]
             },
             {
                 "render": function ( data, type, row ) {
                    return '<?= $ha['view']? '<button type="button" title="Ubah Data" data-toggle="tooltip" class="btn btn-primary ubah"><span class="fa fa-edit"></span></button> ' : '' ?><?= $ha['delete']? '<button type="button" title="Hapus Data" data-toggle="tooltip" class="btn btn-danger hapus"><span class="fa fa-trash"></span></button>' : '' ?>';
                 },
-                "targets": [5]
+                "targets": [6]
             },
             // {"className": "dt-center", "targets": [0,3]}
             ],
@@ -161,7 +174,8 @@
             {"sWidth": "45%"},
             {"sWidth": "18%"},
             {"sWidth": "5%"},
-            {"sWidth": "20%", "bSortable" : false}
+            {"sWidth": "5%"},
+            {"sWidth": "10%", "bSortable" : false}
             ],
             "order" : [
             [0, "asc"],
@@ -220,14 +234,14 @@
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            ubah_data(data[5]);
+            ubah_data(data[6]);
         });
 
         $('#tabel tbody').on( 'click', '.hapus', function () {
             var row = $(this);
             var table = $('#tabel').DataTable();
             var data = table.row( row.parents('tr') ).data();
-            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[5]);
+            mys.swconfirm("Hapus","Apakah anda yakin ingin menghapus data ini?",hapus,data[6]);
         });
 
         $('#input_pencarian').on('keyup', function(event) {
@@ -276,6 +290,7 @@
                 $('#id_anggaran').val(data.id_anggaran);
                 $('#kode_anggaran').val(data.kode_anggaran);
                 $('#nama_anggaran').val(data.nama_anggaran);
+                $('#nominal').val(data.nominal);
                 $('#tahun').val(data.tahun);
                 $('#status').val(data.status).trigger('change');
                 // $('#kode_anggaran').prop('readonly', true);

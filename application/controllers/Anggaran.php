@@ -25,6 +25,7 @@ class Anggaran extends CI_Controller {
 				$data['data'][$key][] = ($key + 1) . '.';
 				$data['data'][$key][] = $value['kode_anggaran'];
 				$data['data'][$key][] = $value['nama_anggaran'];
+				$data['data'][$key][] = $value['nominal'];
 				$data['data'][$key][] = $value['tahun'];
 				$data['data'][$key][] = $value['status'];
 				$data['data'][$key][] = $value['id_anggaran'];
@@ -56,6 +57,7 @@ class Anggaran extends CI_Controller {
 			'id_anggaran' => $this->input->post('id_anggaran') ? $this->input->post('id_anggaran') : null,
 			'kode_anggaran' => $this->input->post('kode_anggaran'),
 			'nama_anggaran' => $this->input->post('nama_anggaran'),
+			'nominal' => filter_var($this->input->post('nominal'), FILTER_SANITIZE_NUMBER_INT),
 			'tahun' => $this->input->post('tahun'),
 			'status' => $this->input->post('status'),
 		);
