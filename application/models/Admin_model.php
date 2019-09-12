@@ -39,6 +39,7 @@ class Admin_model extends CI_Model {
 
 	function get_bagian()
 	{
+		$this->db->where('status_bagian', 'A');
 		$this->db->order_by('nama_bagian', 'asc');
 		return $this->db->get('bagian');
 	}
