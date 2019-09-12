@@ -36,6 +36,9 @@ class Bagian_model extends CI_Model {
 	function delete($where)
 	{
 		$this->db->where($where);
+		$delete = $this->db->delete('tanda_tangan');
+
+		$this->db->where($where);
 		$delete = $this->db->delete($this->table);
 		return $delete;
 	}
