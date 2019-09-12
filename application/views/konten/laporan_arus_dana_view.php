@@ -135,6 +135,8 @@
                                 <span class="help-block"></span>
                             </div>
                             
+                            <button class="btn btn-danger" id="reset_pilihan">Reset Pilihan</button>
+
                         </div>
 
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -644,6 +646,12 @@
             });
         });
 
+        $("#reset_pilihan").on('click', function(event) {
+            event.preventDefault();
+            $("#id_unit_kerja").select2("val", " ");
+            $("#id_kategori").select2("val", " ");
+            $("#id_anggaran").select2("val", " ");
+        });
 
         $('#tabel_rekap tbody').on( 'click', '.cetak', function () {
             var row = $(this);
