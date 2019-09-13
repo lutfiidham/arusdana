@@ -145,10 +145,10 @@ class Permintaan_anggaran_model extends CI_Model {
 
 	function get_nomor_anggaran_baru($tanggal,$id_unit_kerja=null,$id_kategori)
 	{
-		$q = 'select generate_no_anggaran(?,?,?,?) as res';
+		$q = 'select generate_no_anggaran(?,?,?,?,?) as res';
 
-		$result = $this->db->query($q,[$tanggal,$id_unit_kerja,$id_kategori,$this->session->userdata('kode_bagian')]);
-		// var_dump($this->db->last_query());
+		$result = $this->db->query($q,[$tanggal,$id_unit_kerja,$id_kategori,$this->session->userdata('kode_bagian'),$this->session->userdata('id_bagian')]);
+		var_dump($this->db->last_query());
 		return $result->row()->res;
 	}
 
