@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v13.1.1 (64 bit)
-MySQL - 5.6.37 : Database - arus_dana
+MySQL - 5.6.27-log : Database - arus_dana
 *********************************************************************
 */
 
@@ -31,12 +31,13 @@ CREATE TABLE `anggaran` (
   PRIMARY KEY (`id_anggaran`),
   KEY `fk_reference_4` (`id_bagian`),
   CONSTRAINT `anggaran_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 /*Data for the table `anggaran` */
 
 insert  into `anggaran`(`id_anggaran`,`kode_anggaran`,`nama_anggaran`,`id_bagian`,`status`,`tahun`,`nominal`) values 
-(2,'A.1','Hosting dan Domain',1,'A',2019,1000000),
+(1,'A.1','Transportasi Marketing ',1,'A',2019,NULL),
+(2,'A.2','Hosting dan Domain',1,'A',2019,NULL),
 (3,'A.3','Biaya Konsumsi Rapat',1,'A',2019,NULL),
 (4,'A.4','Proyek Software',1,'A',2019,NULL),
 (5,'A.5','Hubungan Antar Instansi',1,'A',2019,NULL),
@@ -45,11 +46,10 @@ insert  into `anggaran`(`id_anggaran`,`kode_anggaran`,`nama_anggaran`,`id_bagian
 (8,'B.2','Sertifikat Pelatihan',1,'A',2019,NULL),
 (9,'B.3','Brosur ITCoPS',1,'A',2019,NULL),
 (10,'B.4','Menyebarkan Brosur',1,'A',2019,NULL),
-(11,'B.6','Training Flutter',1,'A',2018,NULL),
+(11,'B.6','Training Flutter',1,'A',2019,NULL),
 (12,'B.7','Pelatihan Sertifikasi Professional Scrum Master',1,'A',2019,NULL),
 (13,'C.1','9 Mouse Rexus Sierra GT3',1,'A',2019,NULL),
-(14,'C.2','1 Lusin Kaos PKS',1,'A',2019,NULL),
-(15,'C.3','mencetak Manual Book',1,'A',2019,NULL);
+(14,'C.2','1 Lusin Kaos PKS',1,'A',2019,NULL);
 
 /*Table structure for table `arus_dana` */
 
@@ -77,7 +77,7 @@ CREATE TABLE `arus_dana` (
   CONSTRAINT `arus_dana_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
   CONSTRAINT `arus_dana_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `arus_dana_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=latin1;
 
 /*Data for the table `arus_dana` */
 
@@ -130,6 +130,7 @@ insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`
 (74,'3/HAI-STIKES/IV/2019','2019-08-30',NULL,3,5,1,'Tunai',-128000,'0','2019-08-01',1,NULL),
 (75,'4/HAI-STIKES/V/2019','2019-08-30',13,3,5,5,'Bukti Terlampir',0,'0','2019-08-01',1,NULL),
 (77,'5/HAI-STIKES/VIII/2019','2019-08-30',NULL,3,5,5,'Bukti terlampir',7060000,'0','2019-08-01',1,NULL),
+(78,'6/HAI-STIKES/VIII/2019','2019-08-30',14,3,5,5,'Tunai',0,'0','2019-08-01',1,NULL),
 (79,'1/HAI-STAAL/III/2019','2019-08-30',NULL,3,30,7,'Tunai',-619500,'0','2019-03-01',1,NULL),
 (80,'2/SSI-DKRTHSBY/II/2019','2019-08-30',NULL,1,18,4,'Tunai',-100000,'0','2019-02-01',1,NULL),
 (81,'3/SSI-DKRTHSBY/VI/2019','2019-08-30',NULL,1,18,4,'Bukti terlampir',4880000,'0','2019-06-01',1,NULL),
@@ -197,9 +198,7 @@ insert  into `arus_dana`(`id_arus_dana`,`no_arus_dana`,`tanggal`,`id_permintaan`
 (145,'10/SSI-UMUM/V/2019','2019-08-30',NULL,1,1,1,'Tunai',-27500,'0','2019-05-01',1,NULL),
 (146,'11/SSI-UMUM/VI/2019','2019-08-30',NULL,1,1,11,'Transfer  BCA # 8220128599 a.n. Tan Amelia',-396912,'0','2019-06-01',1,NULL),
 (147,'12/SSI-UMUM/VII/2019','2019-08-30',NULL,1,1,1,'Tunai',-72000,'0','2019-07-01',1,NULL),
-(148,'13/SSI-UMUM/VIII/2019','2019-08-30',NULL,1,1,1,'tunai',-259000,'0','2019-08-01',1,NULL),
-(156,'1/PS-DRMGLF/IX/2019','2019-09-05',24,2,36,2,'aaa',0,'0','2019-09-01',1,NULL),
-(157,'1/PS-DKRTHSBY/IX/2019','2019-09-05',25,2,18,2,'w',0,'0','2019-09-01',1,NULL);
+(148,'13/SSI-UMUM/VIII/2019','2019-08-30',NULL,1,1,1,'tunai',-259000,'0','2019-08-01',1,NULL);
 
 /*Table structure for table `bagian` */
 
@@ -211,7 +210,7 @@ CREATE TABLE `bagian` (
   `nama_bagian` varchar(255) DEFAULT NULL,
   `status_bagian` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `bagian` */
 
@@ -233,7 +232,7 @@ CREATE TABLE `detail_arus_dana` (
   PRIMARY KEY (`id_detail_arus`),
   KEY `fk_reference_15` (`id_arus_dana`),
   CONSTRAINT `detail_arus_dana_ibfk_1` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`)
-) ENGINE=InnoDB AUTO_INCREMENT=297 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=296 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_arus_dana` */
 
@@ -299,6 +298,7 @@ insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`peneri
 (157,74,'Transportasi ke Stikes Dr.Soetomo',0,128000,''),
 (158,75,'HR Dosen Pengajar di Stikes Dr. Soetomo setengah smester',636000,636000,'Bu Sulistiowati dan Pak Moh.Arifin'),
 (160,77,'Penerimaan Pelunasan pembayaran  sebesar 50 % dari Rp.14.120.000,- untuk Biaya Partisipasi srIKoM Academic partnership semester Genap Tahun Ajaran 2018/2019 di STIKES yayasan Rumah Sakit Dr. Soetomo Surabaya',7060000,0,'Transfer 6 Agustus 2019 dan sudah dicek oleh Bag.Keuangan'),
+(161,78,'HR Dosen Pengajar di Stikes Dr. Soetomo setengah smester  th ajaran 2018/2019',636000,636000,'Bu Sulistiowati dan Pak Moh.Arifin'),
 (163,80,'Transportasi ke DKRTH Surabaya (3x)',0,100000,''),
 (164,81,'Penerimaan Pembayaran  Penambahan Modul Aplikasi sapu Versi 2.1',9880000,0,''),
 (165,81,'Pembayaran fee programmer atas nama Bhaga Yanuardo Missa',0,5000000,''),
@@ -408,9 +408,7 @@ insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`peneri
 (284,148,'Transportasi ke PT MKM Gubeng, Unesa Ketintang, Duboy, Stiesia Surabaya, UPN Veteran Surabaya',0,200000,''),
 (285,148,'Tol dan parkir',0,19000,''),
 (286,148,'Konsumsi untuk pertemuan dengan SHS',0,40000,''),
-(287,79,'Konsumsi untuk kegiatan Studi Banding STAAL',0,619500,''),
-(295,156,'A',111,111,''),
-(296,157,'a',22,22,'');
+(287,79,'Konsumsi untuk kegiatan Studi Banding STAAL',0,619500,'');
 
 /*Table structure for table `detail_permintaan_anggaran` */
 
@@ -434,11 +432,10 @@ insert  into `detail_permintaan_anggaran`(`id_detail_permintaan`,`id_permintaan`
 (18,12,'Pembayaran untuk perbaikan penggantian alat paris di RSM Lamongan',12430000,'Kwitansi no: K/10104/WL/XII/2018'),
 (19,12,'Pembayaran untuk pekerjaan Grounding  di RSM Lamongan',26122920,'Kwitansi no: K/10106/WL/XII/2018'),
 (21,13,'Anggaran HR Dosen Pengajar di Stikes Dr. Soetomo setengah smester',636000,'Bu Sulistiowati dan Pak Moh.Arifin'),
+(22,14,'HR Dosen Pengajar di Stikes Dr. Soetomo setengah smester  th ajaran 2018/2019',636000,'Bu Sulistiowati dan Pak Moh.Arifin'),
 (23,15,'Anggaran untuk Pembayaran fee programmer untuk proyek Pembuatan Website PPGI',7500000,''),
 (24,16,'Pembayaran DP 50% dari total Rp.18.917.500,- untuk Manless Ticket Dispenser, IP Camera dan servis perbaikan di RS Muhammdiyah Lamongan',9458750,'Transfer BCA # 507 550 688 8 an Arisone Charles'),
-(25,17,'Pelatihan Profesional Scrum untuk SSI',30000000,'Kekurangan anggaran ini diambil dari dana Acara MOU (B.1)'),
-(32,24,'A',111,'12'),
-(33,25,'a',22,'22');
+(25,17,'Pelatihan Profesional Scrum untuk SSI',30000000,'Kekurangan anggaran ini diambil dari dana Acara MOU (B.1)');
 
 /*Table structure for table `kategori` */
 
@@ -514,8 +511,7 @@ CREATE TABLE `pemegang_jabatan` (
 
 insert  into `pemegang_jabatan`(`id_pj`,`id_bagian`,`nama`,`jabatan`) values 
 (2,1,'Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat'),
-(7,1,'Jimmy, S.Kom.','Kepala Unit SSI'),
-(8,2,'as','as');
+(7,1,'Jimmy, S.Kom.','Kepala Unit SSI');
 
 /*Table structure for table `permintaan_anggaran` */
 
@@ -551,11 +547,10 @@ insert  into `permintaan_anggaran`(`id_permintaan`,`no_anggaran`,`id_bagian`,`id
 (11,'1/PS-UMUM/I/2019',1,2,1,6,'2019-01-30','2019-02-05','Tunai',2400000,'W'),
 (12,'2/SSI-RSMLMG/I/2019',1,1,23,4,'2019-01-17','2019-01-22','Transfer ke BCA KCP Rungkut Megah Surabaya #6730 660 888 a.n PT. Matahri Aneka MKM',38552920,'W'),
 (13,'4/HAI-STIKES/V/2019',1,3,5,5,'2019-05-23','2019-05-29','Tunai',636000,'W'),
+(14,'6/HAI-STIKES/VIII/2019',1,3,5,5,'2019-08-08','2019-08-14','Tunai',636000,'W'),
 (15,'5/SSI-PPGI/III/2019',1,1,34,4,'2019-03-08','2019-03-15','Tunai',7500000,'W'),
 (16,'5/SSI-RSMLMG/II/2019',1,1,23,4,'2019-02-13','2019-02-19','',9458750,'W'),
-(17,'2/SSI-UMUM/I/2019',1,1,1,12,'2019-01-17','2019-01-22','Transfer  BCA # 8220128599 a.n. Tan Amelia',30000000,'W'),
-(24,'1/PS-DRMGLF/IX/2019',1,2,36,2,'2019-09-05','2019-09-27','',111,'W'),
-(25,'1/PS-DKRTHSBY/IX/2019',1,2,18,2,'2019-09-05','2019-09-30','w',22,'W');
+(17,'2/SSI-UMUM/I/2019',1,1,1,12,'2019-01-17','2019-01-22','Transfer  BCA # 8220128599 a.n. Tan Amelia',30000000,'W');
 
 /*Table structure for table `tanda_tangan` */
 
@@ -576,17 +571,14 @@ CREATE TABLE `tanda_tangan` (
   PRIMARY KEY (`id_ttd`),
   KEY `fk_reference_16` (`id_bagian`),
   CONSTRAINT `tanda_tangan_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tanda_tangan` */
 
 insert  into `tanda_tangan`(`id_ttd`,`id_bagian`,`dokumen`,`dibuat`,`jabatan_pembuat`,`diperiksa`,`jabatan_pemeriksa`,`diketahui`,`jabatan_yg_mengetahui`,`disetujui`,`jabatan_penyetuju`) values 
 (1,1,'permintaan','Lulut Fitriyaningrum, S,Kom','Admin','Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat','Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya','Prof. Dr. Budi Jatmiko, M.Pd','Rektor'),
 (2,1,'realisasi','Lulut Fitriyaningrum, S,Kom','Admin','Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat','Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya','Prof. Dr. Budi Jatmiko, M.Pd','Rektor'),
-(3,1,'reimburse','Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat',NULL,NULL,NULL,NULL,'Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya'),
-(4,2,'permintaan','a','a','a','a','a','a','a','a'),
-(5,2,'realisasi','b','b','b','b','b','b','b','b'),
-(6,2,'reimburse',NULL,NULL,NULL,NULL,NULL,NULL,'c','');
+(3,1,'reimburse','Tan Amelia, S.Kom., M.MT., MCP','Kepala Pusat',NULL,NULL,NULL,NULL,'Lilis Binawati, S.E., M.Ak','Wakil Rektor Bidang Sumber Daya');
 
 /*Table structure for table `unit_kerja` */
 
@@ -601,7 +593,7 @@ CREATE TABLE `unit_kerja` (
   PRIMARY KEY (`id_unit_kerja`),
   KEY `fk_reference_2` (`id_bagian`),
   CONSTRAINT `unit_kerja_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `unit_kerja` */
 
@@ -630,17 +622,18 @@ CREATE TABLE `user` (
 /*Data for the table `user` */
 
 insert  into `user`(`user_id`,`username`,`nama_admin`,`password_admin`,`id_bagian`,`level_admin`,`status_admin`) values 
-(1,'superadmin','Super Administrator','$2y$10$K5KdI2pCnak7ZrHPHC62COqSgujp22tkXiBaCwQ5uSG.kX9.pjSB6',NULL,'ADR','A'),
+(1,'superadmin','Super Administrator','$2y$10$XfZDYKf9aHOZSrwdXGsxd.3S3B1n9BcyofkHw9L0C8YxrEufyAR3C',NULL,'ADR','A'),
 (2,'lulut','Lulut Fitr','$2y$10$XfZDYKf9aHOZSrwdXGsxd.3S3B1n9BcyofkHw9L0C8YxrEufyAR3C',1,'ADM','A'),
-(5,'maria','maria','$2y$10$Hx0vnX23yfPblKiCBYt4.OyEFSiye1LqW/3WuIbytM57jTN5rFIYi',2,'ADM','A'),
-(6,'suroso','Suroso Idham','$2y$10$5TmhMH5OxjWNMZVyiVL0oehOIWVdr9aoeRMM5jepAUXtL.qgdQKki',1,'ADM','A');
+(4,'meli','Tan Amelia','$2y$10$cUE1lu7QY8HXCyw.9g1JqOdpK12I/wOWFawrqpPhuch9uG.4p8kt.',1,'ADM','A'),
+(5,'deasy','Deasy','$2y$10$AwEe5C.hxmPcd601N7pV7.tfBAxLZby6TLe5Wlk3S520k8cVg6wXe',2,'ADM','A'),
+(6,'maria','Maria','$2y$10$jQCKBzTFXSKVR85iEOuWWe1UM8.JJXXbhsWnEUYoEUX/Y4lN8xekC',2,'ADM','A');
 
 /* Function  structure for function  `generate_no_anggaran` */
 
 /*!50003 DROP FUNCTION IF EXISTS `generate_no_anggaran` */;
 DELIMITER $$
 
-/*!50003 CREATE FUNCTION `generate_no_anggaran`(p_tanggal DATE, p_id_unit INT, p_id_kategori INT, p_kode_bagian VARCHAR(10)) RETURNS varchar(50) CHARSET latin1
+/*!50003 CREATE FUNCTION `generate_no_anggaran`(p_tanggal DATE, p_id_unit INT, p_id_kategori INT, p_kode_bagian VARCHAR(10), p_id_bagian INT) RETURNS varchar(50) CHARSET latin1
 BEGIN
 	DECLARE v_kode_unit VARCHAR(50);
 	DECLARE v_kode_kategori VARCHAR(50);
@@ -651,18 +644,18 @@ BEGIN
 	
 	IF(p_id_unit = '') THEN
 		SELECT IFNULL(MAX(CAST(LEFT(no_anggaran,LOCATE('/',no_anggaran) - 1) AS UNSIGNED)),0)+1 INTO v_urutan 
-		FROM permintaan_anggaran WHERE id_kategori IS NULL AND id_unit_kerja IS NULL;
+		FROM permintaan_anggaran WHERE id_kategori IS NULL AND id_unit_kerja IS NULL AND id_bagian = p_id_bagian;
 
 		SELECT IFNULL(MAX(CAST(LEFT(no_arus_dana,LOCATE('/',no_arus_dana) - 1) AS UNSIGNED)),0)+1 INTO v_urutan_realisasi 
-		FROM arus_dana WHERE id_kategori IS NULL AND id_unit_kerja IS NULL;
+		FROM arus_dana WHERE id_kategori IS NULL AND id_unit_kerja IS NULL AND id_bagian = p_id_bagian;
 		
 		SET v_kode_unit = p_kode_bagian;
 	ELSE
 		SELECT IFNULL(MAX(CAST(LEFT(no_anggaran,LOCATE('/',no_anggaran) - 1) AS UNSIGNED)),0)+1 INTO v_urutan 
-		FROM permintaan_anggaran WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit;
+		FROM permintaan_anggaran WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit AND id_bagian = p_id_bagian;
 		
 		SELECT IFNULL(MAX(CAST(LEFT(no_arus_dana,LOCATE('/',no_arus_dana) - 1) AS UNSIGNED)),0)+1 INTO v_urutan_realisasi 
-		FROM arus_dana WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit;
+		FROM arus_dana WHERE id_kategori = p_id_kategori AND id_unit_kerja = p_id_unit AND id_bagian = p_id_bagian;
 
 		SELECT kode_unit_kerja INTO v_kode_unit FROM unit_kerja WHERE id_unit_kerja = p_id_unit;
 	END IF;
