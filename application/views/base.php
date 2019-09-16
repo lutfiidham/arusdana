@@ -47,7 +47,7 @@
                         <div class="top-menu d-flex align-items-center">
                             <div class="dropdown">
                                 
-                                <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="form-txt-inverse" style="font-weight: bold; "><?php echo $this->session->nama; ?>&nbsp;&nbsp;</span><img class="avatar" src="<?= base_url() ?>assets/img/avatar.png" alt=""></a>
+                                <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="form-txt-inverse" style="font-weight: bold; "><?php echo $nama; ?>&nbsp;&nbsp;</span><img class="avatar" src="<?= base_url() ?>assets/img/avatar.png" alt=""></a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="<?= base_url('site/profil') ?>"><i class="ik ik-user dropdown-icon"></i> Profil</a>
                                     <a class="dropdown-item" href="<?= base_url('logout') ?>"><i class="ik ik-power dropdown-icon"></i> Keluar</a>

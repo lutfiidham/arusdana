@@ -38,6 +38,8 @@ class Site extends CI_Controller {
 		$data_halaman = [
 			'page' => $konten,
 			'ha' => $ha,
+			'nama' => $this->session->userdata('nama'),
+			'bagian' => $this->session->userdata('nama_bagian'),
 		];
 		if(!file_exists(APPPATH.'views/'.$konten.'.php')) {
 			$this->lost();
@@ -56,11 +58,11 @@ class Site extends CI_Controller {
 	function kategori($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/kategori_view"); }
 	function anggaran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/anggaran_view"); }
 	function permintaan_anggaran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/permintaan_anggaran_view"); }
+	function realisasi($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/realisasi_view"); }
 	function tandatangan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/tandatangan_view"); }
 	function pemegang_jabatan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/pemegang_jabatan_view"); }
 	function laporan_permintaan($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/laporan_permintaan_view"); }
 	function laporan_anggaran($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/laporan_anggaran_view"); }
-	function laporan_arus_dana($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/laporan_arus_dana_view"); }
 	function profil($value='') { $this->create_page(__CLASS__.'/'.__FUNCTION__,"konten/profil_view"); }
 	
 	private function hak_akses($site_url)
@@ -185,7 +187,7 @@ class Site extends CI_Controller {
 					'delete' => true,
 					'view' 	=> true,
 				];
-				$ha['laporan_arus_dana'] = [
+				$ha['realisasi'] = [
 					'open' => true,
 					'insert' => true,
 					'update' => true,

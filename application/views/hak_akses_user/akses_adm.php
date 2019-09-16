@@ -23,7 +23,7 @@
 		<a href="<?= base_url('site/permintaan_anggaran') ?>" class="menu-item">Permintaan Anggaran</a>
 	</div>
 	<div class="submenu-content">
-		<a href="<?= base_url('site/laporan_arus_dana') ?>" class="menu-item">Laporan Arus Dana/Realisasi</a>
+		<a href="<?= base_url('site/realisasi') ?>" class="menu-item">Realisasi</a>
 	</div>
 </div>
 

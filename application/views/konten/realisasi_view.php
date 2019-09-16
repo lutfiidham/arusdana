@@ -3,7 +3,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h5>Laporan Arus Dana/Realisasi</h5>
+                    <h5>Realisasi</h5>
                 </div>
             </div>
         </div>
