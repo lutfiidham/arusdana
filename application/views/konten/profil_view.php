@@ -50,7 +50,6 @@
                         </label>
                     </div>
                     <button id="btnSimpan" type="submit" class="btn btn-primary mr-2">Simpan</button>
-                    <button class="btn btn-danger" type="button" id="btnBack">Batal</button>
                 </form>
             </div>
         </div>
