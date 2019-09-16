@@ -150,7 +150,12 @@
             },
             {
                 "render": function ( data, type, row ) {
-                    return '<p class="text-right">'+mys.formatMoney(data,0,',','.')+'</p>';
+                    if (data) {
+                        data = mys.formatMoney(data,0,',','.')
+                    }else{
+                        data = '';
+                    };
+                    return '<p class="text-right">'+data+'</p>';
                 },
                 "targets": [3]
             },
