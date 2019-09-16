@@ -31,6 +31,22 @@
                 </div>
             </div> -->
             <div class="card-body">
+            <div class="row clearfix">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <label for="cari_realisasi">Cari Menggunakan No. Permintaan/Realisasi</label>
+                        <input type="text" class="form-control" name="cari_realisasi" value="" id="cari_realisasi">
+                        <button id="btnCari" class="btn btn-success">Cari</button>
+                
+                </div>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <div class="form-group">
+                        <label> </label>
+                    </div>
+                </div>
+            </div>
+            <h5>Belum direalisasi</h5>
                 <div class="row clearfix">
                     <div class="col-lg-2">
                     <?php if ($ha['insert']): ?>
@@ -80,6 +96,7 @@
                 </div>
                 </div>
             </div>
+            
             <div class="row clearfix">
                     <div class="col-lg-1" style="text-align:right;padding-top:7px">
                         Cari :
