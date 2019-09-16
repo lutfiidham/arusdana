@@ -380,7 +380,7 @@ class Permintaan_anggaran extends CI_Controller {
 		$this->load->library('Pdfgenerator');
 		$this->load->helper('my_helper');
 
-		$list_permintaan = $this->model->get_data($tanggal);
+		$list_permintaan = $this->model->get_data_laporan($tanggal);
 
 		$html = '';
 

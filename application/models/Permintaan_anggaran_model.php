@@ -30,7 +30,6 @@ class Permintaan_anggaran_model extends CI_Model {
 		$this->db->where('tanggal <=', $end);
 		$this->db->order_by('id_permintaan', 'desc');
 		return $this->db->get($this->table.' pa');
-		// var_dump($this->db->last_query());
 	}
 
 	function get_data_laporan($tanggal = "")
