@@ -316,7 +316,7 @@
             scrollCollapse: true,
             sDom: "t<'row'<'col-md-4'i><'col-md-8'p>>",
             processing: true,
-            iDisplayLength: 25,
+            iDisplayLength: 10,
             paging:true,
             scrollX:true,
             bInfo : false,
@@ -377,7 +377,7 @@
             scrollCollapse: true,
             sDom: "t<'row'<'col-md-4'i><'col-md-8'p>>",
             processing: true,
-            iDisplayLength: 25,
+            iDisplayLength: 10,
             paging:true,
             scrollX:true,
             language: {
