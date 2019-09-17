@@ -114,7 +114,7 @@ class Arusdana_model extends CI_Model {
 				$this->db->where('id_arus_dana', $id_arus_dana->id_arus_dana);
 				return $this->db->get('detail_arus_dana');
 			}
-			return $this->db->query('select uraian, NULL as penerimaan, NULL as pengeluaran, NULL as keterangan from detail_permintaan_anggaran where id_permintaan = ?',[$id]);
+			return $this->db->query('select uraian, nominal as penerimaan, NULL as pengeluaran, NULL as keterangan from detail_permintaan_anggaran where id_permintaan = ?',[$id]);
 		}
 		$this->db->where('id_arus_dana', $id);
 		return $this->db->get('detail_arus_dana');
