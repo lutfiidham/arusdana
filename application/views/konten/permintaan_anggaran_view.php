@@ -274,9 +274,7 @@
             {"width": "8%"},
             {"width": "30%", "orderable": false}
             ],
-            "order" : [
-            [0, "asc"],
-            ],
+            "order" : [],
             "fnDrawCallback" : function(oSettings){
                 $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
             },

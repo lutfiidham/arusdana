@@ -360,7 +360,6 @@
                 },
             ],
             order : [
-            [1, "asc"],
             ],
             fnRowCallback : function(nRow, aData, iDisplayIndex){
                 $("td:first", nRow).html((iDisplayIndex +1)+'.');
@@ -420,7 +419,6 @@
                 },
             ],
             order : [
-            [1, "asc"],
             ],
             fnRowCallback : function(nRow, aData, iDisplayIndex){
                 $("td:first", nRow).html((iDisplayIndex +1)+'.');

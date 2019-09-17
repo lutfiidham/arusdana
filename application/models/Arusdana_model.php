@@ -19,7 +19,7 @@ class Arusdana_model extends CI_Model {
 			JOIN anggaran an ON pa.id_anggaran = an.id_anggaran
 			LEFT JOIN kategori kt ON pa.id_kategori = kt.id_kategori
 			WHERE pa.id_bagian = ? and status_realisasi = 'D'
-			ORDER BY 2
+			ORDER BY id DESC
 		";
 		return $this->db->query($query,[$idBagian]);
 		// $this->db->select('pa.*,uk.nama_unit_kerja,an.kode_anggaran, an.nama_anggaran,kt.nama_kategori');
@@ -50,7 +50,7 @@ class Arusdana_model extends CI_Model {
 				$query .= "AND a.id_unit_kerja = '$id_unit_kerja'";
 			}
 		}
-		$query .= " ORDER BY id desc";
+		$query .= " ORDER BY id DESC";
 		return $this->db->query($query,[$idBagian]);
 		// $this->db->select('pa.*,uk.nama_unit_kerja,an.kode_anggaran, an.nama_anggaran,kt.nama_kategori');
 		// $this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
