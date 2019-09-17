@@ -79,6 +79,24 @@ class Arusdana_model extends CI_Model {
 		// var_dump($this->db->last_query());
 	}
 
+	function cek_no($no)
+	{
+		$this->db->select('*');
+		$this->db->where('no_arus_dana', $no);
+		$res =  $this->db->get('arus_dana')->row();
+		if ($res) {
+			$res->jenis = 'arus_dana';
+			$res->id = $res->id_arus_dana;
+			return $res;
+		}
+		$this->db->select('*');
+		$this->db->where('no_anggaran', $no);
+		$res = $this->db->get('permintaan_anggaran')->row();
+		$res->jenis = 'permintaan';
+		$res->id = $res->id_permintaan;
+		return $res; 
+	}
+
 	function get_by_permintaan($id)
 	{
 		$this->db->select('*');

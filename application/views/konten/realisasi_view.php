@@ -587,6 +587,26 @@
             $('#alert_det_permintaan').empty();
         });
 
+        $('#btnCari').on('click', function(event) {
+            event.preventDefault();
+            mys.blok();
+            $.ajax({
+                url: mys.base_url+'arusdana/cek_no',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {no: $('#cari_realisasi').val()},
+            })
+            .done(function(data) {
+                mys.unblok();
+                save_method= 'update';
+                ubah_data(data.id,data.jenis);
+            })
+            .always(function() {
+                mys.unblok();
+            });
+            
+        });
+
         $('#reimburse').on('click', function(event) {
             if ($('#reimburse').is(':checked')) {
                 $('#div_pembuat').show('fast');

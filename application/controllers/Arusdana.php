@@ -86,6 +86,21 @@ class Arusdana extends CI_Controller
 
 		echo json_encode($data);
 	}
+ 	
+	function cek_no()
+	{
+		if(!$this->input->is_ajax_request()) redirect();
+		
+		$no = $this->input->post('no');
+		// $data = [
+		//     'data' => $this->adm->get_by_id($id,$jenis)->row(),
+		//     'detil'  => $this->adm->get_detail_permintaan($id,$jenis)->result_array(),
+		// ];
+
+		$data = $this->adm->cek_no($no);
+
+		echo json_encode($data);
+	}
 
 	function get_id_arusdana()
 	{
