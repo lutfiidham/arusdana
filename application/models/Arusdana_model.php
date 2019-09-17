@@ -92,9 +92,14 @@ class Arusdana_model extends CI_Model {
 		$this->db->select('*');
 		$this->db->where('no_anggaran', $no);
 		$res = $this->db->get('permintaan_anggaran')->row();
-		$res->jenis = 'permintaan';
-		$res->id = $res->id_permintaan;
-		return $res; 
+		if ($res) {
+			$res->jenis = 'permintaan';
+			$res->id = $res->id_permintaan;
+			return $res; 
+		}else {
+			$res = new stdClass();
+			return $res->id = null;
+		}
 	}
 
 	function get_by_permintaan($id)

@@ -31,7 +31,7 @@
                 </div>
             </div> -->
             <div class="card-body">
-            <div class="row clearfix">
+            <!-- <div class="row clearfix">
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 <div class="form-group">
                     <label for="cari_realisasi">Cari Menggunakan No. Permintaan/Realisasi</label>
@@ -45,7 +45,7 @@
                         <label> </label>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <h5>Belum direalisasi</h5>
                 <div class="row clearfix">
                     <div class="col-lg-2">
@@ -596,8 +596,12 @@
             })
             .done(function(data) {
                 mys.unblok();
-                save_method= 'update';
-                ubah_data(data.id,data.jenis);
+                if (data.id == null) {
+                    mys.swalert('Data Tidak Ditemukan', '', 'danger');
+                }else{
+                    save_method= 'update';
+                    ubah_data(data.id,data.jenis);
+                };
             })
             .always(function() {
                 mys.unblok();
