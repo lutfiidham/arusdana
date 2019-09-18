@@ -421,8 +421,8 @@
             order : [
             ],
             fnRowCallback : function(nRow, aData, iDisplayIndex){
-                $("td:first", nRow).html((iDisplayIndex +1)+'.');
-                return nRow;
+                // $("td:first", nRow).html((iDisplayIndex +1)+'.');
+                // return nRow;
             },
             fnDrawCallback : function(oSettings){
                 $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
