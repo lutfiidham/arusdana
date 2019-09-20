@@ -36,20 +36,21 @@ CREATE TABLE `anggaran` (
 /*Data for the table `anggaran` */
 
 insert  into `anggaran`(`id_anggaran`,`kode_anggaran`,`nama_anggaran`,`id_bagian`,`status`,`tahun`,`nominal`) values 
-(1,'A.1','Transportasi Marketing ',1,'A',2019,NULL),
-(2,'A.2','Hosting dan Domain',1,'A',2019,NULL),
-(3,'A.3','Biaya Konsumsi Rapat',1,'A',2019,NULL),
-(4,'A.4','Proyek Software',1,'A',2019,NULL),
-(5,'A.5','Hubungan Antar Instansi',1,'A',2019,NULL),
-(6,'A.6','Pelatihan & Sertifikasi',1,'A',2019,NULL),
-(7,'B.1','Acara MOU',1,'A',2019,NULL),
-(8,'B.2','Sertifikat Pelatihan',1,'A',2019,NULL),
-(9,'B.3','Brosur ITCoPS',1,'A',2019,NULL),
-(10,'B.4','Menyebarkan Brosur',1,'A',2019,NULL),
-(11,'B.6','Training Flutter',1,'A',2019,NULL),
-(12,'B.7','Pelatihan Sertifikasi Professional Scrum Master',1,'A',2019,NULL),
-(13,'C.1','9 Mouse Rexus Sierra GT3',1,'A',2019,NULL),
-(14,'C.2','1 Lusin Kaos PKS',1,'A',2019,NULL);
+(1,'A.1','Transportasi Marketing ',1,'A',2019,6000000),
+(2,'A.2','Hosting dan Domain',1,'A',2019,1360000),
+(3,'A.3','Biaya Konsumsi Rapat',1,'A',2019,900000),
+(4,'A.4','Proyek Software',1,'A',2019,0),
+(5,'A.5','Hubungan Antar Instansi',1,'A',2019,0),
+(6,'A.6','Pelatihan & Sertifikasi',1,'A',2019,0),
+(7,'B.1','Acara MOU',1,'A',2019,10000000),
+(8,'B.2','Sertifikat Pelatihan',1,'A',2019,180000),
+(9,'B.3','Brosur ITCoPS',1,'A',2019,1500000),
+(10,'B.4','Menyebarkan Brosur',1,'A',2019,1000000),
+(11,'B.6','Training Flutter',1,'A',2019,200000),
+(12,'B.7','Pelatihan Sertifikasi Professional Scrum Master',1,'A',2019,22400000),
+(13,'C.1','9 Mouse Rexus Sierra GT3',1,'A',2019,1000000),
+(14,'C.2','1 Lusin Kaos PKS',1,'A',2019,1200000),
+(15,'B.5','Joint Event Pemerintah/Swasta',1,'A',2019,10000000);
 
 /*Table structure for table `arus_dana` */
 
@@ -77,7 +78,7 @@ CREATE TABLE `arus_dana` (
   CONSTRAINT `arus_dana_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`),
   CONSTRAINT `arus_dana_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `arus_dana_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=latin1;
 
 /*Data for the table `arus_dana` */
 
@@ -232,7 +233,7 @@ CREATE TABLE `detail_arus_dana` (
   PRIMARY KEY (`id_detail_arus`),
   KEY `fk_reference_15` (`id_arus_dana`),
   CONSTRAINT `detail_arus_dana_ibfk_1` FOREIGN KEY (`id_arus_dana`) REFERENCES `arus_dana` (`id_arus_dana`)
-) ENGINE=InnoDB AUTO_INCREMENT=296 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=306 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_arus_dana` */
 
@@ -381,7 +382,6 @@ insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`peneri
 (254,126,'Pengiriman Dokumen Kerja Sama ke RS Muhammdiyah Lamongan',0,9000,''),
 (255,127,'Penerimaan pembayaran termin 1, sebesar 50% dari Rp.42.850.000,- tentang pengadaan software dan hardware PARIS RS Muhammadiyah Lamongan   ',21425000,0,'Sudah dicek bag.keuangan '),
 (256,128,'Pembayaran DP 50% dari total Rp.18.917.500,- untuk Manless Ticket Dispenser, IP Camera dan servis perbaikan di RS Muhammdiyah Lamongan',9458750,9458750,''),
-(257,129,'Pelunasan Pembayaran termin II, sebesar 50% dari Rp.42.850.000,- tentang Pengadaan Software dan Hardware PARIS Rumah Sakit Muhammadiyah Lamongan.',0,21425000,'transfer tanggal  26 Maret 2019'),
 (258,130,'Pembayaran pembelian Hardware untuk RS Muhammdiyah Lamongan',0,17765000,'Transfer BCA # 673 0660 888'),
 (259,131,'Pelunasan Pembayaran sebesar 50% dari total Rp.18.917.500,- untuk Manless Ticket Dispenser, IP Camera dan servis perbaikan di RS Muhammdiyah Lamongan',0,9458750,'transfer BCA # 507 550 688 8 a.n Arisone Charles'),
 (260,132,'Penerimaan Pembayaran DP Proyek PARIS RS Muhammadiyah Lamongan sebesar Rp.20.000.0000 dari Rp.36.611.400 untuk gate motor (Custom) ',20000000,0,'transfer 2 Juli 2019 (sudah dicek oleh bagian keuangan)'),
@@ -405,10 +405,11 @@ insert  into `detail_arus_dana`(`id_detail_arus`,`id_arus_dana`,`uraian`,`peneri
 (281,145,'Pembelian kaki X Banner ukuran 60x160cm',0,22500,''),
 (282,145,'Parkir',0,5000,''),
 (283,147,'Biaya Transportasi ke PT Inti Utama Suarabaya',0,72000,''),
-(284,148,'Transportasi ke PT MKM Gubeng, Unesa Ketintang, Duboy, Stiesia Surabaya, UPN Veteran Surabaya',0,200000,''),
-(285,148,'Tol dan parkir',0,19000,''),
-(286,148,'Konsumsi untuk pertemuan dengan SHS',0,40000,''),
-(287,79,'Konsumsi untuk kegiatan Studi Banding STAAL',0,619500,'');
+(287,79,'Konsumsi untuk kegiatan Studi Banding STAAL',0,619500,''),
+(302,129,'Pelunasan Pembayaran termin II, sebesar 50% dari Rp.42.850.000,- tentang Pengadaan Software dan Hardware PARIS Rumah Sakit Muhammadiyah Lamongan.',0,21425000,'transfer tanggal  26 Maret 2019'),
+(303,148,'Transportasi ke PT MKM Gubeng, Unesa Ketintang, Duboy, Stiesia Surabaya, UPN Veteran Surabaya',0,200000,''),
+(304,148,'Tol dan parkir',0,19000,''),
+(305,148,'Konsumsi untuk pertemuan dengan SHS',0,40000,'');
 
 /*Table structure for table `detail_permintaan_anggaran` */
 
@@ -423,7 +424,7 @@ CREATE TABLE `detail_permintaan_anggaran` (
   PRIMARY KEY (`id_detail_permintaan`),
   KEY `fk_reference_10` (`id_permintaan`),
   CONSTRAINT `detail_permintaan_anggaran_ibfk_1` FOREIGN KEY (`id_permintaan`) REFERENCES `permintaan_anggaran` (`id_permintaan`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detail_permintaan_anggaran` */
 
@@ -435,7 +436,9 @@ insert  into `detail_permintaan_anggaran`(`id_detail_permintaan`,`id_permintaan`
 (22,14,'HR Dosen Pengajar di Stikes Dr. Soetomo setengah smester  th ajaran 2018/2019',636000,'Bu Sulistiowati dan Pak Moh.Arifin'),
 (23,15,'Anggaran untuk Pembayaran fee programmer untuk proyek Pembuatan Website PPGI',7500000,''),
 (24,16,'Pembayaran DP 50% dari total Rp.18.917.500,- untuk Manless Ticket Dispenser, IP Camera dan servis perbaikan di RS Muhammdiyah Lamongan',9458750,'Transfer BCA # 507 550 688 8 an Arisone Charles'),
-(25,17,'Pelatihan Profesional Scrum untuk SSI',30000000,'Kekurangan anggaran ini diambil dari dana Acara MOU (B.1)');
+(25,17,'Pelatihan Profesional Scrum untuk SSI',30000000,'Kekurangan anggaran ini diambil dari dana Acara MOU (B.1)'),
+(34,26,'HR Pemateri untuk dua orang (Pak Slamet dan Pak Novianto)',3600000,''),
+(35,26,'Transportasi dan pembelian goodie bag untuk peserta',1500000,'');
 
 /*Table structure for table `kategori` */
 
@@ -539,7 +542,7 @@ CREATE TABLE `permintaan_anggaran` (
   CONSTRAINT `permintaan_anggaran_ibfk_2` FOREIGN KEY (`id_unit_kerja`) REFERENCES `unit_kerja` (`id_unit_kerja`),
   CONSTRAINT `permintaan_anggaran_ibfk_3` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`),
   CONSTRAINT `permintaan_anggaran_ibfk_4` FOREIGN KEY (`id_anggaran`) REFERENCES `anggaran` (`id_anggaran`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 /*Data for the table `permintaan_anggaran` */
 
@@ -550,7 +553,8 @@ insert  into `permintaan_anggaran`(`id_permintaan`,`no_anggaran`,`id_bagian`,`id
 (14,'6/HAI-STIKES/VIII/2019',1,3,5,5,'2019-08-08','2019-08-14','Tunai',636000,'W'),
 (15,'5/SSI-PPGI/III/2019',1,1,34,4,'2019-03-08','2019-03-15','Tunai',7500000,'W'),
 (16,'5/SSI-RSMLMG/II/2019',1,1,23,4,'2019-02-13','2019-02-19','',9458750,'W'),
-(17,'2/SSI-UMUM/I/2019',1,1,1,12,'2019-01-17','2019-01-22','Transfer  BCA # 8220128599 a.n. Tan Amelia',30000000,'W');
+(17,'2/SSI-UMUM/I/2019',1,1,1,12,'2019-01-17','2019-01-22','Transfer  BCA # 8220128599 a.n. Tan Amelia',30000000,'W'),
+(26,'1/PS-KTNG/IX/2019',1,2,38,6,'2019-09-20','2019-09-24','Tunai',5100000,'D');
 
 /*Table structure for table `tanda_tangan` */
 
@@ -571,7 +575,7 @@ CREATE TABLE `tanda_tangan` (
   PRIMARY KEY (`id_ttd`),
   KEY `fk_reference_16` (`id_bagian`),
   CONSTRAINT `tanda_tangan_ibfk_1` FOREIGN KEY (`id_bagian`) REFERENCES `bagian` (`id_bagian`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tanda_tangan` */
 
@@ -624,7 +628,7 @@ CREATE TABLE `user` (
 insert  into `user`(`user_id`,`username`,`nama_admin`,`password_admin`,`id_bagian`,`level_admin`,`status_admin`) values 
 (1,'superadmin','Super Administrator','$2y$10$XfZDYKf9aHOZSrwdXGsxd.3S3B1n9BcyofkHw9L0C8YxrEufyAR3C',NULL,'ADR','A'),
 (2,'lulut','Lulut Fitr','$2y$10$XfZDYKf9aHOZSrwdXGsxd.3S3B1n9BcyofkHw9L0C8YxrEufyAR3C',1,'ADM','A'),
-(4,'meli','Tan Amelia','$2y$10$cUE1lu7QY8HXCyw.9g1JqOdpK12I/wOWFawrqpPhuch9uG.4p8kt.',1,'ADM','A'),
+(4,'meli','Tan Amelia','$2y$10$F4j6MrTXsTmHrdE2WvHBGu3Ko7ltvfpxQ5.O1NOORxiuzD6xwJ0NC',1,'ADM','A'),
 (5,'deasy','Deasy','$2y$10$AwEe5C.hxmPcd601N7pV7.tfBAxLZby6TLe5Wlk3S520k8cVg6wXe',2,'ADM','A'),
 (6,'maria','Maria','$2y$10$jQCKBzTFXSKVR85iEOuWWe1UM8.JJXXbhsWnEUYoEUX/Y4lN8xekC',2,'ADM','A');
 
