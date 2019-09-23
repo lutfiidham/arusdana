@@ -442,7 +442,7 @@ class Laporan_arus_dana extends CI_Controller {
 		$data['no_header'] = true;
 		$data['no_footer'] = true;
         $this->pdfgenerator->setPaper('A4', 'landscape');
-        $this->pdfgenerator->filename = "Permintaan Anggaran.pdf";
+        $this->pdfgenerator->filename = "Realisasi.pdf";
         $this->pdfgenerator->load_view('format_laporan', $data);
 	}
 
