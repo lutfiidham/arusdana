@@ -124,6 +124,9 @@
         <script src="<?= base_url() ?>assets/plugins/daterangepicker/daterangepicker.js"></script>
         <script src="<?= base_url() ?>assets/plugins/sweetalert/sweetalert.min.js"></script>
         <script src="<?= base_url() ?>assets/plugins/chartjs/dist/Chart.min.js"></script>
+        <script src="<?= base_url() ?>assets/plugins/amcharts4/core.js"></script>
+        <script src="<?= base_url() ?>assets/plugins/amcharts4/charts.js"></script>
+        <script src="<?= base_url() ?>assets/plugins/amcharts4/themes/animated.js"></script>
         <script src="<?= base_url() ?>assets/dist/js/theme.js"></script>
         <script src="<?= base_url() ?>assets/js/myscript.js"></script>
         <script type="text/javascript">

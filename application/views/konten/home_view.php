@@ -51,34 +51,27 @@
     <div class="col-md-12">
         <div class="card" id="grafik_card">
             <div class="card-header">
-                <h6>Grafik Arus Dana Anggaran</h6>
+                <h6 class="col-md-10">Grafik Arus Dana Anggaran</h6>
+                <div class="col-md-2">
+                    <label for="fl_tahun">Tahun:</label>
+                    <input type="text" name="fl_tahun" id="fl_tahun" class="form-control tahun" data-target="#fl_tahun" value="<?= date('Y') ?>" >
+                </div>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-2 offset-10">
-                        <label for="fl_tahun">Tahun:</label>
-                        <input type="text" name="fl_tahun" id="fl_tahun" class="form-control tahun" data-target="#fl_tahun" value="<?= date('Y') ?>" >
-                    </div>
-                </div>
-                <div class="row">
-                    
-                </div>
-                <canvas id="chart_arus_dana" width="auto" height="auto"></canvas>
+            <div class="card-block text-center">
+                <div id="bar_chart" class="chart-shadow" style="height:2000px"></div>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     var mys;
-    var chart_arus_dana;
-    var ctx = {};
-    var data_graf = {};
+    var chart;
     $(document).ready(function() {
         mys = Object.create(myscript_js);
         mys.init('<?= base_url() ?>');
+        am4core.useTheme(am4themes_animated);
 
-        ctx.chart_arus_dana = $('#chart_arus_dana');
-
+        // ctx.chart_arus_dana = $('#chart_arus_dana');
         load_grafik();
 
         $('#hari_tanggal').text(moment().format('dddd, DD MMMM YYYY'));
@@ -91,97 +84,88 @@
         $('#fl_tahun').on('change.datetimepicker', function(event) {
             load_grafik();
         });
+
+
+
+
     });
 
-    function load_grafik(){
-        mys.blok();
+    function load_grafik() {
+        mys.blok()
         $.ajax({
             url: mys.base_url+'home/load_data_grafik',
             type: 'POST',
-            data:{
-                tahun : $('#fl_tahun').val()
-            },
             dataType: 'JSON',
+            data: {
+                tahun: $('#fl_tahun').val()
+            },
             success: function(data){
-                destroy_chart();
-                reset_data();
-                if (data.length>0) {
-                    let data_anggaran = {
-                        label : 'Anggaran',
-                        borderColor: 'rgb(17, 205, 239)',
-                        borderWidth: 1,
-                        backgroundColor: 'rgb(17, 205, 239)',
-                        data: []
-                    };
-                    let data_pendapatan = {
-                        label : 'Pendapatan',
-                        borderColor: 'rgb(45,206,137)',
-                        borderWidth: 1,
-                        backgroundColor: 'rgb(45,206,137)',
-                        data: []
-                    };
-                    let data_biaya = {
-                        label : 'Biaya',
-                        borderColor: 'rgb(245,54,92)',
-                        borderWidth: 1,
-                        backgroundColor: 'rgb(245,54,92)',
-                        data: []
-                    };
+                chart = am4core.create("bar_chart", am4charts.XYChart);
+                // Add data
+                chart.data = [];
 
-                    $.each(data, function(index, val) {
-                        data_graf.chart_arus_dana.labels.push(val.nama_anggaran);
-                        data_anggaran.data.push(val.anggaran);
-                        data_pendapatan.data.push(val.pendapatan);
-                        data_biaya.data.push(val.biaya);
-                    });
+                $.each(data, function(index, val) {
+                    let obj = {};
+                        obj["nama"] = val.nama_anggaran;
+                        obj["anggaran"] = val.anggaran;
+                        obj["pendapatan"] = val.pendapatan;
+                        obj["biaya"] = val.biaya;
+                    chart.data.push(obj);
+                });
 
-                    data_graf.chart_arus_dana.datasets.push(data_anggaran);
-                    data_graf.chart_arus_dana.datasets.push(data_pendapatan);
-                    data_graf.chart_arus_dana.datasets.push(data_biaya);
+                // Create axes
+                var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+                categoryAxis.dataFields.category = "nama";
+                categoryAxis.numberFormatter.numberFormat = "#,###";
+                categoryAxis.renderer.inversed = true;
+                categoryAxis.renderer.grid.template.location = 0;
+                categoryAxis.renderer.cellStartLocation = 0.1;
+                categoryAxis.renderer.cellEndLocation = 0.9;
 
-                    chart_arus_dana = new Chart(ctx.chart_arus_dana, {
-                        type: 'horizontalBar',
-                        data: data_graf.chart_arus_dana,
-                        options: {
-                            legend:{
-                                position : 'bottom',
-                            },
-                            elements: {
-                                rectangle: {
-                                    borderWidth: 2,
-                                }
-                            },
-                            tooltips: {
-                                mode: 'index',
-                                intersect: false
-                            },
-                            responsive: true,
-                            tooltips: {
-                        },
+                var  valueAxis = chart.xAxes.push(new am4charts.ValueAxis()); 
+                valueAxis.renderer.opposite = true;
+                chart.cursor = new am4charts.XYCursor();
 
-                        }
-                    });
-                }
+                // Create series
+                createSeries("anggaran", "Anggaran","#11cdef");
+                createSeries("pendapatan", "Pendapatan","#2dce89");
+                createSeries("biaya", "Biaya","#f5365c");
             },
             error:function(data){
-                mys.notifikasi("Gagal Ambil Data.","error");
+                mys.notifikasi("Gagal Mengambil data dari server","error");
             }
-        }).always(function(){
+        })
+        .always(function() {
             mys.unblok();
         });
     }
 
-    function destroy_chart() {
-        if (chart_arus_dana) {
-            chart_arus_dana.destroy();
-        }
+    function createSeries(field, name, color="") {
+      var series = chart.series.push(new am4charts.ColumnSeries());
+      series.dataFields.valueX = field;
+      series.dataFields.categoryY = "nama";
+      series.name = name;
+      series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
+      series.columns.template.height = am4core.percent(100);
+      series.sequencedInterpolation = true;
+      series.fill = am4core.color(color);
+      series.stroke = am4core.color(color);
 
+      var valueLabel = series.bullets.push(new am4charts.LabelBullet());
+      // valueLabel.label.text = "{valueX}";
+      valueLabel.label.horizontalCenter = "left";
+      valueLabel.label.dx = 10;
+      valueLabel.label.hideOversized = false;
+      valueLabel.label.truncate = false;
+
+      var categoryLabel = series.bullets.push(new am4charts.LabelBullet());
+      // categoryLabel.label.text = "{name}";
+      categoryLabel.label.horizontalCenter = "right";
+      categoryLabel.label.dx = -10;
+      categoryLabel.label.fill = am4core.color("#fff");
+      categoryLabel.label.hideOversized = false;
+      categoryLabel.label.truncate = false;
     }
 
-    function reset_data() {
-        data_graf.chart_arus_dana = {
-            labels: [],
-            datasets:[]
-        };
-    }
 </script>
+
