@@ -52,12 +52,27 @@ class Arusdana_model extends CI_Model {
 		}
 		$query .= " ORDER BY id DESC";
 		return $this->db->query($query,[$idBagian]);
-		// $this->db->select('pa.*,uk.nama_unit_kerja,an.kode_anggaran, an.nama_anggaran,kt.nama_kategori');
-		// $this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
-		// $this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
-		// $this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
-		// $this->db->where('pa.id_bagian', $idBagian);
-		// return $this->db->get('permintaan_anggaran pa');
+	}
+
+	public function getLaporanPerAnggaran($start, $end)
+	{
+		if (is_null($start)) $start = date_create(date('Y/m/d'))->modify('-30 days')->format('Y-m-d');
+		if (is_null($end)) $end = date('Y/m/d');
+		$query = "
+			SELECT id_arus_dana, tanggal, no_arus_dana, nama_unit_kerja, nama_kategori, kode_anggaran, nama_anggaran, periode_pelaksanaan, ad.id_anggaran,
+			(SELECT SUM(penerimaan) FROM detail_arus_dana WHERE id_arus_dana = ad.id_arus_dana) AS penerimaan, (SELECT SUM(pengeluaran) FROM detail_arus_dana WHERE id_arus_dana = ad.id_arus_dana) pengeluaran,
+			bbm, catatan, SUM(SELECT SUM(penerimaan) FROM detail_arus_dana WHERE id_arus_dana = ad.`id_arus_dana`) AS total_penerimaan, SUM(total) AS total
+			FROM arus_dana ad
+			LEFT JOIN anggaran an ON ad.`id_anggaran`=an.`id_anggaran`
+			LEFT JOIN unit_kerja uk ON ad.`id_unit_kerja`=uk.`id_unit_kerja`
+			LEFT JOIN kategori ka ON ad.`id_kategori`=ka.`id_kategori`
+			WHERE ad.id_bagian = 1 AND
+			tanggal >= '2019-01-03' AND
+			tanggal <= '2019-04-03'
+			GROUP BY ad.id_anggaran, id_arus_dana
+			WITH ROLLUP;
+		";
+		return $this->db->query($query);
 	}
 
 	public function getAnggaran($idPermintaan)
