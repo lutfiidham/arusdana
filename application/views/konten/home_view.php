@@ -57,8 +57,59 @@
                     <input type="text" name="fl_tahun" id="fl_tahun" class="form-control tahun" data-target="#fl_tahun" value="<?= date('Y') ?>" >
                 </div>
             </div>
-            <div class="card-block text-center">
-                <div id="bar_chart" class="chart-shadow" style="height:2000px"></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="widget" >
+                            <div class="widget-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="state">
+                                        <h6>Total Anggaran</h6>
+                                        <h2 id="total_anggaran">3</h2>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fa fa-dollar-sign text-info"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="widget" >
+                            <div class="widget-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="state">
+                                        <h6>Total Pendapatan</h6>
+                                        <h2 id="total_pendapatan">3</h2>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fa fa-wallet text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="widget" >
+                            <div class="widget-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="state">
+                                        <h6>Total Biaya</h6>
+                                        <h2 id="total_biaya">3</h2>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fa fa-file-invoice-dollar text-danger"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="bar_chart" class="chart-shadow" style="height:2000px"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -103,13 +154,19 @@
                 chart = am4core.create("bar_chart", am4charts.XYChart);
                 // Add data
                 chart.data = [];
-
+                let total = {};
+                    total.anggaran = 0;
+                    total.pendapatan = 0;
+                    total.biaya = 0;
                 $.each(data, function(index, val) {
                     let obj = {};
                         obj["nama"] = val.nama_anggaran;
                         obj["anggaran"] = val.anggaran;
                         obj["pendapatan"] = val.pendapatan;
                         obj["biaya"] = val.biaya;
+                    total.anggaran      += parseInt(val.anggaran);
+                    total.pendapatan    += parseInt(val.pendapatan);
+                    total.biaya         += parseInt(val.biaya);
                     chart.data.push(obj);
                 });
 
@@ -130,6 +187,10 @@
                 createSeries("anggaran", "Anggaran","#11cdef");
                 createSeries("pendapatan", "Pendapatan","#2dce89");
                 createSeries("biaya", "Biaya","#f5365c");
+
+                $('#total_anggaran').text(mys.formatMoney(total.anggaran, 0, ',', '.'));
+                $('#total_pendapatan').text(mys.formatMoney(total.pendapatan, 0, ',', '.'));
+                $('#total_biaya').text(mys.formatMoney(total.biaya, 0, ',', '.'));
             },
             error:function(data){
                 mys.notifikasi("Gagal Mengambil data dari server","error");
@@ -165,6 +226,10 @@
       categoryLabel.label.fill = am4core.color("#fff");
       categoryLabel.label.hideOversized = false;
       categoryLabel.label.truncate = false;
+    }
+
+    function sum_array(total, num) {
+        return parseInt(total) + parseInt(num);
     }
 
 </script>
