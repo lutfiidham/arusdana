@@ -265,14 +265,14 @@
             ],
             "columns": [
             {"width": "2%" },
-            {"width": "8%"},
-            {"width": "8%"},
-            {"width": "8%"},
-            {"width": "8%"},
-            {"width": "8%"},
-            {"width": "8%"},
-            {"width": "8%"},
-            {"width": "30%", "orderable": false}
+            {"width": "10%"},
+            {"width": "15%"},
+            {"width": "15%"},
+            {"width": "10%"},
+            {"width": "10%"},
+            {"width": "10%"},
+            {"width": "10%"},
+            {"width": "18%", "orderable": false}
             ],
             "order" : [],
             "fnDrawCallback" : function(oSettings){

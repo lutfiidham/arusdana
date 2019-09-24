@@ -107,7 +107,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="bar_chart" class="chart-shadow" style="height:2000px"></div>
+                        <div id="bar_chart" class="chart-shadow" style="height:1800px"></div>
                     </div>
                 </div>
             </div>

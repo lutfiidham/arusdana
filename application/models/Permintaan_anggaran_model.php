@@ -50,12 +50,72 @@ class Permintaan_anggaran_model extends CI_Model {
 		return $this->db->get();
 	}
 
+	function get_list_permintaan($tanggal="")
+	{
+		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori');
+		$this->db->from('permintaan_anggaran pa');
+		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
+		$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
+		$this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
+		$this->db->where('pa.id_bagian', $this->session->userdata('id_bagian'));
+		if ($tanggal!="") {
+			$date_arr = $this->pecah_daterange($tanggal);
+			$this->db->where('tanggal >=', $date_arr[0]);
+			$this->db->where('tanggal <=', $date_arr[1]);
+		}
+		$this->db->order_by('id_permintaan', 'asc');
+		return $this->db->get();
+	}
+
 	function get_detail_permintaan($id_permintaan)
 	{
 		$this->db->select('id_detail_permintaan,uraian,nominal,keterangan');
 		$this->db->where('id_permintaan', $id_permintaan);
 		return $this->db->get('detail_permintaan_anggaran');
 	}
+
+	function get_data_group_by_uk($tanggal = "")
+	{
+		$date_arr = $this->pecah_daterange($tanggal);
+		$query = "select uk.nama_unit_kerja,pa.no_anggaran,pa.tanggal,pa.tanggal_kebutuhan,pa.catatan,pa.status_realisasi,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori, CONCAT('[', json_detail, ']') json_detail,(select count(id_anggaran) from permintaan_anggaran where id_unit_kerja = pa.id_unit_kerja) as jm
+			from permintaan_anggaran pa
+			join (SELECT id_permintaan as idjson, GROUP_CONCAT('{', my_json, '}' SEPARATOR ',') AS json_detail FROM
+					(
+					  SELECT 
+					    id_permintaan, CONCAT
+					    (
+					      '\"uraian\":'   , '\"', uraian   , '\"', ',' 
+					      '\"nominal\":', nominal,','
+					      '\"keterangan\":', '\"', keterangan, '\"'
+					    ) AS my_json
+					  FROM detail_permintaan_anggaran
+					) AS json_dpa
+					group by 1) as dpj on pa.id_permintaan = dpj.idjson
+			join unit_kerja uk on pa.id_unit_kerja = uk.id_unit_kerja
+			JOIN `anggaran` `an` ON `pa`.`id_anggaran` = `an`.`id_anggaran`
+			JOIN `kategori` `kt` ON `kt`.`id_kategori` = `pa`.`id_kategori`
+			where pa.id_bagian = ?
+			order by 1,3";
+		return $this->db->query($query,[$this->session->userdata('id_bagian')]);
+	}
+
+	// function get_unit_kerja_from_permintaan($)
+	// {
+	// 	$this->db->distinct();
+	// 	$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori');
+	// 	$this->db->from('permintaan_anggaran pa');
+	// 	$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
+	// 	$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
+	// 	$this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
+	// 	$this->db->where('pa.id_bagian', $this->session->userdata('id_bagian'));
+	// 	if ($tanggal!="") {
+	// 		$date_arr = $this->pecah_daterange($tanggal);
+	// 		$this->db->where('tanggal >=', $date_arr[0]);
+	// 		$this->db->where('tanggal <=', $date_arr[1]);
+	// 	}
+	// 	$this->db->order_by('id_permintaan', 'asc');
+	// 	return $this->db->get();
+	// }
 
 	function get_detil_anggaran($id_anggaran)
 	{

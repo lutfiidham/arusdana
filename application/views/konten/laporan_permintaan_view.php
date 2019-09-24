@@ -1,3 +1,14 @@
+<style>
+table.dataTable tbody td.dt-center {
+    text-align: center;
+}
+table.dataTable tbody td.dt-right {
+    text-align: right;
+}
+.no-pointer {
+    cursor: none;
+}
+</style>
 <div class="page-header">
     <div class="row align-items-end">
         <div class="col-lg-8">
@@ -33,50 +44,116 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="row clearfix">
-                    <div class="col-lg-1" style="text-align:right; padding-top:7px">
-                        Cari :
-                    </div>
-                    <div class="col-lg-11">
-                        <input type="text" id="input_pencarian" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
-                    </div>
-                </div>
-                <div style="padding: 1%">
-                    <table id="tabel" class="table table-inverse table-hover" width="175%">
-                        <thead>
-                            <tr>
-                                <th>No Anggaran</th>
-                                <th>Tanggal</th>
-                                <th>Unit Kerja</th>
-                                <th>Kategori</th>
-                                <th>Anggaran</th>
-                                <th>Kegiatan</th>
-                                <th>Tgl Butuh</th>
-                                <th>Catatan</th>
-                                <th>Realisasi</th>
-                                <th>Uraian</th>
-                                <th>Nominal</th>
-                                <th>Keterangan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th style="font-weight: bold;text-align: right;" colspan="10">Total:</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div class="row clearfix">
-                    <div class="col-lg-6">
-                        <span style="font-weight: bold">Export Data: </span>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" title="Export to PDF" class="btn btn-danger" id="exportPDF">PDF</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active show" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Semua</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Berdasar Unit Kerja</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false">Berdasar Kategori</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade active show" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                    <div class="card-body">
+                        <div class="row clearfix">
+                            <div class="col-lg-2">
+                                <button type="button" title="Export to PDF" class="btn btn-danger btn-block" id="exportPDF">Export PDF</button>
+                            </div>
+                            <div class="col-lg-1" style="text-align:right; padding-top:7px">
+                                Cari :
+                            </div>
+                            <div class="col-lg-9">
+                                <input type="text" id="input_pencarian" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
+                            </div>
                         </div>
+                        <div style="padding: 1%">
+                            <table id="tabel" class="table table-inverse table-hover" width="175%">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>No Anggaran</th>
+                                        <th>Tanggal</th>
+                                        <th>Unit Kerja</th>
+                                        <th>Kategori</th>
+                                        <th>Anggaran</th>
+                                        <th>Kegiatan</th>
+                                        <th>Tgl Butuh</th>
+                                        <th>Catatan</th>
+                                        <th>Realisasi</th>
+                                        <th>Uraian</th>
+                                        <th>Nominal</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th style="font-weight: bold;text-align: right !important;" colspan="11">Total:</th>
+                                        <th style="font-weight: bold;text-align: right !important;"></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="card-body">
+                        <div class="row clearfix">
+                            <div class="col-lg-2">
+                                <button type="button" title="Export to PDF" class="btn btn-danger btn-block" id="exportPDF2">Export PDF</button>
+                            </div>
+                            <div class="col-lg-1" style="text-align:right; padding-top:7px">
+                                Cari :
+                            </div>
+                            <div class="col-lg-9">
+                                <input type="text" id="input_pencarian2" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
+                            </div>
+                        </div>
+                        <div style="padding: 1%">
+                            <table id="tabel2" class="table table-inverse table-hover" width="175%">
+                                <thead>
+                                    <tr>
+                                        <!-- <th>No.</th> -->
+                                        <th>Unit Kerja</th>
+                                        <th>No Anggaran</th>
+                                        <th>Tanggal</th>
+                                        <th>Kategori</th>
+                                        <th>Anggaran</th>
+                                        <th>Kegiatan</th>
+                                        <th>Tgl Butuh</th>
+                                        <th>Catatan</th>
+                                        <th>Realisasi</th>
+                                        <th>Uraian</th>
+                                        <th>Nominal</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th style="font-weight: bold;text-align: right !important;" colspan="11">Total:</th>
+                                        <th style="font-weight: bold;text-align: right !important;"></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="previous-month" role="tabpanel" aria-labelledby="pills-setting-tab">
+                    <div class="card-body">
                     </div>
                 </div>
             </div>
@@ -97,6 +174,7 @@
             "sDom": "t<'row'<'col-md-4'i><'col-md-8'p>>",
             "processing": true,
             "iDisplayLength": 10,
+            "paging": false,
             "scrollX":true,
             "ajax":{
                 url : mys.base_url+'permintaan_anggaran/get_data_laporan?tanggal='+$('#fl_tanggal').val(),
@@ -105,9 +183,10 @@
             "language": {
                 "url": mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
             },
-            "rowsGroup":[0,1,2,3,4,5,6,7,8],
+            "rowsGroup":[0,1,2,3,4,5,6,7,8,9],
             "columnDefs": [
             {"visible" : false, "targets" : []},
+            {"className": "dt-right", "targets": [11]},
             {
                 "render": function ( data, type, row ) {
                    if (type=='sort') {
@@ -116,7 +195,7 @@
                         return mys.toDate(data);
                     }
                 },
-                "targets": [1,6]
+                "targets": [2,7]
             },
             {
                 "render": function ( data, type, row ) {
@@ -126,22 +205,23 @@
                         return mys.formatMoney(data,0,',','.');
                     }
                 },
-                "targets": [10]
+                "targets": [11]
             },
             ],
             "aoColumns": [
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "10%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
-            {"sWidth": "15%", "bSortable" : false},
+            {"sWidth": "2%"},
+            {"sWidth": "15%"},
+            {"sWidth": "10%"},
+            {"sWidth": "15%"},
+            {"sWidth": "15%"},
+            {"sWidth": "15%"},
+            {"sWidth": "15%"},
+            {"sWidth": "15%"},
+            {"sWidth": "15%"},
+            {"sWidth": "15%"},
+            {"sWidth": "15%"},
+            {"sWidth": "15%"},
+            {"sWidth": "15%"},
             ],
             "order" : [
             [0, "asc"],
@@ -160,15 +240,24 @@
                 };
 
                 total = api
-                .column( 10 )
+                .column( 11 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
 
 
-                $( api.column( 10 ).footer() ).html(mys.formatMoney(total,0,',','.'));
+                $( api.column( 11 ).footer() ).html(mys.formatMoney(total,0,',','.'));
             }
+
+        });
+
+        load_tabel2();
+
+
+        $('#input_pencarian').on('keyup', function(event) {
+            var tabel = $('#tabel');
+            tabel.dataTable().fnFilter($(this).val());
         });
 
         $('#fl_tanggal').on('change', function(event) {
@@ -184,7 +273,32 @@
             $(jendela.document.body).html('<form id="form_redirect" action="'+mys.base_url+'permintaan_anggaran/export_pdf" method="POST">'+form+'</form>');
             $(jendela.document).find('#form_redirect').submit();
         });
+
+        
     });
+
+    function load_tabel2() {
+        mys.blok()
+        $.ajax({
+            url: mys.base_url+'permintaan_anggaran/laporan_group_by_unit_kerja',
+            type: 'GET',
+            dataType: 'text',
+            data: {
+                tanggal: $('#fl_tanggal').val()
+            },
+            success: function(data){
+                $('#tabel2 tbody').empty();
+                $('#tabel2 tbody').html(data);
+                // $('#kode_unit_kerja').prop('readonly', true);
+            },
+            error:function(data){
+                mys.notifikasi("Gagal Mengambil data dari server","error");
+            }
+        })
+        .always(function() {
+            mys.unblok();
+        });
+    }
 
 
 </script>

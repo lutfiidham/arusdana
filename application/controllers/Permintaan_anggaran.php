@@ -60,6 +60,7 @@ class Permintaan_anggaran extends CI_Controller {
 
 		if ($list->num_rows() > 0) {
 			foreach ($list->result_array() as $key => $value) {
+				$data['data'][$key][] = ($key + 1) . '.';
 				$data['data'][$key][] = $value['no_anggaran'];
 				$data['data'][$key][] = $value['tanggal'];
 				$data['data'][$key][] = $value['nama_unit_kerja'];
@@ -380,8 +381,8 @@ class Permintaan_anggaran extends CI_Controller {
 		$this->load->library('Pdfgenerator');
 		$this->load->helper('my_helper');
 
-		$list_permintaan = $this->model->get_data_laporan($tanggal);
-
+		$list_permintaan = $this->model->get_list_permintaan($tanggal);
+		// log_message('error',$this->db->last_query());
 		$html = '';
 
 		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN PERMINTAAN ANGGARAN</span><p>';
@@ -456,6 +457,91 @@ class Permintaan_anggaran extends CI_Controller {
         $this->pdfgenerator->filename = "Permintaan Anggaran.pdf";
         $this->pdfgenerator->load_view('format_laporan', $data);
 	}
+
+	function laporan_group_by_unit_kerja()
+	{
+		$tanggal = $this->input->get('tanggal');
+
+		$list = $this->model->get_data_group_by_uk($tanggal);
+
+		$html = '';
+		if ($list->num_rows()>0) {
+			$unit_kerja = '';
+			$no_urut = 0;
+			foreach ($list->result_array() as $index => $value) {
+				$html .= '<tr>';	
+				if ($unit_kerja != $value['nama_unit_kerja']) {
+					if ($unit_kerja != '') {
+						// $html .= $no_urut++;
+						// $html .= '<td rowspan="'.$rowspan_uk.'">'.$unit_kerja.'</td>';
+						// $html .= $row_anggaran;
+						// $html .= '</tr>';
+						$html .= '<tr><td colspan="10">Total</td><td>0</td><td></td></tr>';
+					}
+					$no_urut++;
+					$unit_kerja = $value['nama_unit_kerja'];
+					// $html .= '<td>'.$no_urut.'</td>';
+					$html .= '<td rowspan="'.$value['jm'].'">'.$value['nama_unit_kerja'].'</td>';
+				}
+
+				$detil = json_decode($value['json_detail']);
+				$rowspan_angg = sizeof($detil);
+				$row_detil = '';
+				foreach ($detil as $index2 => $value2) {
+					if ($index2 == 0) {
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['tanggal'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_kategori'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['kode_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['tanggal_kebutuhan'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['catatan'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['status_realisasi'].'</td>';
+					}
+					// $html .= '<td>'.$value2->uraian.'</td>';
+					// $html .= '<td>'.$value2->nominal.'</td>';
+					// $html .= '<td>'.$value2->keterangan.'</td>';
+				}
+				$html .= '<tr>';	
+
+				// $row_anggaran  = '<td rowspan="'.$rowspan_angg.'"></td>';
+				// $row_anggaran  = '<td rowspan="'.$rowspan_angg.'"></td>';
+				// $row_anggaran .= '<td rowspan="'.$rowspan_angg.'"></td>';
+				// $row_anggaran .= '<td rowspan="'.$rowspan_angg.'"></td>';
+				// $row_anggaran .= '<td rowspan="'.$rowspan_angg.'"></td>';
+				// $row_anggaran .= '<td rowspan="'.$rowspan_angg.'"></td>';
+				// $row_anggaran .= $row_detil;
+				// $row_anggaran .= '</tr>';
+				// $html .=  $row_anggaran;
+
+			}
+
+			if ($unit_kerja !='') {
+				$rowspan_uk = 0;
+				$nominal_uk = 0;
+				$no_urut= 0;
+				$row_anggaran = '';
+				$html .= '</tr>';
+			}
+		}
+
+		echo $html;
+	}
+
+	// var label = '';
+ //                $.each(data, function(index, val) {
+ //                    if (label != val.label) {
+ //                        if (label !='') {
+ //                            html += '</optgroup>';
+ //                        }
+ //                        label = val.label;
+ //                        html += '<optgroup label="'+val.label+'">';
+ //                    }
+ //                    html += '<option value="'+val.id+'">'+val.name+'</option>';
+ //                });
+ //                if (html!='') {
+ //                    html += '</optgroup>';
+ //                }
 
 	
 }
