@@ -89,14 +89,14 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th style="font-weight: bold;text-align: right !important;" colspan="10"></th>
+                                        <th style="font-weight: bold;text-align: right !important;" colspan="11"></th>
                                         <th style="font-weight: bold;text-align: left !important;">Total Keseluruhan:</th>
                                         <th style="font-weight: bold;text-align: right !important;" id="total_penerimaan1"></th>
                                         <th style="font-weight: bold;text-align: right !important;" id="total_pengeluaran1"></th>
                                         <th></th>
                                     </tr>
                                     <tr>
-                                        <th style="font-weight: bold;text-align: right !important;" colspan="10"></th>
+                                        <th style="font-weight: bold;text-align: right !important;" colspan="11"></th>
                                         <th style="font-weight: bold;text-align: left !important;">Hasil (Pemasukan - Pengeluaran):</th>
                                         <th style="font-weight: bold;text-align: right !important;" id="totaltabel1"></th>
                                         <th></th>
@@ -234,88 +234,6 @@
         mys = Object.create(myscript_js);
         mys.init('<?= base_url() ?>');
 
-        // $('#tabel').dataTable({
-        //     "scrollCollapse": true,
-        //     "sDom": "t<'row'<'col-md-4'i><'col-md-8'p>>",
-        //     "processing": true,
-        //     "iDisplayLength": 10,
-        //     "scrollX":true,
-        //     "ajax":{
-        //         url : mys.base_url+'permintaan_anggaran/get_data_laporan?tanggal='+$('#fl_tanggal').val(),
-        //         type : 'GET',
-        //     },
-        //     "language": {
-        //         "url": mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
-        //     },
-        //     "rowsGroup":[0,1,2,3,4,5,6,7,8,9],
-        //     "columnDefs": [
-        //     {"visible" : false, "targets" : []},
-        //     {"className": "dt-right", "targets": [11]},
-        //     {
-        //         "render": function ( data, type, row ) {
-        //            if (type=='sort') {
-        //                 return data;
-        //             } else{
-        //                 return mys.toDate(data);
-        //             }
-        //         },
-        //         "targets": [2,7]
-        //     },
-        //     {
-        //         "render": function ( data, type, row ) {
-        //            if (type=='sort') {
-        //                 return data;
-        //             } else{
-        //                 return mys.formatMoney(data,0,',','.');
-        //             }
-        //         },
-        //         "targets": [11]
-        //     },
-        //     ],
-        //     "aoColumns": [
-        //     {"sWidth": "2%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "10%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "15%"},
-        //     {"sWidth": "15%"},
-        //     ],
-        //     "order" : [
-        //     [0, "asc"],
-        //     ],
-        //     "fnDrawCallback" : function(oSettings){
-        //         $('[data-toggle="tooltip"]').tooltip({ boundary: 'window' });
-        //     },
-        //     "footerCallback": function(row, data, start, end, display){
-        //         var api = this.api(), data;
-
-        //         var intVal = function ( i ) {
-        //             return typeof i === 'string' ?
-        //                 i.replace(/[\$,]/g, '')*1 :
-        //                 typeof i === 'number' ?
-        //                     i : 0;
-        //         };
-
-        //         total = api
-        //         .column( 11 )
-        //         .data()
-        //         .reduce( function (a, b) {
-        //             return intVal(a) + intVal(b);
-        //         }, 0 );
-
-
-        //         $( api.column( 11 ).footer() ).html(mys.formatMoney(total,0,',','.'));
-        //     }
-
-        // });
-
         load_tabel1();
         load_tabel2();
         load_tabel3();
@@ -334,7 +252,7 @@
             mys.unblok();
         });
 
-        $('#exportPDF').on('click', function(event) {
+        $('#exportPDF1').on('click', function(event) {
             var tanggal = $('#fl_tanggal').val();
             var jendela = window.open( "", "Print", 'width=800,height=700,status=yes,toolbar=no,menubar=no, titlebar=yes,re sizable=yes,location=no,scrollbars=yes' );
             var form = "<input type='hidden' name='tanggal' value='"+tanggal+"'>";

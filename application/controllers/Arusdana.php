@@ -112,7 +112,6 @@ class Arusdana extends CI_Controller
 		$tanggal = $this->input->get('tanggal');
 
 		$list = $this->adm->get_data_tbl1($tanggal);
-
 		$html = '';
 		$grandtotal = 0;
 		$total_penerimaan = 0;
@@ -123,25 +122,9 @@ class Arusdana extends CI_Controller
 			$subtotal_group = 0;
 			$subtotal_group2 = 0;
 			foreach ($list->result_array() as $index => $value) {
-				// if ($group != $value['nama_unit_kerja']) {
-				// 	if ($group != '') {
-
-				// 		$html .= '<tr>
-				// 		<td colspan="10"></td>
-				// 		<td><b>Total</b></td>
-				// 		<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
-				// 		<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group2,0).'</b></td>
-				// 		<td></td>
-				// 		</tr>';
-
-				// 		$subtotal_group = 0;
-				// 		$subtotal_group2 = 0;
-				// 	}
-				// 	$group = $value['nama_unit_kerja'];
-				// 	$html .= '<tr><td colspan="14"><b>'.$group.'</b></td></tr>';
-				// }
 
 				$detil = json_decode($value['json_detail']);
+
 				$rowspan_angg = sizeof($detil);
 				$row_detil = '';
 				if ($detil) {
@@ -175,21 +158,10 @@ class Arusdana extends CI_Controller
 					}
 				}
 
-				
-				// $grandtotal += $value['total'];
 			}
 
-			// if ($group !='') {
-			// 	$html .= '<tr>
-			// 	<td colspan="10"></td>
-			// 	<td><b>Total</b></td>
-			// 	<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
-			// 	<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group2,0).'</b></td>
-			// 	<td></td>
-			// 	</tr>';
-			// }
 		}
-				$grandtotal += $total_penerimaan - $total_pengeluaran;
+		$grandtotal += $total_penerimaan - $total_pengeluaran;
 
 		echo json_encode(['tbody'=> $html,'grandtotal' => format_ribuan_indo($grandtotal,0),
 			'total_penerimaan' => format_ribuan_indo($total_penerimaan,0),
@@ -852,74 +824,98 @@ class Arusdana extends CI_Controller
 		$this->load->library('Pdfgenerator');
 		$this->load->helper('my_helper');
 
-		$list_permintaan = $this->model->get_list_arus_dana($tanggal);
+		$list = $this->adm->get_data_tbl1($tanggal);
 		// log_message('error',$this->db->last_query());
 		$html = '';
+		$grandtotal = 0;
+		$total_penerimaan = 0;
+		$total_pengeluaran = 0;
 
-		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN PERMINTAAN ANGGARAN</span><p>';
+		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN ARUS DANA</span><p>';
 		$html .= '<p>PERIODE: '.$tanggal.'</p>';
 
-		if ($list_permintaan->num_rows()>0) {
+		if ($list->num_rows()>0) {
 			$html .= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">
                         <thead>
                             <tr>
-                                <th class="data-center" style="width:15%">No Anggaran</th>
-                                <th class="data-center" style="width:10%">Tanggal</th>
+                                <th class="data-center" style="width:5%">No.</th>
                                 <th class="data-center" style="width:15%">Unit Kerja</th>
+                                <th class="data-center" style="width:15%">No Arus Dana</th>
+                                <th class="data-center" style="width:10%">Tanggal</th>
+                                <th class="data-center" style="width:15%">No Anggaran</th>
                                 <th class="data-center" style="width:15%">Kategori</th>
                                 <th class="data-center" style="width:15%">Anggaran</th>
                                 <th class="data-center" style="width:15%">Kegiatan</th>
-                                <th class="data-center" style="width:15%">Tgl Butuh</th>
+                                <th class="data-center" style="width:15%">Periode Pelaksanaan</th>
                                 <th class="data-center" style="width:15%">Catatan</th>
-                                <th class="data-center" style="width:15%">Realisasi</th>
+                                <th class="data-center" style="width:15%">BBM</th>
                                 <th class="data-center" style="width:15%">Uraian</th>
-                                <th class="data-center" style="width:15%">Nominal</th>
+                                <th class="data-center" style="width:15%">Penerimaan</th>
+                                <th class="data-center" style="width:15%">Pengeluaran</th>
                                 <th class="data-center" style="width:15%">Keterangan</th>
                             </tr>
                         </thead>
                         <tbody>
 			';
-			$sum = 0;
-			foreach ($list_permintaan->result_array() as $key => $val) {
-				$detil_permintaan = $this->model->get_detail_permintaan($val['id_permintaan']);
-				$rowspan = $detil_permintaan->num_rows();
-				$kiri = '
-					<td rowspan="'.$rowspan.'">'.$val['no_anggaran'].'</td>
-					<td rowspan="'.$rowspan.'">'.to_date_format_mysql($val['tanggal']).'</td>
-					<td rowspan="'.$rowspan.'">'.$val['nama_unit_kerja'].'</td>
-					<td rowspan="'.$rowspan.'">'.$val['nama_kategori'].'</td>
-					<td rowspan="'.$rowspan.'">'.$val['kode_anggaran'].'</td>
-					<td rowspan="'.$rowspan.'">'.$val['nama_anggaran'].'</td>
-					<td rowspan="'.$rowspan.'">'.to_date_format_mysql($val['tanggal_kebutuhan']).'</td>
-					<td rowspan="'.$rowspan.'">'.$val['catatan'].'</td>
-					<td rowspan="'.$rowspan.'">'.($val['status_realisasi']=='D' ? 0:1).'</td>
-				';
-				foreach ($detil_permintaan->result_array() as $key2 => $val_det) {
-					$html.= '<tr>';
-					if ($key2==0) {
-						$html .= $kiri;
+			
+			if ($list->num_rows()>0) {
+				foreach ($list->result_array() as $index => $value) {
+
+					$detil = json_decode($value['json_detail']);
+					$rowspan_angg = sizeof($detil);
+					if ($detil) {
+						
+						foreach ($detil as $index2 => $value2) {
+							$html.= '<tr>';
+							if ($index2 == 0) {
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.($index+1).'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_unit_kerja'].'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_arus_dana'].'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal']).'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_anggaran'].'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_kategori'].'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['kode_anggaran'].'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_anggaran'].'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['periode_pelaksanaan']).'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['catatan'].'</td>';
+								$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['bbm'].'</td>';
+							}
+							$html .= '<td>'.$value2->uraian.'</td>';
+							$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->penerimaan,0).'</td>';
+							$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->pengeluaran,0).'</td>';
+							$html .= '<td>'.$value2->keterangan.'</td>';
+							$html .= '</tr>';
+							
+							$total_penerimaan += $value2->penerimaan;
+							$total_pengeluaran += $value2->pengeluaran;
+
+						}
 					}
-					$html.= '
-					<td>'.$val_det['uraian'].'</td>
-					<td class="data-right">'.format_ribuan_indo($val_det['nominal'],0).'</td>
-					<td>'.$val_det['keterangan'].'</td>
-					';
-					$html.= '</tr>';
-					$sum += $val_det['nominal'];
+
 				}
+
 			}
+			$grandtotal += $total_penerimaan - $total_pengeluaran;
 
 
 		}
 		$html .= '
+				</tbody>
 				<tfoot>
 				<tr>
-					<th class="data-center" colspan="10">Total:</th>
-					<th class="data-right">'.format_ribuan_indo($sum,0).'</th>
+					<th class="data-center" colspan="12">Total Keseluruhan:</th>
+					<th class="data-right">'.format_ribuan_indo($total_penerimaan,0).'</th>
+					<th class="data-right">'.format_ribuan_indo($total_pengeluaran,0).'</th>
+					<th></th>
+				</tr>
+				<tr>
+					<th class="data-center" colspan="12">Hasil (Pemasukan - Pengeluaran):</th>
+					<th class="data-right" colspan="2">'.format_ribuan_indo($grandtotal,0).'</th>
 					<th></th>
 				</tr>
 				</tfoot>
-		</tbody></table>';
+		</table>';
+
 
 		$data['html'] = $html;
 		$data['no_header'] = true;
