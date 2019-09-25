@@ -156,7 +156,7 @@ table.dataTable tbody td.dt-right {
                     <div class="card-body">
                         <div class="row clearfix">
                             <div class="col-lg-2">
-                                <button type="button" title="Export to PDF" class="btn btn-danger btn-block" id="exportPDF2">Export PDF</button>
+                                <button type="button" title="Export to PDF" class="btn btn-danger btn-block" id="exportPDF3">Export PDF</button>
                             </div>
 <!--                             <div class="col-lg-1" style="text-align:right; padding-top:7px">
                                 Cari :
@@ -166,7 +166,7 @@ table.dataTable tbody td.dt-right {
                             </div> -->
                         </div>
                         <div style="padding: 1%">
-                            <table id="tabel2" class="table table-inverse table-hover" width="175%">
+                            <table id="tabel3" class="table table-inverse table-hover" width="175%">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
@@ -189,7 +189,7 @@ table.dataTable tbody td.dt-right {
                                 <tfoot>
                                     <tr>
                                         <th style="font-weight: bold;text-align: right !important;" colspan="10">Total:</th>
-                                        <th style="font-weight: bold;text-align: right !important;"></th>
+                                        <th style="font-weight: bold;text-align: right !important;" id="totaltabel3"></th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
@@ -328,6 +328,8 @@ table.dataTable tbody td.dt-right {
         });
 
         load_tabel2();
+        load_tabel3();
+
 
 
         $('#input_pencarian').on('keyup', function(event) {
@@ -342,6 +344,8 @@ table.dataTable tbody td.dt-right {
         $('#fl_tanggal').on('change', function(event) {
             mys.blok();
             $('#tabel').DataTable().ajax.url(mys.base_url + 'permintaan_anggaran/get_data_laporan?tanggal=' + $(this).val()).load();
+            load_tabel2();
+            load_tabel3();
             mys.unblok();
         });
 
@@ -370,6 +374,31 @@ table.dataTable tbody td.dt-right {
                 $('#tabel2 tbody').empty();
                 $('#tabel2 tbody').html(data.tbody);
                 $('#totaltabel2').text(data.totalfooter)
+                // tabel2.dataTable(settings_tabel);
+            },
+            error:function(data){
+                mys.notifikasi("Gagal Mengambil data dari server","error");
+            }
+        })
+        .always(function() {
+            mys.unblok();
+        });
+    }
+
+    function load_tabel3() {
+        mys.blok()
+        $.ajax({
+            url: mys.base_url+'permintaan_anggaran/laporan_group_by_kategori',
+            type: 'GET',
+            dataType: 'JSON',
+            data: {
+                tanggal: $('#fl_tanggal').val()
+            },
+            success: function(data){
+                // tabel2.DataTable().destroy();
+                $('#tabel3 tbody').empty();
+                $('#tabel3 tbody').html(data.tbody);
+                $('#totaltabel3').text(data.totalfooter)
                 // tabel2.dataTable(settings_tabel);
             },
             error:function(data){

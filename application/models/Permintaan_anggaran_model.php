@@ -94,9 +94,34 @@ class Permintaan_anggaran_model extends CI_Model {
 			join unit_kerja uk on pa.id_unit_kerja = uk.id_unit_kerja
 			JOIN `anggaran` `an` ON `pa`.`id_anggaran` = `an`.`id_anggaran`
 			JOIN `kategori` `kt` ON `kt`.`id_kategori` = `pa`.`id_kategori`
-			where pa.id_bagian = ?
-			order by 1,3";
-		return $this->db->query($query,[$this->session->userdata('id_bagian')]);
+			where pa.id_bagian = ? and tanggal >= ? and tanggal <= ?
+			order by 1,4";
+		return $this->db->query($query,[$this->session->userdata('id_bagian'),$date_arr[0],$date_arr[1]]);
+	}
+
+	function get_data_group_by_kat($tanggal = "")
+	{
+		$date_arr = $this->pecah_daterange($tanggal);
+		$query = "select kt.nama_kategori,pa.total,pa.no_anggaran,pa.tanggal,pa.tanggal_kebutuhan,pa.catatan,pa.status_realisasi,an.nama_anggaran,an.kode_anggaran,uk.nama_unit_kerja, CONCAT('[', json_detail, ']') json_detail,(select count(id_anggaran) from permintaan_anggaran where id_unit_kerja = pa.id_unit_kerja) as jm
+			from permintaan_anggaran pa
+			join (SELECT id_permintaan as idjson, GROUP_CONCAT('{', my_json, '}' SEPARATOR ',') AS json_detail FROM
+					(
+					  SELECT 
+					    id_permintaan, CONCAT
+					    (
+					      '\"uraian\":'   , '\"', uraian   , '\"', ',' 
+					      '\"nominal\":', nominal,','
+					      '\"keterangan\":', '\"', keterangan, '\"'
+					    ) AS my_json
+					  FROM detail_permintaan_anggaran
+					) AS json_dpa
+					group by 1) as dpj on pa.id_permintaan = dpj.idjson
+			join unit_kerja uk on pa.id_unit_kerja = uk.id_unit_kerja
+			JOIN `anggaran` `an` ON `pa`.`id_anggaran` = `an`.`id_anggaran`
+			JOIN `kategori` `kt` ON `kt`.`id_kategori` = `pa`.`id_kategori`
+			where pa.id_bagian = ? and tanggal >= ? and tanggal <= ?
+			order by 1,4";
+		return $this->db->query($query,[$this->session->userdata('id_bagian'),$date_arr[0],$date_arr[1]]);
 	}
 
 	// function get_unit_kerja_from_permintaan($)

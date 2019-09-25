@@ -465,11 +465,11 @@ class Permintaan_anggaran extends CI_Controller {
 		$list = $this->model->get_data_group_by_uk($tanggal);
 
 		$html = '';
+		$grandtotal = 0;
 		if ($list->num_rows()>0) {
 			$group = '';
 			$no_urut = 0;
 			$subtotal_group = 0;
-			$grandtotal = 0;
 			foreach ($list->result_array() as $index => $value) {
 				if ($group != $value['nama_unit_kerja']) {
 					if ($group != '') {
@@ -526,14 +526,14 @@ class Permintaan_anggaran extends CI_Controller {
 	{
 		$tanggal = $this->input->get('tanggal');
 
-		$list = $this->model->get_data_group_by_uk($tanggal);
+		$list = $this->model->get_data_group_by_kat($tanggal);
 
 		$html = '';
+		$grandtotal = 0;
 		if ($list->num_rows()>0) {
 			$group = '';
 			$no_urut = 0;
 			$subtotal_group = 0;
-			$grandtotal = 0;
 			foreach ($list->result_array() as $index => $value) {
 				if ($group != $value['nama_kategori']) {
 					if ($group != '') {
@@ -585,7 +585,7 @@ class Permintaan_anggaran extends CI_Controller {
 			}
 		}
 
-		echo json_encode(['tobyd'=> $html,'totalfooter' => format_ribuan_indo($grandtotal)]);
+		echo json_encode(['tbody'=> $html,'totalfooter' => format_ribuan_indo($grandtotal,0)]);
 	}
 
 	// var label = '';
