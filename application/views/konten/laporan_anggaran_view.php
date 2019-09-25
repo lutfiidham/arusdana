@@ -183,7 +183,7 @@
                                         <th>No Arus Dana</th>
                                         <th>Tanggal</th>
                                         <th>No Anggaran</th>
-                                        <th>Kategori</th>
+                                        <th>Unit Kerja</th>
                                         <th>Anggaran</th>
                                         <th>Kegiatan</th>
                                         <th>Periode Pelaksanaan</th>

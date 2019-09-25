@@ -346,47 +346,51 @@ class Arusdana extends CI_Controller
 
 	function export_pdf_by_unit_kerja()
 	{
-		$tanggal = $this->input->post('tanggal');
+		set_time_limit(0);
 		$this->load->library('Pdfgenerator');
 		$this->load->helper('my_helper');
+		$tanggal = $this->input->post('tanggal');
 
 		$list = $this->adm->get_data_group_by_uk($tanggal);
-		// log_message('error',$this->db->last_query());
+
 		$html = '';
 		$grandtotal = 0;
+		$total_penerimaan = 0;
+		$total_pengeluaran = 0;
 
 		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN ARUS DANA BERDASAR UNIT KERJA</span><p>';
 		$html .= '<p>PERIODE: '.$tanggal.'</p>';
-
 		if ($list->num_rows()>0) {
-			$html .= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">
-                        <thead>
-                            <tr>
-                                <th class="data-center" style="width:5%">No.</th>
-                                <th class="data-center" style="width:10%">No Arus Dana</th>
-                                <th class="data-center" style="width:10%">Tanggal</th>
-                                <th class="data-center" style="width:10%">No Anggaran</th>
-                                <th class="data-center" style="width:10%">Unit Kerja</th>
-                                <th class="data-center" style="width:10%">Kategori</th>
-                                <th class="data-center" style="width:10%">Anggaran</th>
-                                <th class="data-center" style="width:10%">Pelaksanaan</th>
-                                <th class="data-center" style="width:10%">Kegiatan</th>
-                                <th class="data-center" style="width:10%">Catatan</th>
-                                <th class="data-center" style="width:10%">Uraian</th>
-                                <th class="data-center" style="width:10%">Penerimaan</th>
-                                <th class="data-center" style="width:10%">Pengeluaran</th>
-                                <th class="data-center" style="width:10%">Keterangan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-			';
 			$group = '';
 			$no_urut = 0;
 			$subtotal_group = 0;
 			$subtotal_group2 = 0;
+
+			$html .= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="data-center" style="width:5%">No.</th>
+                                <th class="data-center" style="width:15%">No Arus Dana</th>
+                                <th class="data-center" style="width:10%">Tanggal</th>
+                                <th class="data-center" style="width:15%">No Anggaran</th>
+                                <th class="data-center" style="width:15%">Kategori</th>
+                                <th class="data-center" style="width:15%">Anggaran</th>
+                                <th class="data-center" style="width:15%">Kegiatan</th>
+                                <th class="data-center" style="width:15%">Periode Pelaksanaan</th>
+                                <th class="data-center" style="width:15%">Catatan</th>
+                                <th class="data-center" style="width:15%">BBM</th>
+                                <th class="data-center" style="width:15%">Uraian</th>
+                                <th class="data-center" style="width:15%">Penerimaan</th>
+                                <th class="data-center" style="width:15%">Pengeluaran</th>
+                                <th class="data-center" style="width:15%">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+			';
 			foreach ($list->result_array() as $index => $value) {
 				if ($group != $value['nama_unit_kerja']) {
 					if ($group != '') {
+
 						$html .= '<tr>
 						<td colspan="10"></td>
 						<td><b>Total</b></td>
@@ -394,39 +398,49 @@ class Arusdana extends CI_Controller
 						<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group2,0).'</b></td>
 						<td></td>
 						</tr>';
+
 						$subtotal_group = 0;
 						$subtotal_group2 = 0;
 					}
 					$group = $value['nama_unit_kerja'];
-					$html .= '<tr><td colspan="12"><b>'.$group.'</b></td></tr>';
+					$html .= '<tr><td colspan="14"><b>'.$group.'</b></td></tr>';
 				}
 
 				$detil = json_decode($value['json_detail']);
 				$rowspan_angg = sizeof($detil);
 				$row_detil = '';
-				foreach ($detil as $index2 => $value2) {
-					$html.= '<tr>';
-					if ($index2 == 0) {
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.($index+1).'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_arus_dana'].'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal']).'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'"></td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_kategori'].'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['kode_anggaran'].'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_anggaran'].'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['periode_pelaksanaan']).'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['catatan'].'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['bbm'].'</td>';
+				if ($detil) {
+					
+					foreach ($detil as $index2 => $value2) {
+						$html.= '<tr>';
+						if ($index2 == 0) {
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.($index+1).'</td>';
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_arus_dana'].'</td>';
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal']).'</td>';
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_anggaran'].'</td>';
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_kategori'].'</td>';
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['kode_anggaran'].'</td>';
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_anggaran'].'</td>';
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['periode_pelaksanaan']).'</td>';
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['catatan'].'</td>';
+							$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['bbm'].'</td>';
+						}
+						$html .= '<td>'.$value2->uraian.'</td>';
+						$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->penerimaan,0).'</td>';
+						$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->pengeluaran,0).'</td>';
+						$html .= '<td>'.$value2->keterangan.'</td>';
+						$subtotal_group += $value2->penerimaan;
+						$subtotal_group2 += $value2->pengeluaran;
+						
+						$total_penerimaan += $value2->penerimaan;
+						$total_pengeluaran += $value2->pengeluaran;
+
+						$html .= '</tr>';
 					}
-					$html .= '<td>'.$value2->uraian.'</td>';
-					$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->penerimaan,0).'</td>';
-					$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->pengeluaran,0).'</td>';
-					$html .= '<td>'.$value2->keterangan.'</td>';
-					$subtotal_group += $value2->penerimaan;
-					$subtotal_group2 += $value2->pengeluaran;
-					$html .= '</tr>';	
 				}
-				$grandtotal += $value['total'];
+
+				
+				// $grandtotal += $value['total'];
 			}
 
 			if ($group !='') {
@@ -438,26 +452,32 @@ class Arusdana extends CI_Controller
 				<td></td>
 				</tr>';
 			}
-
 		}
+		$grandtotal += $total_penerimaan - $total_pengeluaran;
+
 		$html .= '
-		</tbody>
+				</tbody>
 				<tfoot>
 				<tr>
-					<th class="data-center" colspan="10"><b>Total Keseluruhan:</b></th>
-					<th class="data-right">'.format_ribuan_indo($grandtotal,0).'</th>
+					<th class="data-center" colspan="11">Total Keseluruhan:</th>
+					<th class="data-right">'.format_ribuan_indo($total_penerimaan,0).'</th>
+					<th class="data-right">'.format_ribuan_indo($total_pengeluaran,0).'</th>
+					<th></th>
+				</tr>
+				<tr>
+					<th class="data-center" colspan="11">Hasil (Pemasukan - Pengeluaran):</th>
+					<th class="data-right" colspan="2">'.format_ribuan_indo($grandtotal,0).'</th>
 					<th></th>
 				</tr>
 				</tfoot>
 		</table>';
 
+
 		$data['html'] = $html;
 		$data['no_header'] = true;
 		$data['no_footer'] = true;
-		// echo $html;
-		// die();
         $this->pdfgenerator->setPaper('A4', 'landscape');
-        $this->pdfgenerator->filename = "Permintaan Anggaran Berdasar Unit Kerja ($tanggal).pdf";
+        $this->pdfgenerator->filename = "Permintaan Anggaran.pdf";
         $this->pdfgenerator->load_view('format_laporan', $data);
 	}
 
