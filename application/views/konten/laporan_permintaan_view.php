@@ -79,7 +79,7 @@ table.dataTable tbody td.dt-right {
                             <table id="tabel" class="table table-inverse table-hover" width="175%">
                                 <thead>
                                     <tr>
-                                        <th>No.</th>
+                                        <!-- <th>No.</th> -->
                                         <th>No Anggaran</th>
                                         <th>Tanggal</th>
                                         <th>Unit Kerja</th>
@@ -98,7 +98,7 @@ table.dataTable tbody td.dt-right {
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th style="font-weight: bold;text-align: right !important;" colspan="11">Total:</th>
+                                        <th style="font-weight: bold;text-align: right !important;" colspan="10">Total:</th>
                                         <th style="font-weight: bold;text-align: right !important;"></th>
                                         <th></th>
                                     </tr>
@@ -207,9 +207,6 @@ table.dataTable tbody td.dt-right {
 <script type="text/javascript">
     var mys;
     var form_validator;
-    var settings_tabel;
-    var tabel2 = $("#tabel2");
-
     $(document).ready(function() {
         mys = Object.create(myscript_js);
         mys.init('<?= base_url() ?>');
@@ -260,10 +257,10 @@ table.dataTable tbody td.dt-right {
             "language": {
                 "url": mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
             },
-            "rowsGroup":[0,1,2,3,4,5,6,7,8,9],
+            "rowsGroup":[0,1,2,3,4,5,6,7,8],
             "columnDefs": [
             {"visible" : false, "targets" : []},
-            {"className": "dt-right", "targets": [11]},
+            {"className": "dt-right", "targets": [10]},
             {
                 "render": function ( data, type, row ) {
                    if (type=='sort') {
@@ -272,7 +269,7 @@ table.dataTable tbody td.dt-right {
                         return mys.toDate(data);
                     }
                 },
-                "targets": [2,7]
+                "targets": [1,6]
             },
             {
                 "render": function ( data, type, row ) {
@@ -282,11 +279,11 @@ table.dataTable tbody td.dt-right {
                         return mys.formatMoney(data,0,',','.');
                     }
                 },
-                "targets": [11]
+                "targets": [10]
             },
             ],
             "aoColumns": [
-            {"sWidth": "2%"},
+            // {"sWidth": "2%"},
             {"sWidth": "15%"},
             {"sWidth": "10%"},
             {"sWidth": "15%"},
@@ -317,14 +314,14 @@ table.dataTable tbody td.dt-right {
                 };
 
                 total = api
-                .column( 11 )
+                .column( 10 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
 
 
-                $( api.column( 11 ).footer() ).html(mys.formatMoney(total,0,',','.'));
+                $( api.column( 10 ).footer() ).html(mys.formatMoney(total,0,',','.'));
             }
 
         });

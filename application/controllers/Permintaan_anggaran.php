@@ -60,7 +60,7 @@ class Permintaan_anggaran extends CI_Controller {
 
 		if ($list->num_rows() > 0) {
 			foreach ($list->result_array() as $key => $value) {
-				$data['data'][$key][] = ($key + 1) . '.';
+				// $data['data'][$key][] = ($key + 1) . '.';
 				$data['data'][$key][] = $value['no_anggaran'];
 				$data['data'][$key][] = $value['tanggal'];
 				$data['data'][$key][] = $value['nama_unit_kerja'];

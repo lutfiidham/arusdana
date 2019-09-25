@@ -46,7 +46,7 @@ class Permintaan_anggaran_model extends CI_Model {
 			$this->db->where('tanggal >=', $date_arr[0]);
 			$this->db->where('tanggal <=', $date_arr[1]);
 		}
-		$this->db->order_by('id_permintaan', 'asc');
+		$this->db->order_by('pa.no_anggaran', 'asc');
 		return $this->db->get();
 	}
 
