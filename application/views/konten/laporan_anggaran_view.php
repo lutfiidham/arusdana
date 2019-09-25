@@ -267,6 +267,14 @@
             $(jendela.document.body).html('<form id="form_redirect" action="'+mys.base_url+'arusdana/export_pdf_by_unit_kerja" method="POST">'+form+'</form>');
             $(jendela.document).find('#form_redirect').submit();
         });
+
+        $('#exportPDF3').on('click', function(event) {
+            var tanggal = $('#fl_tanggal').val();
+            var jendela = window.open( "", "Print", 'width=800,height=700,status=yes,toolbar=no,menubar=no, titlebar=yes,re sizable=yes,location=no,scrollbars=yes' );
+            var form = "<input type='hidden' name='tanggal' value='"+tanggal+"'>";
+            $(jendela.document.body).html('<form id="form_redirect" action="'+mys.base_url+'arusdana/export_pdf3" method="POST">'+form+'</form>');
+            $(jendela.document).find('#form_redirect').submit();
+        });
     });
 
     function load_tabel1() {

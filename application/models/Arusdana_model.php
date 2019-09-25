@@ -291,7 +291,7 @@ class Arusdana_model extends CI_Model {
 	function get_data_group_by_uk($tanggal = "")
 	{
 		$date_arr = $this->pecah_daterange($tanggal);
-		$query = "SELECT ifnull(nama_unit_kerja, '".$this->session->userdata('nama_bagian')."') as nama_unit_kerja, id_arus_dana, ad.tanggal, no_arus_dana, ifnull(nama_kategori, '-') nama_kategori, ifnull(no_anggaran,'-') no_anggaran, ifnull(kode_anggaran, '-') as kode_anggaran, ifnull(nama_anggaran, '-') as nama_anggaran, periode_pelaksanaan, ifnull(ad.id_anggaran, '10') as id_anggaran, ad.catatan, bbm, ad.total, CONCAT('[', json_detail, ']') json_detail,
+		$query = "SELECT ifnull(nama_unit_kerja, '".$this->session->userdata('nama_bagian')."') as nama_unit_kerja, id_arus_dana, ad.tanggal, no_arus_dana, ifnull(nama_kategori, 'Tanpa Kategori') nama_kategori, ifnull(no_anggaran,'-') no_anggaran, ifnull(kode_anggaran, '-') as kode_anggaran, ifnull(nama_anggaran, '-') as nama_anggaran, periode_pelaksanaan, ifnull(ad.id_anggaran, '10') as id_anggaran, ad.catatan, bbm, ad.total, CONCAT('[', json_detail, ']') json_detail,
 			(SELECT COUNT(id_arus_dana) FROM arus_dana WHERE id_unit_kerja = ad.id_unit_kerja) AS jm
 			FROM arus_dana ad
 			JOIN (SELECT id_arus_dana AS idjson, GROUP_CONCAT('{', my_json, '}' SEPARATOR ',') AS json_detail FROM
