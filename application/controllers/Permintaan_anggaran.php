@@ -448,7 +448,7 @@ class Permintaan_anggaran extends CI_Controller {
 					<th></th>
 				</tr>
 				</tfoot>
-		</tbody></table>';
+		</table>';
 
 		$data['html'] = $html;
 		$data['no_header'] = true;
@@ -475,8 +475,9 @@ class Permintaan_anggaran extends CI_Controller {
 					if ($group != '') {
 
 						$html .= '<tr>
-						<td colspan="10">Total</td>
-						<td style="text-align: right;">'.format_ribuan_indo($subtotal_group,0).'</td>
+						<td colspan="9"></td>
+						<td><b>Total</b></td>
+						<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
 						<td></td>
 						</tr>';
 						$subtotal_group = 0;
@@ -512,14 +513,120 @@ class Permintaan_anggaran extends CI_Controller {
 
 			if ($group !='') {
 				$html .= '<tr>
-				<td colspan="10">Total</td>
-				<td>'.format_ribuan_indo($subtotal_group,0).'</td>
+				<td colspan="9"></td>
+				<td><b>Total</b></td>
+				<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
 				<td></td>
 				</tr>';
 			}
 		}
 
 		echo json_encode(['tbody'=> $html,'totalfooter' => format_ribuan_indo($grandtotal,0)]);
+	}
+
+	function export_pdf_by_unit_kerja()
+	{
+		$tanggal = $this->input->post('tanggal');
+		$this->load->library('Pdfgenerator');
+		$this->load->helper('my_helper');
+
+		$list = $this->model->get_data_group_by_uk($tanggal);
+		// log_message('error',$this->db->last_query());
+		$html = '';
+		$grandtotal = 0;
+
+		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN PERMINTAAN ANGGARAN BERDASAR UNIT KERJA</span><p>';
+		$html .= '<p>PERIODE: '.$tanggal.'</p>';
+
+		if ($list->num_rows()>0) {
+			$html .= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="data-center" style="width:5%">No.</th>
+                                <th class="data-center" style="width:15%">No Anggaran</th>
+                                <th class="data-center" style="width:10%">Tanggal</th>
+                                <th class="data-center" style="width:15%">Kategori</th>
+                                <th class="data-center" style="width:15%">Anggaran</th>
+                                <th class="data-center" style="width:15%">Kegiatan</th>
+                                <th class="data-center" style="width:15%">Tgl Butuh</th>
+                                <th class="data-center" style="width:15%">Catatan</th>
+                                <th class="data-center" style="width:15%">Realisasi</th>
+                                <th class="data-center" style="width:15%">Uraian</th>
+                                <th class="data-center" style="width:15%">Nominal</th>
+                                <th class="data-center" style="width:15%">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+			';
+			$group = '';
+			$no_urut = 0;
+			$subtotal_group = 0;
+			foreach ($list->result_array() as $index => $value) {
+				if ($group != $value['nama_unit_kerja']) {
+					if ($group != '') {
+						$html .= '<tr>
+						<td class="data-center" colspan="10"><b>Total</b></td>
+						<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
+						<td></td>
+						</tr>';
+						$subtotal_group = 0;
+					}
+					$group = $value['nama_unit_kerja'];
+					$html .= '<tr><td colspan="12"><b>'.$group.'</b></td></tr>';
+				}
+
+				$detil = json_decode($value['json_detail']);
+				$rowspan_angg = sizeof($detil);
+				$row_detil = '';
+				foreach ($detil as $index2 => $value2) {
+					$html.= '<tr>';
+					if ($index2 == 0) {
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.($index+1).'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal']).'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_kategori'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['kode_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal_kebutuhan']).'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['catatan'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.($value['status_realisasi']=='D' ? 0:1).'</td>';
+					}
+					$html .= '<td>'.$value2->uraian.'</td>';
+					$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->nominal,0).'</td>';
+					$html .= '<td>'.$value2->keterangan.'</td>';
+					$subtotal_group += $value2->nominal;
+					$html .= '</tr>';	
+				}
+				$grandtotal += $value['total'];
+			}
+
+			if ($group !='') {
+				$html .= '<tr>
+				<td class="data-center" colspan="10"><b>Total</b></td>
+				<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
+				<td></td>
+				</tr>';
+			}
+
+
+		}
+		$html .= '
+		</tbody>
+				<tfoot>
+				<tr>
+					<th class="data-center" colspan="10"><b>Total Keseluruhan:</b></th>
+					<th class="data-right">'.format_ribuan_indo($grandtotal,0).'</th>
+					<th></th>
+				</tr>
+				</tfoot>
+		</table>';
+
+		$data['html'] = $html;
+		$data['no_header'] = true;
+		$data['no_footer'] = true;
+        $this->pdfgenerator->setPaper('A4', 'landscape');
+        $this->pdfgenerator->filename = "Permintaan Anggaran Berdasar Unit Kerja ($tanggal).pdf";
+        $this->pdfgenerator->load_view('format_laporan', $data);
 	}
 
 	function laporan_group_by_kategori()
@@ -539,8 +646,9 @@ class Permintaan_anggaran extends CI_Controller {
 					if ($group != '') {
 
 						$html .= '<tr>
-						<td colspan="10">Total</td>
-						<td style="text-align: right;">'.format_ribuan_indo($subtotal_group,0).'</td>
+						<td colspan="9"></td>
+						<td><b>Total</b></td>
+						<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
 						<td></td>
 						</tr>';
 						$subtotal_group = 0;
@@ -578,14 +686,121 @@ class Permintaan_anggaran extends CI_Controller {
 
 			if ($group !='') {
 				$html .= '<tr>
-				<td colspan="10">Total</td>
-				<td>'.format_ribuan_indo($subtotal_group,0).'</td>
-				<td></td>
-				</tr>';
+					<td colspan="9"></td>
+					<td><b>Total</b></td>
+					<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
+					<td></td>
+					</tr>';
 			}
 		}
 
 		echo json_encode(['tbody'=> $html,'totalfooter' => format_ribuan_indo($grandtotal,0)]);
+	}
+
+	function export_pdf_by_kategori()
+	{
+		$tanggal = $this->input->post('tanggal');
+		$this->load->library('Pdfgenerator');
+		$this->load->helper('my_helper');
+
+		$list = $this->model->get_data_group_by_kat($tanggal);
+		// log_message('error',$this->db->last_query());
+		$html = '';
+		$grandtotal = 0;
+
+		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN PERMINTAAN ANGGARAN BERDASAR UNIT KERJA</span><p>';
+		$html .= '<p>PERIODE: '.$tanggal.'</p>';
+
+		if ($list->num_rows()>0) {
+			$html .= '<table style="border-collapse: collapse; table-layout:fixed;" border="1px solid" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="data-center" style="width:5%">No.</th>
+                                <th class="data-center" style="width:15%">No Anggaran</th>
+                                <th class="data-center" style="width:10%">Tanggal</th>
+                                <th class="data-center" style="width:15%">Unit Kerja</th>
+                                <th class="data-center" style="width:15%">Anggaran</th>
+                                <th class="data-center" style="width:15%">Kegiatan</th>
+                                <th class="data-center" style="width:15%">Tgl Butuh</th>
+                                <th class="data-center" style="width:15%">Catatan</th>
+                                <th class="data-center" style="width:15%">Realisasi</th>
+                                <th class="data-center" style="width:15%">Uraian</th>
+                                <th class="data-center" style="width:15%">Nominal</th>
+                                <th class="data-center" style="width:15%">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+			';
+			$group = '';
+			$no_urut = 0;
+			$subtotal_group = 0;
+			foreach ($list->result_array() as $index => $value) {
+				if ($group != $value['nama_kategori']) {
+					if ($group != '') {
+						$html .= '<tr>
+						<td class="data-center" colspan="10"><b>Total</b></td>
+						<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
+						<td></td>
+						</tr>';
+						$subtotal_group = 0;
+					}
+					$group = $value['nama_kategori'];
+					$html .= '<tr><td colspan="12"><b>'.$group.'</b></td></tr>';
+				}
+
+				$detil = json_decode($value['json_detail']);
+				$rowspan_angg = sizeof($detil);
+				$row_detil = '';
+				foreach ($detil as $index2 => $value2) {
+					$html.= '<tr>';
+					if ($index2 == 0) {
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.($index+1).'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal']).'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_unit_kerja'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['kode_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal_kebutuhan']).'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['catatan'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.($value['status_realisasi']=='D' ? 0:1).'</td>';
+					}
+					$html .= '<td>'.$value2->uraian.'</td>';
+					$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->nominal,0).'</td>';
+					$html .= '<td>'.$value2->keterangan.'</td>';
+					$subtotal_group += $value2->nominal;
+					$html .= '</tr>';	
+				}
+				$grandtotal += $value['total'];
+			}
+
+			if ($group !='') {
+				$html .= '<tr>
+				<td class="data-center" colspan="10"><b>Total</b></td>
+				<td style="text-align: right;"><b>'.format_ribuan_indo($subtotal_group,0).'</b></td>
+				<td></td>
+				</tr>';
+			}
+
+
+		}
+		$html .= '
+		</tbody>
+				<tfoot>
+				<tr>
+					<th class="data-center" colspan="10"><b>Total Keseluruhan:</b></th>
+					<th class="data-right">'.format_ribuan_indo($grandtotal,0).'</th>
+					<th></th>
+				</tr>
+				</tfoot>
+		</table>';
+
+		$data['html'] = $html;
+		// echo $html; die;
+		$data['no_header'] = true;
+		$data['no_footer'] = true;
+        $this->pdfgenerator->setPaper('A4', 'landscape');
+        $this->pdfgenerator->filename = "Permintaan Anggaran Berdasar Kategori ($tanggal).pdf";
+        $this->pdfgenerator->load_view('format_laporan', $data);
 	}
 
 	// var label = '';
