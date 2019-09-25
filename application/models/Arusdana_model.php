@@ -225,6 +225,109 @@ class Arusdana_model extends CI_Model {
 		return $update;
 	}
 
+	function get_data_laporan($tanggal = "")
+	{
+		$this->db->select('pa.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori,dpa.uraian,dpa.nominal,dpa.keterangan');
+		$this->db->from('detail_permintaan_anggaran dpa');
+		$this->db->join('permintaan_anggaran pa', 'dpa.id_permintaan = pa.id_permintaan');
+		$this->db->join('unit_kerja uk', 'pa.id_unit_kerja = uk.id_unit_kerja');
+		$this->db->join('anggaran an', 'pa.id_anggaran = an.id_anggaran');
+		$this->db->join('kategori kt', 'kt.id_kategori = pa.id_kategori');
+		$this->db->where('pa.id_bagian', $this->session->userdata('id_bagian'));
+		if ($tanggal!="") {
+			$date_arr = $this->pecah_daterange($tanggal);
+			$this->db->where('tanggal >=', $date_arr[0]);
+			$this->db->where('tanggal <=', $date_arr[1]);
+		}
+		$this->db->order_by('id_permintaan', 'asc');
+		return $this->db->get();
+	}
+
+	function get_list_arus_dana($tanggal="")
+	{
+		$this->db->select('ad.*,uk.nama_unit_kerja,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori');
+		$this->db->from('arus_dana ad');
+		$this->db->join('unit_kerja uk', 'ad.id_unit_kerja = uk.id_unit_kerja', 'left');
+		$this->db->join('anggaran an', 'ad.id_anggaran = an.id_anggaran', 'left');
+		$this->db->join('kategori kt', 'kt.id_kategori = ad.id_kategori', 'left');
+		$this->db->where('ad.id_bagian', $this->session->userdata('id_bagian'));
+		if ($tanggal!="") {
+			$date_arr = $this->pecah_daterange($tanggal);
+			$this->db->where('tanggal >=', $date_arr[0]);
+			$this->db->where('tanggal <=', $date_arr[1]);
+		}
+		$this->db->order_by('id_arus_dana', 'asc');
+		return $this->db->get();
+	}
+
+	function get_data_tbl1($tanggal = "")
+	{
+		$date_arr = $this->pecah_daterange($tanggal);
+		$query = "SELECT ifnull(nama_unit_kerja, '".$this->session->userdata('nama_bagian')."') as nama_unit_kerja, id_arus_dana, ad.tanggal, no_arus_dana, ifnull(no_anggaran,'-') no_anggaran, ifnull(nama_kategori, '-') nama_kategori, ifnull(kode_anggaran, '-') as kode_anggaran, ifnull(nama_anggaran, '-') as nama_anggaran, periode_pelaksanaan, ifnull(ad.id_anggaran, '10') as id_anggaran, ad.catatan, bbm, ad.total, CONCAT('[', json_detail, ']') json_detail,
+			(SELECT COUNT(id_arus_dana) FROM arus_dana WHERE id_unit_kerja = ad.id_unit_kerja) AS jm
+			FROM arus_dana ad
+			JOIN (SELECT id_arus_dana AS idjson, GROUP_CONCAT('{', my_json, '}' SEPARATOR ',') AS json_detail FROM
+			(
+			 SELECT
+			   id_arus_dana, CONCAT
+			   (
+			     '\"penerimaan\":', penerimaan,','
+			     '\"pengeluaran\":', pengeluaran,','
+			     '\"uraian\":'   , '\"', uraian   , '\"', ','
+			     '\"keterangan\":', '\"', keterangan, '\"'
+			   ) AS my_json
+			 FROM detail_arus_dana
+			) AS json_dpa
+			GROUP BY 1) AS dpj ON ad.id_arus_dana = dpj.idjson
+			left JOIN unit_kerja uk ON ad.id_unit_kerja = uk.id_unit_kerja
+			left JOIN `anggaran` `an` ON `ad`.`id_anggaran` = `an`.`id_anggaran`
+			left JOIN `kategori` `kt` ON `kt`.`id_kategori` = `ad`.`id_kategori`
+			left JOIN `permintaan_anggaran` `pa` ON `ad`.`id_permintaan` = `pa`.`id_permintaan`
+			where ad.id_bagian = ? and ad.tanggal >= ? and ad.tanggal <= ?
+			;";
+		return $this->db->query($query,[$this->session->userdata('id_bagian'),$date_arr[0],$date_arr[1]]);
+	}
+
+	function get_data_group_by_uk($tanggal = "")
+	{
+		$date_arr = $this->pecah_daterange($tanggal);
+		$query = "SELECT ifnull(nama_unit_kerja, '".$this->session->userdata('nama_bagian')."') as nama_unit_kerja, id_arus_dana, ad.tanggal, no_arus_dana, ifnull(nama_kategori, '-') nama_kategori, ifnull(no_anggaran,'-') no_anggaran, ifnull(kode_anggaran, '-') as kode_anggaran, ifnull(nama_anggaran, '-') as nama_anggaran, periode_pelaksanaan, ifnull(ad.id_anggaran, '10') as id_anggaran, ad.catatan, bbm, ad.total, CONCAT('[', json_detail, ']') json_detail,
+			(SELECT COUNT(id_arus_dana) FROM arus_dana WHERE id_unit_kerja = ad.id_unit_kerja) AS jm
+			FROM arus_dana ad
+			JOIN (SELECT id_arus_dana AS idjson, GROUP_CONCAT('{', my_json, '}' SEPARATOR ',') AS json_detail FROM
+			(
+			 SELECT
+			   id_arus_dana, CONCAT
+			   (
+			     '\"penerimaan\":', penerimaan,','
+			     '\"pengeluaran\":', pengeluaran,','
+			     '\"uraian\":'   , '\"', uraian   , '\"', ','
+			     '\"keterangan\":', '\"', keterangan, '\"'
+			   ) AS my_json
+			 FROM detail_arus_dana
+			) AS json_dpa
+			GROUP BY 1) AS dpj ON ad.id_arus_dana = dpj.idjson
+			left JOIN unit_kerja uk ON ad.id_unit_kerja = uk.id_unit_kerja
+			left JOIN `anggaran` `an` ON `ad`.`id_anggaran` = `an`.`id_anggaran`
+			left JOIN `kategori` `kt` ON `kt`.`id_kategori` = `ad`.`id_kategori`
+			left JOIN `permintaan_anggaran` `pa` ON `ad`.`id_permintaan` = `pa`.`id_permintaan`
+			where ad.id_bagian = ? and ad.tanggal >= ? and ad.tanggal <= ?
+			ORDER BY 1, 3;";
+		return $this->db->query($query,[$this->session->userdata('id_bagian'),$date_arr[0],$date_arr[1]]);
+	}
+
+	function pecah_daterange($date)
+	{	
+		if ($date=="") {
+			return null;
+		}
+		$this->load->helper('my_helper');
+		$date_arr = explode(" s.d. ", $date);
+		$date_arr[0] = to_date_format_mysql($date_arr[0]);		
+		$date_arr[1] = to_date_format_mysql($date_arr[1]);
+		return $date_arr;		
+	}
+
 
 }
 
