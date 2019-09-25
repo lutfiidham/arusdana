@@ -77,7 +77,7 @@ class Permintaan_anggaran_model extends CI_Model {
 	function get_data_group_by_uk($tanggal = "")
 	{
 		$date_arr = $this->pecah_daterange($tanggal);
-		$query = "select uk.nama_unit_kerja,pa.no_anggaran,pa.tanggal,pa.tanggal_kebutuhan,pa.catatan,pa.status_realisasi,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori, CONCAT('[', json_detail, ']') json_detail,(select count(id_anggaran) from permintaan_anggaran where id_unit_kerja = pa.id_unit_kerja) as jm
+		$query = "select uk.nama_unit_kerja,pa.total,pa.no_anggaran,pa.tanggal,pa.tanggal_kebutuhan,pa.catatan,pa.status_realisasi,an.nama_anggaran,an.kode_anggaran,kt.nama_kategori, CONCAT('[', json_detail, ']') json_detail,(select count(id_anggaran) from permintaan_anggaran where id_unit_kerja = pa.id_unit_kerja) as jm
 			from permintaan_anggaran pa
 			join (SELECT id_permintaan as idjson, GROUP_CONCAT('{', my_json, '}' SEPARATOR ',') AS json_detail FROM
 					(

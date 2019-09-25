@@ -113,19 +113,19 @@ table.dataTable tbody td.dt-right {
                             <div class="col-lg-2">
                                 <button type="button" title="Export to PDF" class="btn btn-danger btn-block" id="exportPDF2">Export PDF</button>
                             </div>
-                            <div class="col-lg-1" style="text-align:right; padding-top:7px">
+<!--                             <div class="col-lg-1" style="text-align:right; padding-top:7px">
                                 Cari :
                             </div>
                             <div class="col-lg-9">
                                 <input type="text" id="input_pencarian2" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
-                            </div>
+                            </div> -->
                         </div>
                         <div style="padding: 1%">
                             <table id="tabel2" class="table table-inverse table-hover" width="175%">
                                 <thead>
                                     <tr>
-                                        <!-- <th>No.</th> -->
-                                        <th>Unit Kerja</th>
+                                        <th>No.</th>
+                                        <!-- <th>Unit Kerja</th> -->
                                         <th>No Anggaran</th>
                                         <th>Tanggal</th>
                                         <th>Kategori</th>
@@ -135,7 +135,7 @@ table.dataTable tbody td.dt-right {
                                         <th>Catatan</th>
                                         <th>Realisasi</th>
                                         <th>Uraian</th>
-                                        <th>Nominal</th>
+                                        <th style="text-align: right;">Nominal</th>
                                         <th>Keterangan</th>
                                     </tr>
                                 </thead>
@@ -143,8 +143,8 @@ table.dataTable tbody td.dt-right {
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th style="font-weight: bold;text-align: right !important;" colspan="11">Total:</th>
-                                        <th style="font-weight: bold;text-align: right !important;"></th>
+                                        <th style="font-weight: bold;text-align: right !important;" colspan="10" >Total:</th>
+                                        <th style="font-weight: bold;text-align: right !important;" id="totaltabel2"></th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
@@ -154,6 +154,47 @@ table.dataTable tbody td.dt-right {
                 </div>
                 <div class="tab-pane fade" id="previous-month" role="tabpanel" aria-labelledby="pills-setting-tab">
                     <div class="card-body">
+                        <div class="row clearfix">
+                            <div class="col-lg-2">
+                                <button type="button" title="Export to PDF" class="btn btn-danger btn-block" id="exportPDF2">Export PDF</button>
+                            </div>
+<!--                             <div class="col-lg-1" style="text-align:right; padding-top:7px">
+                                Cari :
+                            </div>
+                            <div class="col-lg-9">
+                                <input type="text" id="input_pencarian2" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
+                            </div> -->
+                        </div>
+                        <div style="padding: 1%">
+                            <table id="tabel2" class="table table-inverse table-hover" width="175%">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <!-- <th>Unit Kerja</th> -->
+                                        <th>No Anggaran</th>
+                                        <th>Tanggal</th>
+                                        <th>Unit Kerja</th>
+                                        <th>Anggaran</th>
+                                        <th>Kegiatan</th>
+                                        <th>Tgl Butuh</th>
+                                        <th>Catatan</th>
+                                        <th>Realisasi</th>
+                                        <th>Uraian</th>
+                                        <th style="text-align: right;">Nominal</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th style="font-weight: bold;text-align: right !important;" colspan="10">Total:</th>
+                                        <th style="font-weight: bold;text-align: right !important;"></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -164,10 +205,44 @@ table.dataTable tbody td.dt-right {
 <script type="text/javascript">
     var mys;
     var form_validator;
+    var settings_tabel;
+    var tabel2 = $("#tabel2");
 
     $(document).ready(function() {
         mys = Object.create(myscript_js);
         mys.init('<?= base_url() ?>');
+        // settings_tabel = {
+        //     "scrollCollapse": true,
+        //     "sDom": "t<'row'<'col-md-4'i><'col-md-8'p>>",
+        //     "processing": true,
+        //     "iDisplayLength": 10,
+        //     "paging": false,
+        //     "scrollX":true,
+        //     "language": {
+        //         "url": mys.base_url+"assets/plugins/datatables.net/lang/Indonesian.json"
+        //     },
+        //     "footerCallback": function(row, data, start, end, display){
+        //         var api = this.api(), data;
+
+        //         var intVal = function ( i ) {
+        //             return typeof i === 'string' ?
+        //                 i.replace(/[\$,]/g, '')*1 :
+        //                 typeof i === 'number' ?
+        //                     i : 0;
+        //         };
+
+        //         total = api
+        //         .column( 10 )
+        //         .data()
+        //         .reduce( function (a, b) {
+        //             return intVal(a) + intVal(b);
+        //         }, 0 );
+
+
+        //         $( api.column( 10 ).footer() ).html(mys.formatMoney(total,0,',','.'));
+        //     }
+        // };
+        // tabel2.DataTable(settings_tabel);
 
         $('#tabel').dataTable({
             "scrollCollapse": true,
@@ -260,6 +335,10 @@ table.dataTable tbody td.dt-right {
             tabel.dataTable().fnFilter($(this).val());
         });
 
+        $('#input_pencarian2').on('keyup', function(event) {
+            tabel2.dataTable().fnFilter($(this).val());
+        });
+
         $('#fl_tanggal').on('change', function(event) {
             mys.blok();
             $('#tabel').DataTable().ajax.url(mys.base_url + 'permintaan_anggaran/get_data_laporan?tanggal=' + $(this).val()).load();
@@ -282,14 +361,16 @@ table.dataTable tbody td.dt-right {
         $.ajax({
             url: mys.base_url+'permintaan_anggaran/laporan_group_by_unit_kerja',
             type: 'GET',
-            dataType: 'text',
+            dataType: 'JSON',
             data: {
                 tanggal: $('#fl_tanggal').val()
             },
             success: function(data){
+                // tabel2.DataTable().destroy();
                 $('#tabel2 tbody').empty();
-                $('#tabel2 tbody').html(data);
-                // $('#kode_unit_kerja').prop('readonly', true);
+                $('#tabel2 tbody').html(data.tbody);
+                $('#totaltabel2').text(data.totalfooter)
+                // tabel2.dataTable(settings_tabel);
             },
             error:function(data){
                 mys.notifikasi("Gagal Mengambil data dari server","error");

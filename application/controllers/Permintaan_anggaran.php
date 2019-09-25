@@ -466,66 +466,126 @@ class Permintaan_anggaran extends CI_Controller {
 
 		$html = '';
 		if ($list->num_rows()>0) {
-			$unit_kerja = '';
+			$group = '';
 			$no_urut = 0;
+			$subtotal_group = 0;
+			$grandtotal = 0;
 			foreach ($list->result_array() as $index => $value) {
-				$html .= '<tr>';	
-				if ($unit_kerja != $value['nama_unit_kerja']) {
-					if ($unit_kerja != '') {
-						// $html .= $no_urut++;
-						// $html .= '<td rowspan="'.$rowspan_uk.'">'.$unit_kerja.'</td>';
-						// $html .= $row_anggaran;
-						// $html .= '</tr>';
-						$html .= '<tr><td colspan="10">Total</td><td>0</td><td></td></tr>';
+				if ($group != $value['nama_unit_kerja']) {
+					if ($group != '') {
+
+						$html .= '<tr>
+						<td colspan="10">Total</td>
+						<td style="text-align: right;">'.format_ribuan_indo($subtotal_group,0).'</td>
+						<td></td>
+						</tr>';
+						$subtotal_group = 0;
 					}
-					$no_urut++;
-					$unit_kerja = $value['nama_unit_kerja'];
-					// $html .= '<td>'.$no_urut.'</td>';
-					$html .= '<td rowspan="'.$value['jm'].'">'.$value['nama_unit_kerja'].'</td>';
+					$group = $value['nama_unit_kerja'];
+					$html .= '<tr><td colspan="12"><b>'.$group.'</b></td></tr>';
 				}
 
 				$detil = json_decode($value['json_detail']);
 				$rowspan_angg = sizeof($detil);
 				$row_detil = '';
 				foreach ($detil as $index2 => $value2) {
+					$html.= '<tr>';
 					if ($index2 == 0) {
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.($index+1).'</td>';
 						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_anggaran'].'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['tanggal'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal']).'</td>';
 						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_kategori'].'</td>';
 						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['kode_anggaran'].'</td>';
 						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_anggaran'].'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['tanggal_kebutuhan'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal_kebutuhan']).'</td>';
 						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['catatan'].'</td>';
-						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['status_realisasi'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.($value['status_realisasi']=='D' ? 0:1).'</td>';
 					}
-					// $html .= '<td>'.$value2->uraian.'</td>';
-					// $html .= '<td>'.$value2->nominal.'</td>';
-					// $html .= '<td>'.$value2->keterangan.'</td>';
+					$html .= '<td>'.$value2->uraian.'</td>';
+					$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->nominal,0).'</td>';
+					$html .= '<td>'.$value2->keterangan.'</td>';
+					$subtotal_group += $value2->nominal;
+					$html .= '</tr>';	
 				}
-				$html .= '<tr>';	
-
-				// $row_anggaran  = '<td rowspan="'.$rowspan_angg.'"></td>';
-				// $row_anggaran  = '<td rowspan="'.$rowspan_angg.'"></td>';
-				// $row_anggaran .= '<td rowspan="'.$rowspan_angg.'"></td>';
-				// $row_anggaran .= '<td rowspan="'.$rowspan_angg.'"></td>';
-				// $row_anggaran .= '<td rowspan="'.$rowspan_angg.'"></td>';
-				// $row_anggaran .= '<td rowspan="'.$rowspan_angg.'"></td>';
-				// $row_anggaran .= $row_detil;
-				// $row_anggaran .= '</tr>';
-				// $html .=  $row_anggaran;
-
+				$grandtotal += $value['total'];
 			}
 
-			if ($unit_kerja !='') {
-				$rowspan_uk = 0;
-				$nominal_uk = 0;
-				$no_urut= 0;
-				$row_anggaran = '';
-				$html .= '</tr>';
+			if ($group !='') {
+				$html .= '<tr>
+				<td colspan="10">Total</td>
+				<td>'.format_ribuan_indo($subtotal_group,0).'</td>
+				<td></td>
+				</tr>';
 			}
 		}
 
-		echo $html;
+		echo json_encode(['tbody'=> $html,'totalfooter' => format_ribuan_indo($grandtotal,0)]);
+	}
+
+	function laporan_group_by_kategori()
+	{
+		$tanggal = $this->input->get('tanggal');
+
+		$list = $this->model->get_data_group_by_uk($tanggal);
+
+		$html = '';
+		if ($list->num_rows()>0) {
+			$group = '';
+			$no_urut = 0;
+			$subtotal_group = 0;
+			$grandtotal = 0;
+			foreach ($list->result_array() as $index => $value) {
+				if ($group != $value['nama_kategori']) {
+					if ($group != '') {
+
+						$html .= '<tr>
+						<td colspan="10">Total</td>
+						<td style="text-align: right;">'.format_ribuan_indo($subtotal_group,0).'</td>
+						<td></td>
+						</tr>';
+						$subtotal_group = 0;
+					}
+					$group = $value['nama_kategori'];
+					$html .= '<tr><td colspan="12"><b>'.$group.'</b></td></tr>';
+				}
+
+				$detil = json_decode($value['json_detail']);
+				$rowspan_angg = sizeof($detil);
+				$row_detil = '';
+				foreach ($detil as $index2 => $value2) {
+					$html.= '<tr>';
+					if ($index2 == 0) {
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.($index+1).'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['no_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal']).'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_unit_kerja'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['kode_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['nama_anggaran'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.to_date_format_mysql($value['tanggal_kebutuhan']).'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.$value['catatan'].'</td>';
+						$html .= '<td rowspan="'.$rowspan_angg.'">'.($value['status_realisasi']=='D' ? 0:1).'</td>';
+					}
+					$html .= '<td>'.$value2->uraian.'</td>';
+					$html .= '<td style="text-align: right;">'.format_ribuan_indo($value2->nominal,0).'</td>';
+					$html .= '<td>'.$value2->keterangan.'</td>';
+					$subtotal_group += $value2->nominal;
+					$html .= '</tr>';	
+				}
+
+				$grandtotal += $value['total'];
+
+			}
+
+			if ($group !='') {
+				$html .= '<tr>
+				<td colspan="10">Total</td>
+				<td>'.format_ribuan_indo($subtotal_group,0).'</td>
+				<td></td>
+				</tr>';
+			}
+		}
+
+		echo json_encode(['tobyd'=> $html,'totalfooter' => format_ribuan_indo($grandtotal)]);
 	}
 
 	// var label = '';
