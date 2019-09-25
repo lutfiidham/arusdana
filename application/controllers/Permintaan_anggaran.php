@@ -708,7 +708,7 @@ class Permintaan_anggaran extends CI_Controller {
 		$html = '';
 		$grandtotal = 0;
 
-		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN PERMINTAAN ANGGARAN BERDASAR UNIT KERJA</span><p>';
+		$html .= '<p style="text-align:center;"><span style="font-weight:bold; font-size:20px;text-decoration:underline">LAPORAN PERMINTAAN ANGGARAN BERDASAR KATEGORI</span><p>';
 		$html .= '<p>PERIODE: '.$tanggal.'</p>';
 
 		if ($list->num_rows()>0) {

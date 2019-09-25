@@ -22,107 +22,98 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="card" id="tabel_card" style="display: block;">
-<!--             <div class="card-header d-block">
-                <h3>Filter Berdasarkan:</h3>
-
-                <div class="row clearfix">
-
-                </div>
-            </div> -->
+        <div class="card">
+        <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active show" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Belum Realisasi</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Sudah Realisasi</a>
+        </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade active show" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
             <div class="card-body">
-            <!-- <div class="row clearfix">
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <div class="form-group">
-                    <label for="cari_realisasi">Cari Menggunakan No. Permintaan/Realisasi</label>
-                        <input type="text" class="form-control" name="cari_realisasi" value="" id="cari_realisasi">
-                        <button id="btnCari" class="btn btn-success">Cari</button>
-                
-                </div>
-                </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <div class="form-group">
-                        <label> </label>
-                    </div>
-                </div>
-            </div> -->
-            <h5>Belum direalisasi</h5>
                 <div class="row clearfix">
                     <div class="col-lg-2">
-                    <?php if ($ha['insert']): ?>
-                        <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button>
-                    <?php endif ?>
+                        <?php if ($ha['insert']): ?>
+                            <button id="btnAdd" class="btn btn-primary btn-block">(+) Data</button>
+                        <?php endif ?>
                     </div>
-                    <!-- <div class="col-lg-1" style="text-align:right;padding-top:7px">
-                        Cari :
+                            <!-- <div class="col-lg-1" style="text-align:right;padding-top:7px">
+                                Cari :
+                            </div>
+                            <div class="col-lg-9">
+                                <input type="text" id="input_pencarian" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
+                            </div> -->
+                        </div>
+                        
+                        <div style="padding: 1%">
+                            <table id="tabel" class="table table-inverse table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>No. Permintaan</th>
+                                        <th>Unit Kerja</th>
+                                        <th>Kategori</th>
+                                        <th>No Anggaran</th>
+                                        <th>Tanggal</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-lg-9">
-                        <input type="text" id="input_pencarian" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
-                    </div> -->
                 </div>
-                
-                <div style="padding: 1%">
-                    <table id="tabel" class="table table-inverse table-hover" width="100%">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>No. Permintaan</th>
-                                <th>Unit Kerja</th>
-                                <th>Kategori</th>
-                                <th>No Anggaran</th>
-                                <th>Tanggal</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-<h5>Sudah direalisasi</h5>
+                <div class="tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="card-body">
+                        <div class="row clearfix">
+                            <div class="col-lg-2">
+                                <label for="id_unit_kerja_fil">Tanggal</label>
+                                <input type="text" class="form-control tgl_range" name="fl_tanggal" value="" id="fl_tanggal">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                <div class="form-group">
+                                    <label for="id_unit_kerja_fil">Unit Kerja</label>
+                                    <select name="id_unit_kerja_fil" id="id_unit_kerja_fil" class="form-control cmb_select2">
+                                        <option ></option>
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row clearfix">
+                            <div class="col-lg-1" style="text-align:right;padding-top:7px">
+                                Cari :
+                            </div>
+                            <div class="col-lg-8">
+                                <input type="text" id="input_pencarian2" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
+                            </div>
+                        </div>
 
-            <div class="row clearfix">
-            <div class="col-lg-2">
-                    <label for="id_unit_kerja_fil">Tanggal</label>
-                <input type="text" class="form-control tgl_range" name="fl_tanggal" value="" id="fl_tanggal">
-            </div>
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <div class="form-group">
-                    <label for="id_unit_kerja_fil">Unit Kerja</label>
-                    <select name="id_unit_kerja_fil" id="id_unit_kerja_fil" class="form-control cmb_select2">
-                        <option ></option>
-                    </select>
-                    <span class="help-block"></span>
-                </div>
-                </div>
-            </div>
-            
-            <div class="row clearfix">
-                    <div class="col-lg-1" style="text-align:right;padding-top:7px">
-                        Cari :
+                        <div style="padding: 1%">
+                            <table id="tabel_rekap" class="table table-inverse table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>No. Permintaan</th>
+                                        <th>Unit Kerja</th>
+                                        <th>Kategori</th>
+                                        <th>No Anggaran</th>
+                                        <th>Tanggal</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-lg-8">
-                        <input type="text" id="input_pencarian2" class="form-control pull-right" placeholder="ketik disini untuk mencari ...">
-                    </div>
-                </div>
-
-                <div style="padding: 1%">
-                    <table id="tabel_rekap" class="table table-inverse table-hover" width="100%">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>No. Permintaan</th>
-                                <th>Unit Kerja</th>
-                                <th>Kategori</th>
-                                <th>No Anggaran</th>
-                                <th>Tanggal</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
