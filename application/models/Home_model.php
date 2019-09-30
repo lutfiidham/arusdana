@@ -7,7 +7,7 @@ class Home_model extends CI_Model {
 	{
 		$query = "
 				select a.id_anggaran, a.nama_anggaran, a.nominal as anggaran, 
-				ifnull((select sum(penerimaan) as total from detail_arus_dana sad join arus_dana sa on sad.id_arus_dana = sa.id_arus_dana where sa.id_anggaran = a.id_anggaran and sa.bbm = 0),0) as pendapatan,
+				ifnull((select sum(penerimaan) as total from detail_arus_dana sad join arus_dana sa on sad.id_arus_dana = sa.id_arus_dana where sa.id_anggaran = a.id_anggaran and sa.bbm = 0 and sa.id_permintaan is null),0) as pendapatan,
 				ifnull((select sum(pengeluaran) as total from detail_arus_dana sad join arus_dana sa on sad.id_arus_dana = sa.id_arus_dana where sa.id_anggaran = a.id_anggaran and sa.bbm = 0),0) as biaya
 				from anggaran a
 				where a.id_bagian = ? and a.tahun = ?";
