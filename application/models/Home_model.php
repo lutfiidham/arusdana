@@ -5,12 +5,12 @@ class Home_model extends CI_Model {
 
 	function get_data_grafik($tahun)
 	{
-		$query = "SELECT `id_anggaran`, a.`nama_anggaran`, nominal AS anggaran, 
-					(SELECT IFNULL(SUM(total),0) AS total FROM arus_dana WHERE `total` > 0 AND id_anggaran = a.`id_anggaran` AND bbm = 0) AS pendapatan,
-					(SELECT IFNULL(SUM(total),0)*-1 AS total FROM arus_dana WHERE `total` < 0 AND id_anggaran = a.`id_anggaran` AND bbm = 0) AS biaya
-					FROM `anggaran` a
-					WHERE id_bagian = ? 
-					AND tahun = ?";
+		$query = "
+				select a.id_anggaran, a.nama_anggaran, a.nominal as anggaran, 
+				ifnull((select sum(penerimaan) as total from detail_arus_dana sad join arus_dana sa on sad.id_arus_dana = sa.id_arus_dana where sa.id_anggaran = a.id_anggaran and sa.bbm = 0),0) as pendapatan,
+				ifnull((select sum(pengeluaran) as total from detail_arus_dana sad join arus_dana sa on sad.id_arus_dana = sa.id_arus_dana where sa.id_anggaran = a.id_anggaran and sa.bbm = 0),0) as biaya
+				from anggaran a
+				where a.id_bagian = ? and a.tahun = ?";
 		return $this->db->query($query,[$this->session->userdata('id_bagian'),$tahun]);
 	}
 

@@ -15,6 +15,7 @@ class Home extends CI_Controller {
 
 		$tahun = $this->input->post('tahun');
 		$data = $this->model->get_data_grafik($tahun)->result_array();
+		log_message('error',$this->db->last_query());
 
 		echo json_encode($data);
 	}
