@@ -155,6 +155,7 @@
                                         <th style="font-weight: bold;text-align: left !important;">Hasil (Pemasukan - Pengeluaran):</th>
                                         <th style="font-weight: bold;text-align: right !important;" id="totaltabel2"></th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -209,6 +210,7 @@
                                         <th style="font-weight: bold;text-align: right !important;" colspan="10"></th>
                                         <th style="font-weight: bold;text-align: left !important;">Hasil (Pemasukan - Pengeluaran):</th>
                                         <th style="font-weight: bold;text-align: right !important;" id="totaltabel3"></th>
+                                        <th></th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
